@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة التعليم الإلكتروني - معلم الإنجليزية</title>
+    <title>Miss Sally's educational platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -180,11 +180,12 @@
             <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
                 <div class="text-center">
                     <img src="https://scontent-hbe1-1.xx.fbcdn.net/v/t1.6435-9/42614823_1848860731858211_5493962967785406464_n.jpg?_nc_cat=102&cb2=99be929b-bd9a46d7&ccb=1-7&_nc_sid=2285d6&_nc_eui2=AeH2KZjjhRJqgpQ8CaM5Jw9g0Xxhr_MpVejRfGGv8ylV6F4rROzEvRx1i2m6c4E8Oq4AxcYnwKl1Q0bohjeHA9EB&_nc_ohc=DSA5iy45s-EQ7kNvwEzgUJ3&_nc_oc=Adl3M6uL6aUb0zD1RKkLGPJN31kybG-cl5rwjJxWtJNrp86MLIEmsfD-faH2eio7ypY&_nc_zt=23&_nc_ht=scontent-hbe1-1.xx&_nc_gid=AlkTwj63kgNGhVXTv23JjA&oh=00_AfhIM04xydPpPT7IKbxOyAXEr5vBQOpfC02-lWnWofPRQA&oe=6948585A" alt="شعار المدرسة" class="mx-auto h-24 w-24 rounded-full">
-                    <h2 class="mt-4 text-2xl font-bold text-gray-900">منصة تعليم الإنجليزية</h2>
+                    <h2 class="mt-4 text-2xl font-bold text-gray-900">Miss Sally's educational platform</h2>
                     <p class="mt-2 text-gray-600">سجل الدخول باستخدام كود الطالب</p>
                 </div>
                 
-                <form class="mt-8 space-y-6" @submit.prevent="handleStudentLogin">
+                <!-- Student Login Form (Hidden when teacher login is shown) -->
+                <form class="mt-8 space-y-6" @submit.prevent="handleStudentLogin" v-show="!showTeacherLogin">
                     <div class="rounded-md shadow-sm space-y-4">
                         <div>
                             <label for="studentCode" class="block text-sm font-medium text-gray-700 mb-2">كود الطالب</label>
@@ -199,12 +200,12 @@
                             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                                 <i class="fas fa-sign-in-alt"></i>
                             </span>
-                            تسجيل الدخول كطالب
+                            Login as a student
                         </button>
                     </div>
                     <div class="text-center">
                         <button type="button" @click="showTeacherLogin = true" class="text-purple-600 hover:text-purple-800 text-sm">
-                            تسجيل الدخول كمعلم
+                            Login as a teacher
                         </button>
                     </div>
                 </form>
@@ -225,12 +226,11 @@
                             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                                 <i class="fas fa-sign-in-alt"></i>
                             </span>
-                            تسجيل الدخول كمعلم
-                        </button>
+                            login as a teacher                        </button>
                     </div>
                     <div class="text-center">
                         <button type="button" @click="showTeacherLogin = false" class="text-blue-600 hover:text-blue-800 text-sm">
-                            العودة لتسجيل الطالب
+                            back to signin as teacher
                         </button>
                     </div>
                 </form>
@@ -248,7 +248,7 @@
                                 <img src="https://scontent-hbe1-1.xx.fbcdn.net/v/t39.30808-6/475507956_9082054621872083_6722155559152051923_n.jpg?_nc_cat=102&cb2=99be929b-bd9a46d7&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFKlvStzMXzEDKiL5lpXQhL06d3yG0xLB_Tp3fIbTEsHygIQvxAN5belF6Wt1J9hzsY_YKJ8lErv6UvbbOKdt9c&_nc_ohc=Tw7aGJrqXhEQ7kNvwG6SK6I&_nc_oc=Adn9OkQpTVeuBKnQ_xKdnvHeBZPBuHmRbEVI6paNdJtnvWDRkw6pZCtXj2TQ3phWOok&_nc_zt=23&_nc_ht=scontent-hbe1-1.xx&_nc_gid=QG3nxuwLbLX_HOcWG3Ol-Q&oh=00_AfgxcOfrz06sg-Vv-1v6qSsb74IhYwbn_zP6qkCBNZ86jg&oe=6926BD90" alt="صورة المعلم الشخصية" class="h-10 w-10 rounded-full object-cover">
                                 <div>
                                     <h1 class="text-lg font-bold text-gray-800">{{ currentUser.name || 'miss sally' }}</h1>
-                                    <p class="text-xs text-gray-500">معلم اللغة الإنجليزية</p>
+                                    <p class="text-xs text-gray-500">English teacher</p>
                                 </div>
                             </div>
                             <button @click="logout" class="text-gray-500 hover:text-gray-700">
@@ -273,6 +273,9 @@
                                 </button>
                                 <button @click="showAddStudentModal = true" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200">
                                     <i class="fas fa-user-plus mr-2"></i> إضافة طالب
+                                </button>
+                                <button @click="showAddQuizModal = true" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                                    <i class="fas fa-plus mr-2"></i>  إضافة اختبار شامل
                                 </button>
                             </div>
                         </div>
@@ -309,6 +312,9 @@
                             </button>
                             <button @click="teacherActiveTab = 'grades'" :class="{ 'border-purple-500 text-purple-600': teacherActiveTab === 'grades', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': teacherActiveTab !== 'grades' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
                                 الدرجات
+                            </button>
+                            <button @click="teacherActiveTab = 'quizzes'" :class="{ 'border-purple-500 text-purple-600': teacherActiveTab === 'quizzes', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': teacherActiveTab !== 'quizzes' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                                الاختبارات
                             </button>
                         </nav>
                     </div>
@@ -520,6 +526,55 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Quizzes Tab -->
+                    <div class="bg-white rounded-xl shadow overflow-hidden mb-8" v-show="teacherActiveTab === 'quizzes'">
+                        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                            <h3 class="text-lg font-medium text-gray-900">الاختبارات</h3>
+                            <button @click="showAddQuizModal = true" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                                <i class="fas fa-plus mr-2"></i> إضافة اختبار جديد
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div v-for="quiz in availableQuizzes" :key="quiz.id" class="border border-gray-200 rounded-lg overflow-hidden content-card">
+                                    <div class="bg-gray-100 h-48 flex items-center justify-center">
+                                        <i class="fas fa-question-circle text-5xl text-purple-500"></i>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h3 class="font-bold text-lg text-gray-800">{{ quiz.title }}</h3>
+                                                <p class="text-sm text-gray-500">{{ quiz.class }}</p>
+                                            </div>
+                                            <span class="bg-purple-100 text-purple-800 px-2 py-1 text-xs rounded-full">اختبار</span>
+                                        </div>
+                                        <div class="mt-3 flex justify-between">
+                                            <div class="flex items-center text-sm text-gray-500">
+                                                <i class="fas fa-calendar-alt mr-1"></i>
+                                                <span>{{ quiz.date }}</span>
+                                            </div>
+                                            <div class="flex space-x-2">
+                                                <button @click="editQuiz(quiz)" class="text-blue-500 hover:text-blue-700">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button @click="deleteQuiz(quiz.id)" class="text-red-500 hover:text-red-700">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="availableQuizzes.length === 0" class="col-span-full text-center py-8">
+                                    <i class="fas fa-question-circle text-4xl text-gray-300 mb-4"></i>
+                                    <p class="text-gray-500">لا يوجد اختبارات بعد</p>
+                                    <button @click="showAddQuizModal = true" class="mt-4 text-blue-600 hover:text-blue-800">
+                                        إضافة اختبار جديد
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </main>
@@ -847,6 +902,53 @@
                 </form>
             </div>
         </div>
+        
+        <!-- Add/Edit Quiz Modal -->
+        <div id="addQuizModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" v-show="showAddQuizModal">
+            <div class="bg-white rounded-lg w-full max-w-2xl mx-4">
+                <div class="p-4 flex justify-between items-center border-b border-gray-200">
+                    <h3 class="text-lg font-medium">{{ editingQuiz ? 'تعديل الاختبار' : 'إضافة اختبار جديد' }}</h3>
+                    <button @click="closeAddQuizModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form @submit.prevent="saveQuiz" class="p-4 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">عنوان الاختبار</label>
+                        <input type="text" v-model="newQuiz.title" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" placeholder="أدخل عنوان الاختبار" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">الصف</label>
+                        <select v-model="newQuiz.class" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md" required>
+                            <option value="">اختر الصف</option>
+                            <option value="الصف الأول">الصف الأول</option>
+                            <option value="الصف الثاني">الصف الثاني</option>
+                            <option value="الصف الثالث">الصف الثالث</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">الوصف</label>
+                        <textarea v-model="newQuiz.description" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" rows="3" placeholder="أدخل وصفًا للاختبار"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">الدرجة الكاملة</label>
+                        <input type="number" v-model="newQuiz.totalMarks" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" placeholder="أدخل الدرجة الكاملة للاختبار" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">تاريخ الاختبار</label>
+                        <input type="date" v-model="newQuiz.date" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" required>
+                    </div>
+                    <div class="flex justify-end pt-4">
+                        <button type="button" @click="closeAddQuizModal()" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                            إلغاء
+                        </button>
+                        <button type="submit" class="mr-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            {{ editingQuiz ? 'تحديث الاختبار' : 'حفظ الاختبار' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Vue.js for dynamic functionality -->
@@ -887,8 +989,10 @@
                 const studentSearch = ref('');
                 const showAddContentModal = ref(false);
                 const showAddStudentModal = ref(false);
+                const showAddQuizModal = ref(false);
                 const editingContent = ref(false);
                 const editingStudent = ref(false);
+                const editingQuiz = ref(false);
                 
                 // Data
                 const students = ref([]);
@@ -921,6 +1025,15 @@
                     parentPhone: '',
                     photoFile: null,
                     photoPreview: null
+                });
+                
+                // New quiz form
+                const newQuiz = ref({
+                    title: '',
+                    class: '',
+                    description: '',
+                    totalMarks: '',
+                    date: ''
                 });
                 
                 // Video modal
@@ -985,6 +1098,7 @@
                             loadStudents();
                             loadTeacherContent();
                             loadTeacherStats();
+                            loadQuizzes();
                         } else {
                             loginError.value = 'كود المعلم غير صحيح';
                         }
@@ -1095,6 +1209,18 @@
                     };
                 };
                 
+                const closeAddQuizModal = () => {
+                    showAddQuizModal.value = false;
+                    editingQuiz.value = false;
+                    newQuiz.value = {
+                        title: '',
+                        class: '',
+                        description: '',
+                        totalMarks: '',
+                        date: ''
+                    };
+                };
+                
                 const editContent = (content) => {
                     editingContent.value = true;
                     newContent.value = { ...content };
@@ -1109,6 +1235,15 @@
                         id: student.id
                     };
                     showAddStudentModal.value = true;
+                };
+                
+                const editQuiz = (quiz) => {
+                    editingQuiz.value = true;
+                    newQuiz.value = { 
+                        ...quiz,
+                        id: quiz.id
+                    };
+                    showAddQuizModal.value = true;
                 };
                 
                 const saveContent = async () => {
@@ -1192,6 +1327,34 @@
                     }
                 };
                 
+                const saveQuiz = async () => {
+                    try {
+                        let quizData = {
+                            title: newQuiz.value.title,
+                            class: newQuiz.value.class,
+                            description: newQuiz.value.description,
+                            totalMarks: newQuiz.value.totalMarks,
+                            date: newQuiz.value.date,
+                            createdAt: new Date().toISOString().split('T')[0],
+                            createdBy: currentUser.value.uid
+                        };
+                        
+                        if (editingQuiz.value) {
+                            // Update existing quiz
+                            await db.collection('quizzes').doc(newQuiz.value.id).update(quizData);
+                        } else {
+                            // Add new quiz
+                            await db.collection('quizzes').add(quizData);
+                        }
+                        
+                        closeAddQuizModal();
+                        loadQuizzes();
+                    } catch (error) {
+                        console.error('Error saving quiz:', error);
+                        alert('حدث خطأ أثناء حفظ الاختبار');
+                    }
+                };
+                
                 const deleteContent = async (contentId) => {
                     if (confirm('هل أنت متأكد من حذف هذا المحتوى؟')) {
                         try {
@@ -1214,6 +1377,18 @@
                         } catch (error) {
                             console.error('Error deleting student:', error);
                             alert('حدث خطأ أثناء حذف الطالب');
+                        }
+                    }
+                };
+                
+                const deleteQuiz = async (quizId) => {
+                    if (confirm('هل أنت متأكد من حذف هذا الاختبار؟')) {
+                        try {
+                            await db.collection('quizzes').doc(quizId).delete();
+                            loadQuizzes();
+                        } catch (error) {
+                            console.error('Error deleting quiz:', error);
+                            alert('حدث خطأ أثناء حذف الاختبار');
                         }
                     }
                 };
@@ -1279,12 +1454,15 @@
                             return;
                         }
                         
+                        const selectedQuizData = availableQuizzes.value.find(q => q.id === student.selectedQuiz);
+                        
                         const gradeData = {
                             studentId: student.id,
                             studentName: student.name,
                             quizId: student.selectedQuiz,
-                            quizTitle: availableQuizzes.value.find(q => q.id === student.selectedQuiz)?.title || 'اختبار',
+                            quizTitle: selectedQuizData?.title || 'اختبار',
                             grade: student.grade,
+                            totalMarks: selectedQuizData?.totalMarks || 100,
                             status: student.status || 'تم التصحيح',
                             comment: student.comment || '',
                             date: new Date().toISOString().split('T')[0],
@@ -1317,7 +1495,10 @@
                             .get();
                         
                         if (!snapshot.empty) {
-                            const grades = snapshot.docs.map(doc => parseInt(doc.data().grade));
+                            const grades = snapshot.docs.map(doc => {
+                                const data = doc.data();
+                                return (parseInt(data.grade) / parseInt(data.totalMarks)) * 100;
+                            });
                             const average = grades.reduce((a, b) => a + b, 0) / grades.length;
                             
                             await db.collection('students').doc(studentId).update({
@@ -1396,6 +1577,21 @@
                     }
                 };
                 
+                const loadQuizzes = async () => {
+                    try {
+                        const snapshot = await db.collection('quizzes')
+                            .where('createdBy', '==', currentUser.value.uid)
+                            .get();
+                        availableQuizzes.value = snapshot.docs.map(doc => ({
+                            id: doc.id,
+                            ...doc.data()
+                        }));
+                    } catch (error) {
+                        console.error('Error loading quizzes:', error);
+                        availableQuizzes.value = [];
+                    }
+                };
+                
                 const loadTeacherStats = async () => {
                     try {
                         // Calculate stats based on data
@@ -1442,20 +1638,7 @@
                 
                 // Initialize app
                 onMounted(() => {
-                    availableQuizzes.value = [
-                        {
-                            id: '1',
-                            title: 'اختبار الوحدة الأولى'
-                        },
-                        {
-                            id: '2',
-                            title: 'اختبار الوحدة الثانية'
-                        },
-                        {
-                            id: '3',
-                            title: 'اختبار منتصف الفصل'
-                        }
-                    ];
+                    // No more hardcoded quizzes - they will be loaded from Firebase
                 });
                 
                 return {
@@ -1470,8 +1653,10 @@
                     studentSearch,
                     showAddContentModal,
                     showAddStudentModal,
+                    showAddQuizModal,
                     editingContent,
                     editingStudent,
+                    editingQuiz,
                     students,
                     teacherContent,
                     studentContent,
@@ -1481,6 +1666,7 @@
                     teacherStats,
                     newContent,
                     newStudent,
+                    newQuiz,
                     currentVideo,
                     selectedClass,
                     selectedQuiz,
@@ -1495,12 +1681,16 @@
                     closeVideo,
                     closeAddContentModal,
                     closeAddStudentModal,
+                    closeAddQuizModal,
                     editContent,
                     editStudent,
+                    editQuiz,
                     saveContent,
                     saveStudent,
+                    saveQuiz,
                     deleteContent,
                     deleteStudent,
+                    deleteQuiz,
                     handleFileUpload,
                     handleStudentPhotoUpload,
                     extractYouTubeId,
