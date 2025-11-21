@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة التعليم الإلكتروني - معلم الإنجليزية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f8fafc;
+            transition: all 0.3s ease;
+        }
+        
+        .teacher-dashboard {
+            background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%);
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .grade-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+        }
+        
+        .video-thumbnail::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            content: '\f04b';
+            color: #3182ce;
+            font-size: 24px;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #3182ce;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 0.5s;
+        }
+        .fade-enter, .fade-leave-to {
+            opacity: 0;
+        }
+        
+        .student-photo {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #9f7aea;
+            transition: all 0.3s ease;
+        }
+        
+        .student-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(159, 122, 234, 0.4);
+        }
+        
+        .audio-player {
+            width: 100%;
+            height: 40px;
+            background: #f1f3f4;
+            border-radius: 20px;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(159, 122, 234, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(159, 122, 234, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(159, 122, 234, 0);
+            }
+        }
+        
+        .code-display {
+            background-color: #f3f4f6;
+            border: 1px dashed #d1d5db;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-weight: bold;
+            color: #374151;
+            direction: ltr;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="min-h-screen overflow-hidden" id="app">
+        <!-- Login Screen (Initial View) -->
+        <div class="min-h-screen flex flex-col justify-center items-center bg-gray-50" id="loginScreen">
+            <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
+                <div class="text-center">
+                    <img src="https://scontent-hbe1-1.xx.fbcdn.net/v/t1.6435-9/42614823_1848860731858211_5493962967785406464_n.jpg?_nc_cat=102&cb2=99be929b-bd9a46d7&ccb=1-7&_nc_sid=2285d6&_nc_eui2=AeH2KZjjhRJqgpQ8CaM5Jw9g0Xxhr_MpVejRfGGv8ylV6F4rROzEvRx1i2m6c4E8Oq4AxcYnwKl1Q0bohjeHA9EB&_nc_ohc=DSA5iy45s-EQ7kNvwEzgUJ3&_nc_oc=Adl3M6uL6aUb0zD1RKkLGPJN31kybG-cl5rwjJxWtJNrp86MLIEmsfD-faH2eio7ypY&_nc_zt=23&_nc_ht=scontent-hbe1-1.xx&_nc_gid=AlkTwj63kgNGhVXTv23JjA&oh=00_AfhIM04xydPpPT7IKbxOyAXEr5vBQOpfC02-lWnWofPRQA&oe=6948585A" alt="شعار المدرسة" class="mx-auto h-24 w-24 rounded-full">
+                    <h2 class="mt-4 text-2xl font-bold text-gray-900">منصة تعليم الإنجليزية</h2>
+                    <p class="mt-2 text-gray-600">سجل الدخول باستخدام كود الطالب</p>
+                </div>
+                
+                <form class="mt-8 space-y-6" @submit.prevent="handleStudentLogin">
+                    <div class="rounded-md shadow-sm space-y-4">
+                        <div>
+                            <label for="studentCode" class="block text-sm font-medium text-gray-700 mb-2">كود الطالب</label>
+                            <input id="studentCode" name="studentCode" type="text" required class="relative block w-full px-4 py-3 border border-gray-300 rounded-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="أدخل كود الطالب">
+                        </div>
+                    </div>
+                    
+                    <div v-if="studentLoginError" class="text-red-500 text-sm text-center">{{ studentLoginError }}</div>
+                    
+                    <div>
+                        <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200">
+                            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </span>
+                            تسجيل الدخول كطالب
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" @click="showTeacherLogin = true" class="text-purple-600 hover:text-purple-800 text-sm">
+                            تسجيل الدخول كمعلم
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Teacher Login Form (Hidden by Default) -->
+                <form class="mt-8 space-y-6" @submit.prevent="handleLogin" v-show="showTeacherLogin">
+                    <div class="rounded-md shadow-sm space-y-4">
+                        <div>
+                            <label for="code" class="block text-sm font-medium text-gray-700 mb-2">كود المعلم</label>
+                            <input id="code" name="code" type="text" required class="relative block w-full px-4 py-3 border border-gray-300 rounded-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="أدخل كود المعلم">
+                        </div>
+                    </div>
+                    
+                    <div v-if="loginError" class="text-red-500 text-sm text-center">{{ loginError }}</div>
+                    
+                    <div>
+                        <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </span>
+                            تسجيل الدخول كمعلم
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" @click="showTeacherLogin = false" class="text-blue-600 hover:text-blue-800 text-sm">
+                            العودة لتسجيل الطالب
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Teacher Dashboard -->
+        <div class="hidden" id="teacherDashboard">
+            <div class="teacher-dashboard min-h-screen">
+                <!-- Header -->
+                <header class="bg-white bg-opacity-90 shadow-sm">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="flex justify-between items-center py-4">
+                            <div class="flex items-center space-x-4">
+                                <img src="https://scontent-hbe1-1.xx.fbcdn.net/v/t39.30808-6/475507956_9082054621872083_6722155559152051923_n.jpg?_nc_cat=102&cb2=99be929b-bd9a46d7&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFKlvStzMXzEDKiL5lpXQhL06d3yG0xLB_Tp3fIbTEsHygIQvxAN5belF6Wt1J9hzsY_YKJ8lErv6UvbbOKdt9c&_nc_ohc=Tw7aGJrqXhEQ7kNvwG6SK6I&_nc_oc=Adn9OkQpTVeuBKnQ_xKdnvHeBZPBuHmRbEVI6paNdJtnvWDRkw6pZCtXj2TQ3phWOok&_nc_zt=23&_nc_ht=scontent-hbe1-1.xx&_nc_gid=QG3nxuwLbLX_HOcWG3Ol-Q&oh=00_AfgxcOfrz06sg-Vv-1v6qSsb74IhYwbn_zP6qkCBNZ86jg&oe=6926BD90" alt="صورة المعلم الشخصية" class="h-10 w-10 rounded-full object-cover">
+                                <div>
+                                    <h1 class="text-lg font-bold text-gray-800">{{ currentUser.name || 'miss sally' }}</h1>
+                                    <p class="text-xs text-gray-500">معلم اللغة الإنجليزية</p>
+                                </div>
+                            </div>
+                            <button @click="logout" class="text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </header>
+                
+                <!-- Main Content -->
+                <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <!-- Greeting Card -->
+                    <div class="bg-white rounded-xl p-6 shadow mb-6">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-800 mb-2">welcome , {{ currentUser.name || 'miss sally' }}!</h2>
+                                <p class="text-gray-600">إحصائيات الفصل والطلاب لهذا الأسبوع</p>
+                            </div>
+                            <div class="flex space-x-3">
+                                <button @click="showAddContentModal = true" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors duration-200">
+                                    <i class="fas fa-plus mr-2"></i> إضافة محتوى جديد
+                                </button>
+                                <button @click="showAddStudentModal = true" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200">
+                                    <i class="fas fa-user-plus mr-2"></i> إضافة طالب
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <p class="text-sm text-gray-500">عدد الطلاب</p>
+                            <p class="text-2xl font-bold">{{ teacherStats.totalStudents || '0' }}</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <p class="text-sm text-gray-500">المحتوى المرفوع</p>
+                            <p class="text-2xl font-bold">{{ teacherStats.totalContent || '0' }}</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <p class="text-sm text-gray-500">متوسط معدل الفصل</p>
+                            <p class="text-2xl font-bold">{{ teacherStats.classAverage || '0%' }}</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <p class="text-sm text-gray-500">الاختبارات المصححة</p>
+                            <p class="text-2xl font-bold">{{ teacherStats.gradedTests || '0/0' }}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tabs Navigation -->
+                    <div class="border-b border-gray-200 mb-6">
+                        <nav class="-mb-px flex space-x-8">
+                            <button @click="teacherActiveTab = 'students'" :class="{ 'border-purple-500 text-purple-600': teacherActiveTab === 'students', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': teacherActiveTab !== 'students' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                                الطلاب
+                            </button>
+                            <button @click="teacherActiveTab = 'content'" :class="{ 'border-purple-500 text-purple-600': teacherActiveTab === 'content', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': teacherActiveTab !== 'content' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                                المحتوى التعليمي
+                            </button>
+                            <button @click="teacherActiveTab = 'grades'" :class="{ 'border-purple-500 text-purple-600': teacherActiveTab === 'grades', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': teacherActiveTab !== 'grades' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                                الدرجات
+                            </button>
+                        </nav>
+                    </div>
+                    
+                    <!-- Students Tab -->
+                    <div class="bg-white rounded-xl shadow overflow-hidden mb-8" v-show="teacherActiveTab === 'students'">
+                        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                            <h3 class="text-lg font-medium text-gray-900">قائمة الطلاب</h3>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-search text-gray-400"></i>
+                                </div>
+                                <input type="text" v-model="studentSearch" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" placeholder="ابحث عن طالب...">
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الصورة</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الاسم</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">كود الطالب</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الصف</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">المجموعة</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">رقم الهاتف</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">هاتف ولي الأمر</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">المعدل</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">إجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr v-for="student in filteredStudents" :key="student.id">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <img class="student-photo" :src="student.photoURL || 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/97168c17-41da-4cf6-ac5e-2ab75143d677.png'" :alt="'صورة ' + student.name">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="mr-4">
+                                                    <div class="text-sm font-medium text-gray-900">{{ student.name }}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="code-display">{{ student.studentCode }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ student.class }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ student.group }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ student.phone }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ student.parentPhone }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ student.averageGrade || 'لم يتم التقييم' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button @click="editStudent(student)" class="text-blue-500 hover:text-blue-900 ml-3">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button @click="deleteStudent(student.id)" class="text-red-500 hover:text-red-900 ml-3">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="filteredStudents.length === 0">
+                                        <td colspan="9" class="px-6 py-4 text-center text-sm text-gray-500">
+                                            لا يوجد طلاب مسجلين بعد
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Content Tab -->
+                    <div class="bg-white rounded-xl shadow overflow-hidden mb-8" v-show="teacherActiveTab === 'content'">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-medium text-gray-900">المحتوى التعليمي</h3>
+                        </div>
+                        <div class="p-6">
+                            <div v-if="loadingContent" class="loading">
+                                <div class="spinner"></div>
+                            </div>
+                            <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <!-- Content Items -->
+                                <div v-for="content in teacherContent" :key="content.id" class="border border-gray-200 rounded-lg overflow-hidden content-card">
+                                    <div v-if="content.type === 'youtube'" class="video-thumbnail" :style="{ backgroundImage: `url(${content.thumbnail || 'https://placehold.co/600x400'})` }" @click="openVideo(content)">
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <i class="fab fa-youtube text-red-600 text-4xl"></i>
+                                        </div>
+                                    </div>
+                                    <div v-else-if="content.type === 'pdf'" class="bg-gray-100 h-48 flex items-center justify-center">
+                                        <i class="fas fa-file-pdf text-5xl text-red-500"></i>
+                                    </div>
+                                    <div v-else-if="content.type === 'audio'" class="bg-gray-100 h-48 flex items-center justify-center">
+                                        <i class="fas fa-music text-5xl text-green-500"></i>
+                                    </div>
+                                    <div v-else-if="content.type === 'quiz'" class="bg-gray-100 h-48 flex items-center justify-center">
+                                        <i class="fas fa-question-circle text-5xl text-purple-500"></i>
+                                    </div>
+                                    <div v-else class="bg-gray-100 h-48 flex items-center justify-center">
+                                        <i class="fas fa-file text-5xl text-blue-500"></i>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h3 class="font-bold text-lg text-gray-800">{{ content.title }}</h3>
+                                                <p class="text-sm text-gray-500">{{ content.class }}</p>
+                                            </div>
+                                            <span :class="getContentTypeClass(content.type)" class="px-2 py-1 text-xs rounded-full">{{ getContentTypeLabel(content.type) }}</span>
+                                        </div>
+                                        <div class="mt-3 flex justify-between">
+                                            <div class="flex items-center text-sm text-gray-500">
+                                                <i class="fas fa-calendar-alt mr-1"></i>
+                                                <span>{{ content.date }}</span>
+                                            </div>
+                                            <div class="flex space-x-2">
+                                                <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- Audio Player for Audio Content -->
+                                        <div v-if="content.type === 'audio' && content.audioUrl" class="mt-3">
+                                            <audio controls class="w-full">
+                                                <source :src="content.audioUrl" type="audio/mpeg">
+                                                متصفحك لا يدعم تشغيل الملفات الصوتية.
+                                            </audio>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="teacherContent.length === 0" class="col-span-full text-center py-8">
+                                    <i class="fas fa-folder-open text-4xl text-gray-300 mb-4"></i>
+                                    <p class="text-gray-500">لا يوجد محتوى تعليمي بعد</p>
+                                    <button @click="showAddContentModal = true" class="mt-4 text-purple-600 hover:text-purple-800">
+                                        إضافة محتوى جديد
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Grades Tab -->
+                    <div class="bg-white rounded-xl shadow overflow-hidden mb-8" v-show="teacherActiveTab === 'grades'">
+                        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                            <h3 class="text-lg font-medium text-gray-900">درجات الطلاب</h3>
+                            <div class="flex space-x-3">
+                                <select v-model="selectedClass" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
+                                    <option value="all">جميع الصفوف</option>
+                                    <option value="الصف الأول">الصف الأول</option>
+                                    <option value="الصف الثاني">الصف الثاني</option>
+                                    <option value="الصف الثالث">الصف الثالث</option>
+                                </select>
+                                <select v-model="selectedQuiz" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
+                                    <option value="all">جميع الاختبارات</option>
+                                    <option v-for="quiz in availableQuizzes" :key="quiz.id" :value="quiz.id">{{ quiz.title }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الاسم</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الاختبار</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الدرجة</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الحالة</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">التعليق</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الإجراء</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr v-for="student in filteredStudentsForGrades" :key="student.id">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full" :src="student.photoURL || 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5d7cc0aa-db5d-469b-9364-8d44d821487e.png'" :alt="'صورة ' + student.name">
+                                                </div>
+                                                <div class="mr-4">
+                                                    <div class="text-sm font-medium text-gray-900">{{ student.name }}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <select v-model="student.selectedQuiz" class="block w-full pl-3 pr-10 py-1 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
+                                                <option value="">اختر اختبار</option>
+                                                <option v-for="quiz in availableQuizzes" :key="quiz.id" :value="quiz.id">{{ quiz.title }}</option>
+                                            </select>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <input type="number" v-model="student.grade" class="block w-20 py-1 px-2 border border-gray-300 rounded focus:ring-purple-500 focus:border-purple-500">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <select v-model="student.status" class="block w-full pl-3 pr-10 py-1 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
+                                                <option value="تم التصحيح">تم التصحيح</option>
+                                                <option value="قيد المراجعة">قيد المراجعة</option>
+                                                <option value="لم يتم التصحيح">لم يتم التصحيح</option>
+                                            </select>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <input type="text" v-model="student.comment" class="block w-full px-2 py-1 border border-gray-300 rounded focus:ring-purple-500 focus:border-purple-500" placeholder="أدخل تعليقًا...">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" @click.prevent="saveGrade(student)" class="text-purple-600 hover:text-purple-900 ml-3">حفظ</a>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="filteredStudentsForGrades.length === 0">
+                                        <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
+                                            لا يوجد طلاب لعرض درجاتهم
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        
+        <!-- Student Dashboard -->
+        <div class="hidden" id="studentDashboard">
+            <div class="min-h-screen bg-gray-50">
+                <!-- Header -->
+                <header class="bg-white shadow-sm">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="flex justify-between items-center py-4">
+                            <div class="flex items-center space-x-4">
+                                <img :src="currentStudent.photoURL || 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/97168c17-41da-4cf6-ac5e-2ab75143d677.png'" alt="صورة الطالب الشخصية" class="h-10 w-10 rounded-full object-cover">
+                                <div>
+                                    <h1 class="text-lg font-bold text-gray-800">{{ currentStudent.name }}</h1>
+                                    <p class="text-xs text-gray-500">طالب - {{ currentStudent.class }}</p>
+                                </div>
+                            </div>
+                            <button @click="studentLogout" class="text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </header>
+                
+                <!-- Main Content -->
+                <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <!-- Student Info Card -->
+                    <div class="bg-white rounded-xl p-6 shadow mb-6">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-800 mb-2">مرحباً، {{ currentStudent.name }}!</h2>
+                                <p class="text-gray-600">هذه هي درجاتك في المادة</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-lg font-bold text-purple-600">{{ currentStudent.averageGrade || 'لم يتم التقييم' }}</div>
+                                <div class="text-sm text-gray-500">المعدل الحالي</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Grades Table -->
+                    <div class="bg-white rounded-xl shadow overflow-hidden mb-8">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-medium text-gray-900">درجاتي</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الاختبار</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الدرجة</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الحالة</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">التعليق</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">التاريخ</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr v-for="grade in studentGrades" :key="grade.id">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ grade.quizTitle }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ grade.grade }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span :class="getStatusClass(grade.status)" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+                                                {{ grade.status }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-gray-500">{{ grade.comment || 'لا يوجد تعليق' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ grade.date }}</td>
+                                    </tr>
+                                    <tr v-if="studentGrades.length === 0">
+                                        <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                            لا توجد درجات مسجلة بعد
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Available Content -->
+                    <div class="bg-white rounded-xl shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-medium text-gray-900">المحتوى التعليمي المتاح</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div v-for="content in studentContent" :key="content.id" class="border border-gray-200 rounded-lg overflow-hidden content-card">
+                                    <div v-if="content.type === 'youtube'" class="video-thumbnail" :style="{ backgroundImage: `url(${content.thumbnail || 'https://placehold.co/600x400'})` }" @click="openVideo(content)">
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <i class="fab fa-youtube text-red-600 text-4xl"></i>
+                                        </div>
+                                    </div>
+                                    <div v-else-if="content.type === 'pdf'" class="bg-gray-100 h-48 flex items-center justify-center">
+                                        <i class="fas fa-file-pdf text-5xl text-red-500"></i>
+                                    </div>
+                                    <div v-else-if="content.type === 'audio'" class="bg-gray-100 h-48 flex items-center justify-center">
+                                        <i class="fas fa-music text-5xl text-green-500"></i>
+                                    </div>
+                                    <div v-else-if="content.type === 'quiz'" class="bg-gray-100 h-48 flex items-center justify-center">
+                                        <i class="fas fa-question-circle text-5xl text-purple-500"></i>
+                                    </div>
+                                    <div v-else class="bg-gray-100 h-48 flex items-center justify-center">
+                                        <i class="fas fa-file text-5xl text-blue-500"></i>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h3 class="font-bold text-lg text-gray-800">{{ content.title }}</h3>
+                                                <p class="text-sm text-gray-500">{{ content.class }}</p>
+                                            </div>
+                                            <span :class="getContentTypeClass(content.type)" class="px-2 py-1 text-xs rounded-full">{{ getContentTypeLabel(content.type) }}</span>
+                                        </div>
+                                        <div class="mt-3 flex justify-between">
+                                            <div class="flex items-center text-sm text-gray-500">
+                                                <i class="fas fa-calendar-alt mr-1"></i>
+                                                <span>{{ content.date }}</span>
+                                            </div>
+                                        </div>
+                                        <!-- Audio Player for Audio Content -->
+                                        <div v-if="content.type === 'audio' && content.audioUrl" class="mt-3">
+                                            <audio controls class="w-full">
+                                                <source :src="content.audioUrl" type="audio/mpeg">
+                                                متصفحك لا يدعم تشغيل الملفات الصوتية.
+                                            </audio>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="studentContent.length === 0" class="col-span-full text-center py-8">
+                                    <i class="fas fa-folder-open text-4xl text-gray-300 mb-4"></i>
+                                    <p class="text-gray-500">لا يوجد محتوى تعليمي متاح</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        
+        <!-- Video Modal -->
+        <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg w-full max-w-4xl mx-4">
+                <div class="p-4 flex justify-between items-center border-b border-gray-200">
+                    <h3 class="text-lg font-medium">{{ currentVideo.title || 'مشاهدة الفيديو التعليمي' }}</h3>
+                    <button @click="closeVideo()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="p-4">
+                    <div class="aspect-w-16 aspect-h-9">
+                        <div v-if="currentVideo.type === 'youtube'" class="w-full">
+                            <iframe 
+                                width="100%" 
+                                height="500" 
+                                :src="'https://www.youtube.com/embed/' + extractYouTubeId(currentVideo.url)" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div v-else class="w-full bg-black" style="height: 500px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-play text-white text-5xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="font-bold">{{ currentVideo.title }}</h4>
+                        <p class="text-gray-600 mt-2">{{ currentVideo.description }}</p>
+                        <div class="flex items-center mt-4 space-x-4 text-sm text-gray-500">
+                            <span><i class="fas fa-clock mr-1"></i> {{ currentVideo.duration || '45 دقيقة' }}</span>
+                            <span><i class="fas fa-calendar-alt mr-1"></i> {{ currentVideo.date || '15/03/2023' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Add Content Modal -->
+        <div id="addContentModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" v-show="showAddContentModal">
+            <div class="bg-white rounded-lg w-full max-w-2xl mx-4">
+                <div class="p-4 flex justify-between items-center border-b border-gray-200">
+                    <h3 class="text-lg font-medium">{{ editingContent ? 'تعديل المحتوى' : 'إضافة محتوى جديد' }}</h3>
+                    <button @click="closeAddContentModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form @submit.prevent="saveContent" class="p-4 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">نوع المحتوى</label>
+                        <select v-model="newContent.type" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
+                            <option value="">اختر نوع المحتوى</option>
+                            <option value="youtube">فيديو يوتيوب</option>
+                            <option value="video">فيديو</option>
+                            <option value="audio">صوت</option>
+                            <option value="image">صورة</option>
+                            <option value="pdf">ملف PDF</option>
+                            <option value="quiz">اختبار</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">عنوان المحتوى</label>
+                        <input type="text" v-model="newContent.title" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" placeholder="أدخل عنوان المحتوى" required>
+                    </div>
+                    <div v-if="newContent.type === 'youtube'">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">رابط يوتيوب</label>
+                        <input type="url" v-model="newContent.url" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" placeholder="أدخل رابط فيديو يوتيوب" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">الصف</label>
+                        <select v-model="newContent.class" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md" required>
+                            <option value="">اختر الصف</option>
+                            <option value="الصف الأول">الصف الأول</option>
+                            <option value="الصف الثاني">الصف الثاني</option>
+                            <option value="الصف الثالث">الصف الثالث</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">الوصف</label>
+                        <textarea v-model="newContent.description" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" rows="3" placeholder="أدخل وصفًا للمحتوى"></textarea>
+                    </div>
+                    <div v-if="newContent.type !== 'youtube'">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">رفع الملف</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <div class="space-y-1 text-center">
+                                <div class="flex text-sm text-gray-600">
+                                    <label class="relative cursor-pointer bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus-within:outline-none">
+                                        <span>اختر ملف</span>
+                                        <input type="file" class="sr-only" @change="handleFileUpload">
+                                    </label>
+                                    <p class="pr-1">أو اسحب الملف إلى هنا</p>
+                                </div>
+                                <p class="text-xs text-gray-500">MP4, MOV للفيديو أو MP3 للصوت أو PDF أو JPG, PNG للصور</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end pt-4">
+                        <button type="button" @click="closeAddContentModal()" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                            إلغاء
+                        </button>
+                        <button type="submit" class="mr-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                            {{ editingContent ? 'تحديث المحتوى' : 'حفظ المحتوى' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Add/Edit Student Modal -->
+        <div id="addStudentModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" v-show="showAddStudentModal">
+            <div class="bg-white rounded-lg w-full max-w-2xl mx-4">
+                <div class="p-4 flex justify-between items-center border-b border-gray-200">
+                    <h3 class="text-lg font-medium">{{ editingStudent ? 'تعديل بيانات الطالب' : 'إضافة طالب جديد' }}</h3>
+                    <button @click="closeAddStudentModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form @submit.prevent="saveStudent" class="p-4 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">الاسم الكامل</label>
+                            <input type="text" v-model="newStudent.name" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" placeholder="أدخل اسم الطالب" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">كود الطالب</label>
+                            <div class="flex">
+                                <input type="text" v-model="newStudent.studentCode" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" placeholder="سيتم توليد الكود تلقائياً" readonly>
+                                <button type="button" @click="generateStudentCode" class="mr-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                                    توليد
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">الصف</label>
+                            <select v-model="newStudent.class" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md" required>
+                                <option value="">اختر الصف</option>
+                                <option value="الصف الأول">الصف الأول</option>
+                                <option value="الصف الثاني">الصف الثاني</option>
+                                <option value="الصف الثالث">الصف الثالث</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">المجموعة</label>
+                            <select v-model="newStudent.group" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md" required>
+                                <option value="">اختر المجموعة</option>
+                                <option value="أ">أ</option>
+                                <option value="ب">ب</option>
+                                <option value="ج">ج</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">رقم هاتف الطالب</label>
+                            <input type="tel" v-model="newStudent.phone" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" placeholder="أدخل رقم هاتف الطالب">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">رقم هاتف ولي الأمر</label>
+                            <input type="tel" v-model="newStudent.parentPhone" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" placeholder="أدخل رقم هاتف ولي الأمر">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">صورة الطالب</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <div class="space-y-1 text-center">
+                                <div class="flex text-sm text-gray-600">
+                                    <label class="relative cursor-pointer bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus-within:outline-none">
+                                        <span>اختر صورة</span>
+                                        <input type="file" class="sr-only" accept="image/*" @change="handleStudentPhotoUpload">
+                                    </label>
+                                    <p class="pr-1">أو اسحب الصورة إلى هنا</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PNG, JPG, GIF حتى 10MB</p>
+                            </div>
+                        </div>
+                        <div v-if="newStudent.photoPreview" class="mt-4 flex justify-center">
+                            <img :src="newStudent.photoPreview" class="student-photo pulse" alt="معاينة الصورة">
+                        </div>
+                    </div>
+                    <div class="flex justify-end pt-4">
+                        <button type="button" @click="closeAddStudentModal()" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                            إلغاء
+                        </button>
+                        <button type="submit" class="mr-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                            {{ editingStudent ? 'تحديث البيانات' : 'حفظ الطالب' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vue.js for dynamic functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.min.js"></script>
+    <script>
+        const { createApp, ref, computed, onMounted } = Vue;
+        
+        // Firebase configuration - replace with your actual config
+        const firebaseConfig = {
+            apiKey: "AIzaSyC4a0usruEbqsfzkpB_8ihoTLH1nJYSBS4",
+            authDomain: "e-learning-platform-1e2b6.firebaseapp.com",
+            projectId: "e-learning-platform-1e2b6",
+            storageBucket: "e-learning-platform-1e2b6.firebasestorage.app",
+            messagingSenderId: "946189994092",
+            appId: "1:946189994092:web:1ee1f4283ea736010b3049",
+            measurementId: "G-D7KQR78BTY"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+        
+        createApp({
+            setup() {
+                // Authentication state
+                const isLoggedIn = ref(false);
+                const isStudentLoggedIn = ref(false);
+                const loginError = ref('');
+                const studentLoginError = ref('');
+                const currentUser = ref({});
+                const currentStudent = ref({});
+                const showTeacherLogin = ref(false);
+                
+                // Dashboard state
+                const teacherActiveTab = ref('students');
+                const studentSearch = ref('');
+                const showAddContentModal = ref(false);
+                const showAddStudentModal = ref(false);
+                const editingContent = ref(false);
+                const editingStudent = ref(false);
+                
+                // Data
+                const students = ref([]);
+                const teacherContent = ref([]);
+                const studentContent = ref([]);
+                const studentGrades = ref([]);
+                const availableQuizzes = ref([]);
+                const loadingContent = ref(false);
+                
+                // Stats
+                const teacherStats = ref({});
+                
+                // New content form
+                const newContent = ref({
+                    type: '',
+                    title: '',
+                    url: '',
+                    class: '',
+                    description: '',
+                    file: null
+                });
+                
+                // New student form
+                const newStudent = ref({
+                    name: '',
+                    studentCode: '',
+                    class: '',
+                    group: '',
+                    phone: '',
+                    parentPhone: '',
+                    photoFile: null,
+                    photoPreview: null
+                });
+                
+                // Video modal
+                const currentVideo = ref({});
+                
+                // Grades
+                const selectedClass = ref('all');
+                const selectedQuiz = ref('all');
+                
+                // Computed properties
+                const filteredStudents = computed(() => {
+                    if (!studentSearch.value) return students.value;
+                    return students.value.filter(student => 
+                        student.name.includes(studentSearch.value) || 
+                        student.studentCode.includes(studentSearch.value)
+                    );
+                });
+                
+                const filteredStudentsForGrades = computed(() => {
+                    let filtered = students.value;
+                    if (selectedClass.value !== 'all') {
+                        filtered = filtered.filter(student => student.class === selectedClass.value);
+                    }
+                    return filtered;
+                });
+                
+                // Methods
+                const generateStudentCode = () => {
+                    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                    let result = 'STU';
+                    for (let i = 0; i < 6; i++) {
+                        result += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                    newStudent.value.studentCode = result;
+                };
+                
+                const handleLogin = async () => {
+                    const code = document.getElementById('code').value.trim();
+                    
+                    if (code === '') {
+                        loginError.value = 'الرجاء إدخال كود المعلم';
+                        return;
+                    }
+                    
+                    try {
+                        // For demo purposes, we'll use a simple check
+                        // In a real app, you would verify against Firestore
+                        if (code === 'T2023001') {
+                            // Simulate successful login
+                            isLoggedIn.value = true;
+                            currentUser.value = {
+                                uid: 'teacher001',
+                                name: 'miss sally siad',
+                                role: 'teacher',
+                                photoURL: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/622d8d48-58ff-42d5-9014-d1eb55371e38.png'
+                            };
+                            
+                            document.getElementById('loginScreen').classList.add('hidden');
+                            document.getElementById('teacherDashboard').classList.remove('hidden');
+                            
+                            // Load initial data
+                            loadStudents();
+                            loadTeacherContent();
+                            loadTeacherStats();
+                        } else {
+                            loginError.value = 'كود المعلم غير صحيح';
+                        }
+                    } catch (error) {
+                        console.error('Login error:', error);
+                        loginError.value = 'خطأ في تسجيل الدخول، الرجاء المحاولة مرة أخرى';
+                    }
+                };
+                
+                const handleStudentLogin = async () => {
+                    const studentCode = document.getElementById('studentCode').value.trim();
+                    
+                    if (studentCode === '') {
+                        studentLoginError.value = 'الرجاء إدخال كود الطالب';
+                        return;
+                    }
+                    
+                    try {
+                        // Find student by code
+                        const snapshot = await db.collection('students')
+                            .where('studentCode', '==', studentCode)
+                            .get();
+                        
+                        if (!snapshot.empty) {
+                            const studentDoc = snapshot.docs[0];
+                            const student = {
+                                id: studentDoc.id,
+                                ...studentDoc.data()
+                            };
+                            
+                            isStudentLoggedIn.value = true;
+                            currentStudent.value = student;
+                            
+                            document.getElementById('loginScreen').classList.add('hidden');
+                            document.getElementById('studentDashboard').classList.remove('hidden');
+                            
+                            // Load student data
+                            loadStudentContent();
+                            loadStudentGrades();
+                        } else {
+                            studentLoginError.value = 'كود الطالب غير صحيح';
+                        }
+                    } catch (error) {
+                        console.error('Student login error:', error);
+                        studentLoginError.value = 'خطأ في تسجيل الدخول، الرجاء المحاولة مرة أخرى';
+                    }
+                };
+                
+                const logout = async () => {
+                    try {
+                        isLoggedIn.value = false;
+                        document.getElementById('loginScreen').classList.remove('hidden');
+                        document.getElementById('teacherDashboard').classList.add('hidden');
+                        document.getElementById('code').value = '';
+                        showTeacherLogin.value = false;
+                    } catch (error) {
+                        console.error('Logout error:', error);
+                    }
+                };
+                
+                const studentLogout = async () => {
+                    try {
+                        isStudentLoggedIn.value = false;
+                        document.getElementById('loginScreen').classList.remove('hidden');
+                        document.getElementById('studentDashboard').classList.add('hidden');
+                        document.getElementById('studentCode').value = '';
+                        showTeacherLogin.value = false;
+                    } catch (error) {
+                        console.error('Student logout error:', error);
+                    }
+                };
+                
+                const openVideo = (video) => {
+                    currentVideo.value = video;
+                    document.getElementById('videoModal').classList.remove('hidden');
+                };
+                
+                const closeVideo = () => {
+                    document.getElementById('videoModal').classList.add('hidden');
+                    currentVideo.value = {};
+                };
+                
+                const closeAddContentModal = () => {
+                    showAddContentModal.value = false;
+                    editingContent.value = false;
+                    newContent.value = {
+                        type: '',
+                        title: '',
+                        url: '',
+                        class: '',
+                        description: '',
+                        file: null
+                    };
+                };
+                
+                const closeAddStudentModal = () => {
+                    showAddStudentModal.value = false;
+                    editingStudent.value = false;
+                    newStudent.value = {
+                        name: '',
+                        studentCode: '',
+                        class: '',
+                        group: '',
+                        phone: '',
+                        parentPhone: '',
+                        photoFile: null,
+                        photoPreview: null
+                    };
+                };
+                
+                const editContent = (content) => {
+                    editingContent.value = true;
+                    newContent.value = { ...content };
+                    showAddContentModal.value = true;
+                };
+                
+                const editStudent = (student) => {
+                    editingStudent.value = true;
+                    newStudent.value = { 
+                        ...student, 
+                        photoPreview: student.photoURL,
+                        id: student.id
+                    };
+                    showAddStudentModal.value = true;
+                };
+                
+                const saveContent = async () => {
+                    try {
+                        let contentData = {
+                            type: newContent.value.type,
+                            title: newContent.value.title,
+                            class: newContent.value.class,
+                            description: newContent.value.description,
+                            createdAt: new Date().toISOString().split('T')[0],
+                            createdBy: currentUser.value.uid
+                        };
+                        
+                        if (newContent.value.type === 'youtube') {
+                            contentData.url = newContent.value.url;
+                        } else if (newContent.value.file) {
+                            // Upload file to Firebase Storage
+                            const fileRef = storage.ref().child(`content/${Date.now()}_${newContent.value.file.name}`);
+                            const uploadTask = await fileRef.put(newContent.value.file);
+                            const downloadURL = await uploadTask.ref.getDownloadURL();
+                            
+                            if (newContent.value.type === 'audio') {
+                                contentData.audioUrl = downloadURL;
+                            } else {
+                                contentData.fileUrl = downloadURL;
+                            }
+                        }
+                        
+                        if (editingContent.value) {
+                            // Update existing content
+                            await db.collection('content').doc(newContent.value.id).update(contentData);
+                        } else {
+                            // Add new content
+                            await db.collection('content').add(contentData);
+                        }
+                        
+                        closeAddContentModal();
+                        loadTeacherContent();
+                        loadTeacherStats();
+                    } catch (error) {
+                        console.error('Error saving content:', error);
+                        alert('حدث خطأ أثناء حفظ المحتوى');
+                    }
+                };
+                
+                const saveStudent = async () => {
+                    try {
+                        let studentData = {
+                            name: newStudent.value.name,
+                            studentCode: newStudent.value.studentCode,
+                            class: newStudent.value.class,
+                            group: newStudent.value.group,
+                            phone: newStudent.value.phone,
+                            parentPhone: newStudent.value.parentPhone,
+                            createdAt: new Date().toISOString().split('T')[0],
+                            createdBy: currentUser.value.uid
+                        };
+                        
+                        if (newStudent.value.photoFile) {
+                            // Upload photo to Firebase Storage
+                            const fileRef = storage.ref().child(`students/${Date.now()}_${newStudent.value.photoFile.name}`);
+                            const uploadTask = await fileRef.put(newStudent.value.photoFile);
+                            const downloadURL = await uploadTask.ref.getDownloadURL();
+                            studentData.photoURL = downloadURL;
+                        }
+                        
+                        if (editingStudent.value) {
+                            // Update existing student
+                            await db.collection('students').doc(newStudent.value.id).update(studentData);
+                        } else {
+                            // Add new student
+                            await db.collection('students').add(studentData);
+                        }
+                        
+                        closeAddStudentModal();
+                        loadStudents();
+                        loadTeacherStats();
+                    } catch (error) {
+                        console.error('Error saving student:', error);
+                        alert('حدث خطأ أثناء حفظ بيانات الطالب');
+                    }
+                };
+                
+                const deleteContent = async (contentId) => {
+                    if (confirm('هل أنت متأكد من حذف هذا المحتوى؟')) {
+                        try {
+                            await db.collection('content').doc(contentId).delete();
+                            loadTeacherContent();
+                            loadTeacherStats();
+                        } catch (error) {
+                            console.error('Error deleting content:', error);
+                            alert('حدث خطأ أثناء حذف المحتوى');
+                        }
+                    }
+                };
+                
+                const deleteStudent = async (studentId) => {
+                    if (confirm('هل أنت متأكد من حذف هذا الطالب؟')) {
+                        try {
+                            await db.collection('students').doc(studentId).delete();
+                            loadStudents();
+                            loadTeacherStats();
+                        } catch (error) {
+                            console.error('Error deleting student:', error);
+                            alert('حدث خطأ أثناء حذف الطالب');
+                        }
+                    }
+                };
+                
+                const handleFileUpload = (event) => {
+                    newContent.value.file = event.target.files[0];
+                };
+                
+                const handleStudentPhotoUpload = (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        newStudent.value.photoFile = file;
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            newStudent.value.photoPreview = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                
+                const extractYouTubeId = (url) => {
+                    if (!url) return '';
+                    const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+                    const match = url.match(regExp);
+                    return (match && match[7].length === 11) ? match[7] : '';
+                };
+                
+                const getContentTypeClass = (type) => {
+                    switch (type) {
+                        case 'youtube':
+                        case 'video': return 'bg-blue-100 text-blue-800';
+                        case 'pdf': return 'bg-red-100 text-red-800';
+                        case 'audio': return 'bg-green-100 text-green-800';
+                        case 'quiz': return 'bg-purple-100 text-purple-800';
+                        default: return 'bg-gray-100 text-gray-800';
+                    }
+                };
+                
+                const getContentTypeLabel = (type) => {
+                    switch (type) {
+                        case 'youtube': return 'يوتيوب';
+                        case 'video': return 'فيديو';
+                        case 'pdf': return 'PDF';
+                        case 'audio': return 'صوت';
+                        case 'quiz': return 'اختبار';
+                        default: return 'ملف';
+                    }
+                };
+                
+                const getStatusClass = (status) => {
+                    switch (status) {
+                        case 'تم التصحيح': return 'bg-green-100 text-green-800';
+                        case 'قيد المراجعة': return 'bg-yellow-100 text-yellow-800';
+                        case 'لم يتم التصحيح': return 'bg-red-100 text-red-800';
+                        default: return 'bg-gray-100 text-gray-800';
+                    }
+                };
+                
+                const saveGrade = async (student) => {
+                    try {
+                        if (!student.selectedQuiz || !student.grade) {
+                            alert('الرجاء اختيار اختبار وإدخال الدرجة');
+                            return;
+                        }
+                        
+                        const gradeData = {
+                            studentId: student.id,
+                            studentName: student.name,
+                            quizId: student.selectedQuiz,
+                            quizTitle: availableQuizzes.value.find(q => q.id === student.selectedQuiz)?.title || 'اختبار',
+                            grade: student.grade,
+                            status: student.status || 'تم التصحيح',
+                            comment: student.comment || '',
+                            date: new Date().toISOString().split('T')[0],
+                            gradedBy: currentUser.value.uid
+                        };
+                        
+                        // Save grade to Firestore
+                        await db.collection('grades').add(gradeData);
+                        
+                        // Update student's average grade
+                        await updateStudentAverageGrade(student.id);
+                        
+                        alert('تم حفظ الدرجة بنجاح');
+                        
+                        // Reset form
+                        student.selectedQuiz = '';
+                        student.grade = '';
+                        student.status = 'تم التصحيح';
+                        student.comment = '';
+                    } catch (error) {
+                        console.error('Error saving grade:', error);
+                        alert('حدث خطأ أثناء حفظ الدرجة');
+                    }
+                };
+                
+                const updateStudentAverageGrade = async (studentId) => {
+                    try {
+                        const snapshot = await db.collection('grades')
+                            .where('studentId', '==', studentId)
+                            .get();
+                        
+                        if (!snapshot.empty) {
+                            const grades = snapshot.docs.map(doc => parseInt(doc.data().grade));
+                            const average = grades.reduce((a, b) => a + b, 0) / grades.length;
+                            
+                            await db.collection('students').doc(studentId).update({
+                                averageGrade: `${average.toFixed(1)}%`
+                            });
+                            
+                            // Reload students to update the average
+                            loadStudents();
+                        }
+                    } catch (error) {
+                        console.error('Error updating student average:', error);
+                    }
+                };
+                
+                // Data loading functions
+                const loadStudents = async () => {
+                    try {
+                        const snapshot = await db.collection('students')
+                            .where('createdBy', '==', currentUser.value.uid)
+                            .get();
+                        students.value = snapshot.docs.map(doc => ({
+                            id: doc.id,
+                            ...doc.data()
+                        }));
+                    } catch (error) {
+                        console.error('Error loading students:', error);
+                        students.value = [];
+                    }
+                };
+                
+                const loadTeacherContent = async () => {
+                    try {
+                        loadingContent.value = true;
+                        const snapshot = await db.collection('content')
+                            .where('createdBy', '==', currentUser.value.uid)
+                            .get();
+                        teacherContent.value = snapshot.docs.map(doc => ({
+                            id: doc.id,
+                            ...doc.data()
+                        }));
+                    } catch (error) {
+                        console.error('Error loading teacher content:', error);
+                        teacherContent.value = [];
+                    } finally {
+                        loadingContent.value = false;
+                    }
+                };
+                
+                const loadStudentContent = async () => {
+                    try {
+                        const snapshot = await db.collection('content')
+                            .where('class', '==', currentStudent.value.class)
+                            .get();
+                        studentContent.value = snapshot.docs.map(doc => ({
+                            id: doc.id,
+                            ...doc.data()
+                        }));
+                    } catch (error) {
+                        console.error('Error loading student content:', error);
+                        studentContent.value = [];
+                    }
+                };
+                
+                const loadStudentGrades = async () => {
+                    try {
+                        const snapshot = await db.collection('grades')
+                            .where('studentId', '==', currentStudent.value.id)
+                            .get();
+                        studentGrades.value = snapshot.docs.map(doc => ({
+                            id: doc.id,
+                            ...doc.data()
+                        }));
+                    } catch (error) {
+                        console.error('Error loading student grades:', error);
+                        studentGrades.value = [];
+                    }
+                };
+                
+                const loadTeacherStats = async () => {
+                    try {
+                        // Calculate stats based on data
+                        const totalStudents = students.value.length;
+                        const totalContent = teacherContent.value.length;
+                        
+                        // Calculate class average
+                        let classAverage = '0%';
+                        if (students.value.length > 0) {
+                            const averages = students.value
+                                .filter(s => s.averageGrade)
+                                .map(s => parseFloat(s.averageGrade));
+                            
+                            if (averages.length > 0) {
+                                const total = averages.reduce((a, b) => a + b, 0);
+                                classAverage = `${(total / averages.length).toFixed(1)}%`;
+                            }
+                        }
+                        
+                        // Calculate graded tests
+                        const gradedTestsSnapshot = await db.collection('grades')
+                            .where('gradedBy', '==', currentUser.value.uid)
+                            .get();
+                        
+                        const totalTests = students.value.length * availableQuizzes.value.length;
+                        const gradedTests = gradedTestsSnapshot.size;
+                        
+                        teacherStats.value = {
+                            totalStudents,
+                            totalContent,
+                            classAverage,
+                            gradedTests: `${gradedTests}/${totalTests}`
+                        };
+                    } catch (error) {
+                        console.error('Error loading teacher stats:', error);
+                        teacherStats.value = {
+                            totalStudents: 0,
+                            totalContent: 0,
+                            classAverage: '0%',
+                            gradedTests: '0/0'
+                        };
+                    }
+                };
+                
+                // Initialize app
+                onMounted(() => {
+                    availableQuizzes.value = [
+                        {
+                            id: '1',
+                            title: 'اختبار الوحدة الأولى'
+                        },
+                        {
+                            id: '2',
+                            title: 'اختبار الوحدة الثانية'
+                        },
+                        {
+                            id: '3',
+                            title: 'اختبار منتصف الفصل'
+                        }
+                    ];
+                });
+                
+                return {
+                    isLoggedIn,
+                    isStudentLoggedIn,
+                    loginError,
+                    studentLoginError,
+                    currentUser,
+                    currentStudent,
+                    showTeacherLogin,
+                    teacherActiveTab,
+                    studentSearch,
+                    showAddContentModal,
+                    showAddStudentModal,
+                    editingContent,
+                    editingStudent,
+                    students,
+                    teacherContent,
+                    studentContent,
+                    studentGrades,
+                    availableQuizzes,
+                    loadingContent,
+                    teacherStats,
+                    newContent,
+                    newStudent,
+                    currentVideo,
+                    selectedClass,
+                    selectedQuiz,
+                    filteredStudents,
+                    filteredStudentsForGrades,
+                    generateStudentCode,
+                    handleLogin,
+                    handleStudentLogin,
+                    logout,
+                    studentLogout,
+                    openVideo,
+                    closeVideo,
+                    closeAddContentModal,
+                    closeAddStudentModal,
+                    editContent,
+                    editStudent,
+                    saveContent,
+                    saveStudent,
+                    deleteContent,
+                    deleteStudent,
+                    handleFileUpload,
+                    handleStudentPhotoUpload,
+                    extractYouTubeId,
+                    getContentTypeClass,
+                    getContentTypeLabel,
+                    getStatusClass,
+                    saveGrade
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
