@@ -229,6 +229,112 @@
             font-size: 12px;
             color: #4a5568;
         }
+        /* إضافة هذه الأنماط إلى قسم الـ CSS */
+/* إضافة هذه الأنماط إلى قسم الـ CSS */
+.video-player-container {
+    width: 100%;
+    background-color: #000;
+    border-radius: 0.75rem 0.75rem 0 0;
+    overflow: hidden;
+}
+
+.video-player-container video {
+    width: 100%;
+    height: auto;
+    max-height: 256px; /* max-h-64 */
+    min-height: 200px;
+    object-fit: contain;
+    display: block;
+}
+/* إضافة هذه الأنماط إلى قسم الـ CSS */
+.audio-player-container {
+    border-radius: 0.75rem 0.75rem 0 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.audio-player-container audio {
+    border-radius: 20px;
+    height: 40px;
+}
+
+/* تحسين مظهر مشغل الصوت */
+.audio-player-container audio::-webkit-media-controls-panel {
+    background-color: #f8fafc;
+}
+
+.audio-player-container audio::-webkit-media-controls-play-button {
+    background-color: #10b981;
+    border-radius: 50%;
+}
+
+.audio-player-container audio::-webkit-media-controls-current-time-display,
+.audio-player-container audio::-webkit-media-controls-time-remaining-display {
+    color: #374151;
+    font-weight: 500;
+}
+
+/* تحسينات للوضع الداكن */
+@media (prefers-color-scheme: dark) {
+    .audio-player-container {
+        background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
+        border-color: #047857;
+    }
+    
+    .audio-player-container audio::-webkit-media-controls-panel {
+        background-color: #1f2937;
+    }
+    
+    .audio-player-container h4 {
+        color: #f9fafb !important;
+    }
+}
+
+.dark .audio-player-container {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
+}
+
+/* تحسينات للعرض على الشاشات الصغيرة */
+@media (max-width: 640px) {
+    .audio-player-container {
+        padding: 1rem;
+    }
+    
+    .audio-player-container .flex.space-x-4 {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .audio-icon {
+        align-self: center;
+    }
+}
+
+/* تحسين عرض الفيديو في الوضع الداكن */
+@media (prefers-color-scheme: dark) {
+    .video-player-container {
+        background-color: #000;
+    }
+    
+    .content-item {
+        background-color: #374151;
+        border-color: #4b5563;
+    }
+}
+
+/* تحسينات للعرض على الشاشات الصغيرة */
+@media (max-width: 640px) {
+    .video-player-container video {
+        min-height: 150px;
+        max-height: 200px;
+    }
+}
+
+/* تحسين عرض الفيديو في الوضع الداكن */
+@media (prefers-color-scheme: dark) {
+    .video-player-container {
+        background-color: #1f2937;
+    }
+}
         
         /* Dark Mode */
         @media (prefers-color-scheme: dark) {
@@ -538,8 +644,8 @@
                             <div class="flex items-center space-x-4">
                                 <img src="https://scontent-hbe1-1.xx.fbcdn.net/v/t39.30808-6/475507956_9082054621872083_6722155559152051923_n.jpg?_nc_cat=102&cb2=99be929b-bd9a46d7&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFKlvStzMXzEDKiL5lpXQhL06d3yG0xLB_Tp3fIbTEsHygIQvxAN5belF6Wt1J9hzsY_YKJ8lErv6UvbbOKdt9c&_nc_ohc=Tw7aGJrqXhEQ7kNvwG6SK6I&_nc_oc=Adn9OkQpTVeuBKnQ_xKdnvHeBZPBuHmRbEVI6paNdJtnvWDRkw6pZCtXj2TQ3phWOok&_nc_zt=23&_nc_ht=scontent-hbe1-1.xx&_nc_gid=QG3nxuwLbLX_HOcWG3Ol-Q&oh=00_AfgxcOfrz06sg-Vv-1v6qSsb74IhYwbn_zP6qkCBNZ86jg&oe=6926BD90" alt="صورة المعلم الشخصية" class="h-10 w-10 rounded-full object-cover">
                                 <div>
-                                    <h1 class="text-lg font-bold text-gray-800">{{ currentUser.name || 'miss sally' }}</h1>
-                                    <p class="text-xs text-gray-500"> professional English teacher </p>
+                                    <h1 class="text-lg font-bold text-gray-800">{{ currentUser.name || ' Miss Sally said' }}</h1>
+                                    <p class="text-xs text-gray-500">  professional English teacher </p>
                                 </div>
                             </div>
                             <button @click="logout" class="text-gray-500 hover:text-gray-700">
@@ -746,98 +852,108 @@
                                     </div>
                                 </div>
                                 
-                                <div v-if="organizedContent.video && organizedContent.video.length > 0" class="content-category">
-                                    <div class="category-header" @click="toggleCategory('video')">
-                                        <h4 class="category-title">
-                                            <i class="fas fa-video text-blue-600 mr-2"></i>
-                                            ملفات الفيديو
-                                        </h4>
-                                        <div class="flex items-center">
-                                            <span class="category-count">{{ organizedContent.video.length }}</span>
-                                            <i class="fas fa-chevron-down toggle-arrow mr-2" :class="{ 'open': expandedCategories.video }"></i>
-                                        </div>
-                                    </div>
-                                    <div class="category-content" :class="expandedCategories.video ? 'expanded' : 'collapsed'">
-                                        <div class="content-grid">
-                                            <div v-for="content in organizedContent.video" :key="content.id" class="content-item">
-                                                <div class="file-preview">
-                                                    <div class="w-full h-full flex flex-col items-center justify-center">
-                                                        <i class="fas fa-video text-5xl text-blue-500 mb-2"></i>
-                                                        <span class="text-sm text-gray-600">ملف فيديو</span>
-                                                    </div>
-                                                </div>
-                                                <div class="content-info">
-                                                    <h3 class="content-title">{{ content.title }}</h3>
-                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                    <div class="content-meta">
-                                                        <span>{{ content.class }}</span>
-                                                        <span class="content-type-badge video-badge">فيديو</span>
-                                                    </div>
-                                                    <div class="mt-3 flex justify-between items-center">
-                                                        <button @click="openFileViewer(content)" class="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition-colors duration-200">
-                                                            <i class="fas fa-eye mr-1"></i> عرض
-                                                        </button>
-                                                        <div class="flex space-x-2">
-                                                            <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+<!-- في قسم ملفات الفيديو - تحديث كود العرض -->
+<div v-if="organizedContent.video && organizedContent.video.length > 0" class="content-category">
+    <div class="category-header" @click="toggleCategory('video')">
+        <h4 class="category-title">
+            <i class="fas fa-video text-blue-600 mr-2"></i>
+            ملفات الفيديو
+        </h4>
+        <div class="flex items-center">
+            <span class="category-count">{{ organizedContent.video.length }}</span>
+            <i class="fas fa-chevron-down toggle-arrow mr-2" :class="{ 'open': expandedCategories.video }"></i>
+        </div>
+    </div>
+    <div class="category-content" :class="expandedCategories.video ? 'expanded' : 'collapsed'">
+        <div class="content-grid">
+            <div v-for="content in organizedContent.video" :key="content.id" class="content-item">
+                <!-- عرض الفيديو مباشرة بدون زر عرض -->
+                <div class="video-player-container">
+                    <video controls class="w-full h-48 object-cover rounded-t-lg" v-if="content.fileUrl">
+                        <source :src="content.fileUrl" type="video/mp4">
+                        متصفحك لا يدعم تشغيل الفيديو.
+                    </video>
+                    <div v-else class="file-preview h-48">
+                        <div class="w-full h-full flex flex-col items-center justify-center">
+                            <i class="fas fa-video text-5xl text-blue-500 mb-2"></i>
+                            <span class="text-sm text-gray-600">ملف فيديو</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-info">
+                    <h3 class="content-title">{{ content.title }}</h3>
+                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                    <div class="content-meta">
+                        <span>{{ content.class }}</span>
+                        <span class="content-type-badge video-badge">فيديو</span>
+                    </div>
+                    <div class="mt-3 flex justify-end space-x-2">
+                        <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                                 
-                                <div v-if="organizedContent.audio && organizedContent.audio.length > 0" class="content-category">
-                                    <div class="category-header" @click="toggleCategory('audio')">
-                                        <h4 class="category-title">
-                                            <i class="fas fa-music text-green-600 mr-2"></i>
-                                            ملفات صوتية
-                                        </h4>
-                                        <div class="flex items-center">
-                                            <span class="category-count">{{ organizedContent.audio.length }}</span>
-                                            <i class="fas fa-chevron-down toggle-arrow mr-2" :class="{ 'open': expandedCategories.audio }"></i>
-                                        </div>
-                                    </div>
-                                    <div class="category-content" :class="expandedCategories.audio ? 'expanded' : 'collapsed'">
-                                        <div class="content-grid">
-                                            <div v-for="content in organizedContent.audio" :key="content.id" class="content-item">
-                                                <div class="file-preview">
-                                                    <div class="w-full h-full flex flex-col items-center justify-center">
-                                                        <i class="fas fa-music text-5xl text-green-500 mb-2"></i>
-                                                        <span class="text-sm text-gray-600">ملف صوتي</span>
-                                                    </div>
-                                                </div>
-                                                <div class="content-info">
-                                                    <h3 class="content-title">{{ content.title }}</h3>
-                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                    <div class="content-meta">
-                                                        <span>{{ content.class }}</span>
-                                                        <span class="content-type-badge audio-badge">صوت</span>
-                                                    </div>
-                                                    <div class="mt-3">
-                                                        <audio controls class="w-full">
-                                                            <source :src="content.audioUrl" type="audio/mpeg">
-                                                            متصفحك لا يدعم تشغيل الملفات الصوتية.
-                                                        </audio>
-                                                    </div>
-                                                    <div class="mt-3 flex justify-end space-x-2">
-                                                        <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                        <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!-- في قسم الملفات الصوتية - تحديث كود العرض -->
+<div v-if="organizedContent.audio && organizedContent.audio.length > 0" class="content-category">
+    <div class="category-header" @click="toggleCategory('audio')">
+        <h4 class="category-title">
+            <i class="fas fa-music text-green-600 mr-2"></i>
+            ملفات صوتية
+        </h4>
+        <div class="flex items-center">
+            <span class="category-count">{{ organizedContent.audio.length }}</span>
+            <i class="fas fa-chevron-down toggle-arrow mr-2" :class="{ 'open': expandedCategories.audio }"></i>
+        </div>
+    </div>
+    <div class="category-content" :class="expandedCategories.audio ? 'expanded' : 'collapsed'">
+        <div class="content-grid">
+            <div v-for="content in organizedContent.audio" :key="content.id" class="content-item">
+                <!-- عرض الملف الصوتي مباشرة داخل البطاقة -->
+                <div class="audio-player-container bg-gradient-to-r from-green-50 to-emerald-50 p-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="audio-icon flex-shrink-0">
+                            <i class="fas fa-music text-3xl text-green-500"></i>
+                        </div>
+                        <div class="audio-controls flex-1">
+                            <h4 class="font-semibold text-gray-800 mb-1 text-sm">{{ content.title }}</h4>
+                            <audio controls class="w-full h-10" v-if="content.audioUrl">
+                                <source :src="content.audioUrl" type="audio/mpeg">
+                                متصفحك لا يدعم تشغيل الملفات الصوتية.
+                            </audio>
+                            <div v-else class="text-center text-gray-500 py-2">
+                                <i class="fas fa-exclamation-triangle mr-1"></i>
+                                رابط الصوت غير متوفر
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-info">
+                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                    <div class="content-meta">
+                        <span>{{ content.class }}</span>
+                        <span class="content-type-badge audio-badge">صوت</span>
+                    </div>
+                    <div class="mt-3 flex justify-end space-x-2">
+                        <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                                 
                                 <div v-if="organizedContent.image && organizedContent.image.length > 0" class="content-category">
                                     <div class="category-header" @click="toggleCategory('image')">
@@ -1105,7 +1221,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </main>
             </div>
         </div>
@@ -1223,90 +1338,104 @@
                                 </div>
                             </div>
                             
-                            <div v-if="organizedStudentContent.video && organizedStudentContent.video.length > 0" class="content-category">
-                                <div class="category-header" @click="toggleStudentCategory('video')">
-                                    <h4 class="category-title">
-                                        <i class="fas fa-video text-blue-600 mr-2"></i>
-                                        ملفات الفيديو
-                                    </h4>
-                                    <div class="flex items-center">
-                                        <span class="category-count">{{ organizedStudentContent.video.length }}</span>
-                                        <i class="fas fa-chevron-down toggle-arrow mr-2" :class="{ 'open': expandedStudentCategories.video }"></i>
-                                    </div>
-                                </div>
-                                <div class="category-content" :class="expandedStudentCategories.video ? 'expanded' : 'collapsed'">
-                                    <div class="content-grid">
-                                        <div v-for="content in organizedStudentContent.video" :key="content.id" class="content-item">
-                                            <div class="file-preview">
-                                                <div class="w-full h-full flex flex-col items-center justify-center">
-                                                    <i class="fas fa-video text-5xl text-blue-500 mb-2"></i>
-                                                    <span class="text-sm text-gray-600">ملف فيديو</span>
-                                                </div>
-                                            </div>
-                                            <div class="content-info">
-                                                <h3 class="content-title">{{ content.title }}</h3>
-                                                <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                <div class="content-meta">
-                                                    <span>{{ content.class }}</span>
-                                                    <span class="content-type-badge video-badge">فيديو</span>
-                                                </div>
-                                                <div class="mt-3 flex justify-between items-center">
-                                                    <button @click="openFileViewer(content)" class="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition-colors duration-200">
-                                                        <i class="fas fa-eye mr-1"></i> عرض
-                                                    </button>
-                                                    <button @click="downloadFile(content.fileUrl, content.title)" class="bg-purple-600 text-white px-3 py-1 rounded-md text-sm hover:bg-purple-700 transition-colors duration-200">
-                                                        <i class="fas fa-download mr-1"></i> تحميل
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- في قسم ملفات الفيديو للطالب -->
+<!-- في قسم ملفات الفيديو للطالب -->
+<div v-if="organizedStudentContent.video && organizedStudentContent.video.length > 0" class="content-category">
+    <div class="category-header" @click="toggleStudentCategory('video')">
+        <h4 class="category-title">
+            <i class="fas fa-video text-blue-600 mr-2"></i>
+            ملفات الفيديو
+        </h4>
+        <div class="flex items-center">
+            <span class="category-count">{{ organizedStudentContent.video.length }}</span>
+            <i class="fas fa-chevron-down toggle-arrow mr-2" :class="{ 'open': expandedStudentCategories.video }"></i>
+        </div>
+    </div>
+    <div class="category-content" :class="expandedStudentCategories.video ? 'expanded' : 'collapsed'">
+        <div class="content-grid">
+            <div v-for="content in organizedStudentContent.video" :key="content.id" class="content-item">
+                <!-- عرض الفيديو مباشرة للطالب بدون قص -->
+                <div class="video-player-container bg-black flex items-center justify-center">
+                    <video controls class="w-full max-h-64" v-if="content.fileUrl"
+                           style="object-fit: contain; min-height: 200px;">
+                        <source :src="content.fileUrl" type="video/mp4">
+                        متصفحك لا يدعم تشغيل الفيديو.
+                    </video>
+                    <div v-else class="file-preview h-48 w-full flex items-center justify-center">
+                        <div class="flex flex-col items-center justify-center">
+                            <i class="fas fa-video text-5xl text-blue-500 mb-2"></i>
+                            <span class="text-sm text-gray-600">ملف فيديو</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-info">
+                    <h3 class="content-title">{{ content.title }}</h3>
+                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                    <div class="content-meta">
+                        <span>{{ content.class }}</span>
+                        <span class="content-type-badge video-badge">فيديو</span>
+                    </div>
+                    <div class="mt-3 flex justify-center">
+                        <button @click="downloadFile(content.fileUrl, content.title)" class="bg-purple-600 text-white px-3 py-1 rounded-md text-sm hover:bg-purple-700 transition-colors duration-200">
+                            <i class="fas fa-download mr-1"></i> تحميل
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                             
-                            <div v-if="organizedStudentContent.audio && organizedStudentContent.audio.length > 0" class="content-category">
-                                <div class="category-header" @click="toggleStudentCategory('audio')">
-                                    <h4 class="category-title">
-                                        <i class="fas fa-music text-green-600 mr-2"></i>
-                                        ملفات صوتية
-                                    </h4>
-                                    <div class="flex items-center">
-                                        <span class="category-count">{{ organizedStudentContent.audio.length }}</span>
-                                        <i class="fas fa-chevron-down toggle-arrow mr-2" :class="{ 'open': expandedStudentCategories.audio }"></i>
-                                    </div>
-                                </div>
-                                <div class="category-content" :class="expandedStudentCategories.audio ? 'expanded' : 'collapsed'">
-                                    <div class="content-grid">
-                                        <div v-for="content in organizedStudentContent.audio" :key="content.id" class="content-item">
-                                            <div class="file-preview">
-                                                <div class="w-full h-full flex flex-col items-center justify-center">
-                                                    <i class="fas fa-music text-5xl text-green-500 mb-2"></i>
-                                                    <span class="text-sm text-gray-600">ملف صوتي</span>
-                                                </div>
-                                            </div>
-                                            <div class="content-info">
-                                                <h3 class="content-title">{{ content.title }}</h3>
-                                                <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                <div class="content-meta">
-                                                    <span>{{ content.class }}</span>
-                                                    <span class="content-type-badge audio-badge">صوت</span>
-                                                </div>
-                                                <div class="mt-3">
-                                                    <audio controls class="w-full">
-                                                        <source :src="content.audioUrl" type="audio/mpeg">
-                                                        متصفحك لا يدعم تشغيل الملفات الصوتية.
-                                                    </audio>
-                                                </div>
-                                                <div class="mt-3 flex justify-center">
-                                                    <button @click="downloadFile(content.audioUrl, content.title)" class="bg-purple-600 text-white px-3 py-1 rounded-md text-sm hover:bg-purple-700 transition-colors duration-200">
-                                                        <i class="fas fa-download mr-1"></i> تحميل الملف
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <!-- في قسم الملفات الصوتية للطالب -->
+<div v-if="organizedStudentContent.audio && organizedStudentContent.audio.length > 0" class="content-category">
+    <div class="category-header" @click="toggleStudentCategory('audio')">
+        <h4 class="category-title">
+            <i class="fas fa-music text-green-600 mr-2"></i>
+            ملفات صوتية
+        </h4>
+        <div class="flex items-center">
+            <span class="category-count">{{ organizedStudentContent.audio.length }}</span>
+            <i class="fas fa-chevron-down toggle-arrow mr-2" :class="{ 'open': expandedStudentCategories.audio }"></i>
+        </div>
+    </div>
+    <div class="category-content" :class="expandedStudentCategories.audio ? 'expanded' : 'collapsed'">
+        <div class="content-grid">
+            <div v-for="content in organizedStudentContent.audio" :key="content.id" class="content-item">
+                <!-- عرض الملف الصوتي مباشرة للطالب -->
+                <div class="audio-player-container bg-gradient-to-r from-green-50 to-emerald-50 p-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="audio-icon flex-shrink-0">
+                            <i class="fas fa-music text-3xl text-green-500"></i>
+                        </div>
+                        <div class="audio-controls flex-1">
+                            <h4 class="font-semibold text-gray-800 mb-1 text-sm">{{ content.title }}</h4>
+                            <audio controls class="w-full h-10" v-if="content.audioUrl">
+                                <source :src="content.audioUrl" type="audio/mpeg">
+                                متصفحك لا يدعم تشغيل الملفات الصوتية.
+                            </audio>
+                            <div v-else class="text-center text-gray-500 py-2">
+                                <i class="fas fa-exclamation-triangle mr-1"></i>
+                                رابط الصوت غير متوفر
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-info">
+                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                    <div class="content-meta">
+                        <span>{{ content.class }}</span>
+                        <span class="content-type-badge audio-badge">صوت</span>
+                    </div>
+                    <div class="mt-3 flex justify-center">
+                        <button @click="downloadFile(content.audioUrl, content.title)" class="bg-purple-600 text-white px-3 py-1 rounded-md text-sm hover:bg-purple-700 transition-colors duration-200">
+                            <i class="fas fa-download mr-1"></i> تحميل الملف
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                             
                             <div v-if="organizedStudentContent.image && organizedStudentContent.image.length > 0" class="content-category">
                                 <div class="category-header" @click="toggleStudentCategory('image')">
