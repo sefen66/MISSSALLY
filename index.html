@@ -229,76 +229,76 @@
             font-size: 12px;
             color: #4a5568;
         }
+        
         /* إضافة هذه الأنماط إلى قسم الـ CSS */
-/* إضافة هذه الأنماط إلى قسم الـ CSS */
-.audio-player-container {
-    border-radius: 0.75rem 0.75rem 0 0;
-    border-bottom: 1px solid #e2e8f0;
-}
+        .audio-player-container {
+            border-radius: 0.75rem 0.75rem 0 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
 
-.audio-player-container audio {
-    border-radius: 20px;
-    height: 40px;
-}
+        .audio-player-container audio {
+            border-radius: 20px;
+            height: 40px;
+        }
 
-/* تحسين مظهر مشغل الصوت */
-.audio-player-container audio::-webkit-media-controls-panel {
-    background-color: #f8fafc;
-}
+        /* تحسين مظهر مشغل الصوت */
+        .audio-player-container audio::-webkit-media-controls-panel {
+            background-color: #f8fafc;
+        }
 
-.audio-player-container audio::-webkit-media-controls-play-button {
-    background-color: #10b981;
-    border-radius: 50%;
-}
+        .audio-player-container audio::-webkit-media-controls-play-button {
+            background-color: #10b981;
+            border-radius: 50%;
+        }
 
-.audio-player-container audio::-webkit-media-controls-current-time-display,
-.audio-player-container audio::-webkit-media-controls-time-remaining-display {
-    color: #374151;
-    font-weight: 500;
-}
+        .audio-player-container audio::-webkit-media-controls-current-time-display,
+        .audio-player-container audio::-webkit-media-controls-time-remaining-display {
+            color: #374151;
+            font-weight: 500;
+        }
 
-/* تحسينات للوضع الداكن */
-@media (prefers-color-scheme: dark) {
-    .audio-player-container {
-        background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
-        border-color: #047857;
-    }
-    
-    .audio-player-container audio::-webkit-media-controls-panel {
-        background-color: #1f2937;
-    }
-    
-    .audio-player-container h4 {
-        color: #f9fafb !important;
-    }
-}
+        /* تحسينات للوضع الداكن */
+        @media (prefers-color-scheme: dark) {
+            .audio-player-container {
+                background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
+                border-color: #047857;
+            }
+            
+            .audio-player-container audio::-webkit-media-controls-panel {
+                background-color: #1f2937;
+            }
+            
+            .audio-player-container h4 {
+                color: #f9fafb !important;
+            }
+        }
 
-.dark .audio-player-container {
-    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
-}
+        .dark .audio-player-container {
+            background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
+        }
 
-/* تحسينات للعرض على الشاشات الصغيرة */
-@media (max-width: 640px) {
-    .audio-player-container {
-        padding: 1rem;
-    }
-    
-    .audio-player-container .flex.space-x-4 {
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-    
-    .audio-icon {
-        align-self: center;
-    }
-}
+        /* تحسينات للعرض على الشاشات الصغيرة */
+        @media (max-width: 640px) {
+            .audio-player-container {
+                padding: 1rem;
+            }
+            
+            .audio-player-container .flex.space-x-4 {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            
+            .audio-icon {
+                align-self: center;
+            }
+        }
 
-/* تحسين عرض الفيديو في الوضع الداكن */
-@media (prefers-color-scheme: dark) {
-    .video-player-container {
-        background-color: #1f2937;
-    }
-}
+        /* تحسين عرض الفيديو في الوضع الداكن */
+        @media (prefers-color-scheme: dark) {
+            .video-player-container {
+                background-color: #1f2937;
+            }
+        }
         
         /* Dark Mode */
         @media (prefers-color-scheme: dark) {
@@ -531,6 +531,92 @@
             max-height: 2000px;
             opacity: 1;
         }
+        
+        /* تحسينات جديدة */
+        .grade-display {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .grade-input-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .pdf-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+        
+        .youtube-thumbnail {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        
+        .thumbnail-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .thumbnail-overlay:hover {
+            opacity: 1;
+        }
+        
+        .play-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e53e3e;
+            font-size: 24px;
+        }
+        
+        .stats-card {
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #e53e3e;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body class="dark:bg-gray-900 dark:text-white">
@@ -644,19 +730,19 @@
                     
                     <!-- Quick Stats -->
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                        <div class="bg-white rounded-lg shadow p-4">
+                        <div class="bg-white rounded-lg shadow p-4 stats-card">
                             <p class="text-sm text-gray-500">عدد الطلاب</p>
                             <p class="text-2xl font-bold">{{ teacherStats.totalStudents || '0' }}</p>
                         </div>
-                        <div class="bg-white rounded-lg shadow p-4">
+                        <div class="bg-white rounded-lg shadow p-4 stats-card">
                             <p class="text-sm text-gray-500">المحتوى المرفوع</p>
                             <p class="text-2xl font-bold">{{ teacherStats.totalContent || '0' }}</p>
                         </div>
-                        <div class="bg-white rounded-lg shadow p-4">
+                        <div class="bg-white rounded-lg shadow p-4 stats-card">
                             <p class="text-sm text-gray-500">متوسط معدل الفصل</p>
                             <p class="text-2xl font-bold">{{ teacherStats.classAverage || '0%' }}</p>
                         </div>
-                        <div class="bg-white rounded-lg shadow p-4">
+                        <div class="bg-white rounded-lg shadow p-4 stats-card">
                             <p class="text-sm text-gray-500">الاختبارات المصححة</p>
                             <p class="text-2xl font-bold">{{ teacherStats.gradedTests || '0/0' }}</p>
                         </div>
@@ -790,9 +876,12 @@
                                     <div class="category-content" :class="expandedCategories.youtube ? 'expanded' : 'collapsed'">
                                         <div class="content-grid">
                                             <div v-for="content in organizedContent.youtube" :key="content.id" class="content-item">
-                                                <div class="video-thumbnail" :style="{ backgroundImage: `url(${content.thumbnail || 'https://cdn-icons-png.flaticon.com/128/3820/3820269.png'})` }" @click="openVideo(content)">
-                                                    <div class="absolute inset-0 flex items-center justify-center">
-                                                        <i class="fab fa-youtube text-red-600 text-4xl"></i>
+                                                <div class="relative">
+                                                    <img :src="content.thumbnail || getYouTubeThumbnail(content.url)" :alt="content.title" class="youtube-thumbnail" @click="openVideo(content)">
+                                                    <div class="thumbnail-overlay" @click="openVideo(content)">
+                                                        <div class="play-icon">
+                                                            <i class="fab fa-youtube"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="content-info">
@@ -816,54 +905,54 @@
                                     </div>
                                 </div>
                                 
-<!-- في قسم ملفات الفيديو - تحديث كود العرض -->
-<div v-if="organizedContent.video && organizedContent.video.length > 0" class="content-category">
-    <div class="category-header" @click="toggleCategory('video')">
-        <h4 class="category-title">
-            <i class="fas fa-video text-blue-600 mr-2"></i>
-            ملفات الفيديو
-        </h4>
-        <div class="flex items-center">
-            <span class="category-count">{{ organizedContent.video.length }}</span>
-            <i class="fas fa-chevron-down toggle-arrow mr-2" :class="{ 'open': expandedCategories.video }"></i>
-        </div>
-    </div>
-    <div class="category-content" :class="expandedCategories.video ? 'expanded' : 'collapsed'">
-        <div class="content-grid">
-            <div v-for="content in organizedContent.video" :key="content.id" class="content-item">
-                <!-- عرض الفيديو مباشرة بدون زر عرض -->
-                <div class="video-player-container">
-                    <video controls class="w-full h-48 object-cover rounded-t-lg" v-if="content.fileUrl">
-                        <source :src="content.fileUrl" type="video/mp4">
-                        متصفحك لا يدعم تشغيل الفيديو.
-                    </video>
-                    <div v-else class="file-preview h-48">
-                        <div class="w-full h-full flex flex-col items-center justify-center">
-                            <i class="fas fa-video text-5xl text-blue-500 mb-2"></i>
-                            <span class="text-sm text-gray-600">ملف فيديو</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="content-info">
-                    <h3 class="content-title">{{ content.title }}</h3>
-                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                    <div class="content-meta">
-                        <span>{{ content.class }}</span>
-                        <span class="content-type-badge video-badge">فيديو</span>
-                    </div>
-                    <div class="mt-3 flex justify-end space-x-2">
-                        <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                                <!-- في قسم ملفات الفيديو - تحديث كود العرض -->
+                                <div v-if="organizedContent.video && organizedContent.video.length > 0" class="content-category">
+                                    <div class="category-header" @click="toggleCategory('video')">
+                                        <h4 class="category-title">
+                                            <i class="fas fa-video text-blue-600 mr-2"></i>
+                                            ملفات الفيديو
+                                        </h4>
+                                        <div class="flex items-center">
+                                            <span class="category-count">{{ organizedContent.video.length }}</span>
+                                            <i class="fas fa-chevron-down toggle-arrow mr-2" :class="{ 'open': expandedCategories.video }"></i>
+                                        </div>
+                                    </div>
+                                    <div class="category-content" :class="expandedCategories.video ? 'expanded' : 'collapsed'">
+                                        <div class="content-grid">
+                                            <div v-for="content in organizedContent.video" :key="content.id" class="content-item">
+                                                <!-- عرض الفيديو مباشرة بدون زر عرض -->
+                                                <div class="video-player-container">
+                                                    <video controls class="w-full h-48 object-cover rounded-t-lg" v-if="content.fileUrl">
+                                                        <source :src="content.fileUrl" type="video/mp4">
+                                                        متصفحك لا يدعم تشغيل الفيديو.
+                                                    </video>
+                                                    <div v-else class="file-preview h-48">
+                                                        <div class="w-full h-full flex flex-col items-center justify-center">
+                                                            <i class="fas fa-video text-5xl text-blue-500 mb-2"></i>
+                                                            <span class="text-sm text-gray-600">ملف فيديو</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="content-info">
+                                                    <h3 class="content-title">{{ content.title }}</h3>
+                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                    <div class="content-meta">
+                                                        <span>{{ content.class }}</span>
+                                                        <span class="content-type-badge video-badge">فيديو</span>
+                                                    </div>
+                                                    <div class="mt-3 flex justify-end space-x-2">
+                                                        <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 
                                 <div v-if="organizedContent.audio && organizedContent.audio.length > 0" class="content-category">
                                     <div class="category-header" @click="toggleCategory('audio')">
@@ -974,9 +1063,8 @@
                                         <div class="content-grid">
                                             <div v-for="content in organizedContent.pdf" :key="content.id" class="content-item">
                                                 <div class="file-preview">
-                                                    <div class="w-full h-full flex flex-col items-center justify-center">
-                                                        <i class="fas fa-file-pdf text-5xl text-red-500 mb-2"></i>
-                                                        <span class="text-sm text-gray-600">ملف PDF</span>
+                                                    <div class="pdf-cover">
+                                                        <i class="fas fa-file-pdf text-4xl"></i>
                                                     </div>
                                                 </div>
                                                 <div class="content-info">
@@ -1070,7 +1158,7 @@
                                 </select>
                                 <select v-model="selectedQuiz" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
                                     <option value="all">جميع الاختبارات</option>
-                                    <option v-for="quiz in availableQuizzes" :key="quiz.id" :value="quiz.id">{{ quiz.title }}</option>
+                                    <option v-for="quiz in availableQuizzes" :key="quiz.id" :value="quiz.id">{{ quiz.title }} ({{ quiz.maxGrade || quiz.totalMarks || 100 }})</option>
                                 </select>
                             </div>
                         </div>
@@ -1101,11 +1189,15 @@
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <select v-model="student.selectedQuiz" class="block w-full pl-3 pr-10 py-1 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
                                                 <option value="">اختر اختبار</option>
-                                                <option v-for="quiz in availableQuizzes" :key="quiz.id" :value="quiz.id">{{ quiz.title }}</option>
+                                                <option v-for="quiz in availableQuizzes" :key="quiz.id" :value="quiz.id">{{ quiz.title }} ({{ quiz.maxGrade || quiz.totalMarks || 100 }})</option>
                                             </select>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <input type="number" v-model="student.grade" class="block w-20 py-1 px-2 border border-gray-300 rounded focus:ring-purple-500 focus:border-purple-500">
+                                            <div class="grade-input-container">
+                                                <input type="number" v-model="student.grade" class="grade-input block w-16 py-1 px-2 border border-gray-300 rounded focus:ring-purple-500 focus:border-purple-500">
+                                                <span class="text-gray-500 mx-2">/</span>
+                                                <span class="text-gray-500">{{ getQuizMaxGrade(student.selectedQuiz) }}</span>
+                                            </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <select v-model="student.status" class="block w-full pl-3 pr-10 py-1 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
@@ -1239,7 +1331,13 @@
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     <tr v-for="grade in studentGrades" :key="grade.id">
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ grade.quizTitle }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ grade.grade }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="grade-display">
+                                                <span class="text-sm text-gray-500">{{ grade.grade }}</span>
+                                                <span class="text-sm text-gray-400">/</span>
+                                                <span class="text-sm text-gray-500">{{ grade.totalMarks || 100 }}</span>
+                                            </div>
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span :class="getStatusClass(grade.status)" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
                                                 {{ grade.status }}
@@ -1278,9 +1376,12 @@
                                 <div class="category-content" :class="expandedStudentCategories.youtube ? 'expanded' : 'collapsed'">
                                     <div class="content-grid">
                                         <div v-for="content in organizedStudentContent.youtube" :key="content.id" class="content-item">
-                                            <div class="video-thumbnail" :style="{ backgroundImage: `url(${content.thumbnail || 'https://cdn-icons-png.flaticon.com/128/3820/3820269.png'})` }" @click="openVideo(content)">
-                                                <div class="absolute inset-0 flex items-center justify-center">
-                                                    <i class="fab fa-youtube text-red-600 text-4xl"></i>
+                                            <div class="relative">
+                                                <img :src="content.thumbnail || getYouTubeThumbnail(content.url)" :alt="content.title" class="youtube-thumbnail" @click="openVideo(content)">
+                                                <div class="thumbnail-overlay" @click="openVideo(content)">
+                                                    <div class="play-icon">
+                                                        <i class="fab fa-youtube"></i>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="content-info">
@@ -1297,52 +1398,51 @@
                             </div>
                             
                             <!-- في قسم ملفات الفيديو للطالب -->
-<!-- في قسم ملفات الفيديو للطالب -->
-<div v-if="organizedStudentContent.video && organizedStudentContent.video.length > 0" class="content-category">
-    <div class="category-header" @click="toggleStudentCategory('video')">
-        <h4 class="category-title">
-            <i class="fas fa-video text-blue-600 mr-2"></i>
-            ملفات الفيديو
-        </h4>
-        <div class="flex items-center">
-            <span class="category-count">{{ organizedStudentContent.video.length }}</span>
-            <i class="fas fa-chevron-down toggle-arrow mr-2" :class="{ 'open': expandedStudentCategories.video }"></i>
-        </div>
-    </div>
-    <div class="category-content" :class="expandedStudentCategories.video ? 'expanded' : 'collapsed'">
-        <div class="content-grid">
-            <div v-for="content in organizedStudentContent.video" :key="content.id" class="content-item">
-                <!-- عرض الفيديو مباشرة للطالب بدون قص -->
-                <div class="video-player-container bg-black flex items-center justify-center">
-                    <video controls class="w-full max-h-64" v-if="content.fileUrl"
-                           style="object-fit: contain; min-height: 200px;">
-                        <source :src="content.fileUrl" type="video/mp4">
-                        متصفحك لا يدعم تشغيل الفيديو.
-                    </video>
-                    <div v-else class="file-preview h-48 w-full flex items-center justify-center">
-                        <div class="flex flex-col items-center justify-center">
-                            <i class="fas fa-video text-5xl text-blue-500 mb-2"></i>
-                            <span class="text-sm text-gray-600">ملف فيديو</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="content-info">
-                    <h3 class="content-title">{{ content.title }}</h3>
-                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                    <div class="content-meta">
-                        <span>{{ content.class }}</span>
-                        <span class="content-type-badge video-badge">فيديو</span>
-                    </div>
-                    <div class="mt-3 flex justify-center">
-                        <button @click="downloadFile(content.fileUrl, content.title)" class="bg-purple-600 text-white px-3 py-1 rounded-md text-sm hover:bg-purple-700 transition-colors duration-200">
-                            <i class="fas fa-download mr-1"></i> تحميل
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                            <div v-if="organizedStudentContent.video && organizedStudentContent.video.length > 0" class="content-category">
+                                <div class="category-header" @click="toggleStudentCategory('video')">
+                                    <h4 class="category-title">
+                                        <i class="fas fa-video text-blue-600 mr-2"></i>
+                                        ملفات الفيديو
+                                    </h4>
+                                    <div class="flex items-center">
+                                        <span class="category-count">{{ organizedStudentContent.video.length }}</span>
+                                        <i class="fas fa-chevron-down toggle-arrow mr-2" :class="{ 'open': expandedStudentCategories.video }"></i>
+                                    </div>
+                                </div>
+                                <div class="category-content" :class="expandedStudentCategories.video ? 'expanded' : 'collapsed'">
+                                    <div class="content-grid">
+                                        <div v-for="content in organizedStudentContent.video" :key="content.id" class="content-item">
+                                            <!-- عرض الفيديو مباشرة للطالب بدون قص -->
+                                            <div class="video-player-container bg-black flex items-center justify-center">
+                                                <video controls class="w-full max-h-64" v-if="content.fileUrl"
+                                                       style="object-fit: contain; min-height: 200px;">
+                                                    <source :src="content.fileUrl" type="video/mp4">
+                                                    متصفحك لا يدعم تشغيل الفيديو.
+                                                </video>
+                                                <div v-else class="file-preview h-48 w-full flex items-center justify-center">
+                                                    <div class="flex flex-col items-center justify-center">
+                                                        <i class="fas fa-video text-5xl text-blue-500 mb-2"></i>
+                                                        <span class="text-sm text-gray-600">ملف فيديو</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="content-info">
+                                                <h3 class="content-title">{{ content.title }}</h3>
+                                                <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                <div class="content-meta">
+                                                    <span>{{ content.class }}</span>
+                                                    <span class="content-type-badge video-badge">فيديو</span>
+                                                </div>
+                                                <div class="mt-3 flex justify-center">
+                                                    <button @click="downloadFile(content.fileUrl, content.title)" class="bg-purple-600 text-white px-3 py-1 rounded-md text-sm hover:bg-purple-700 transition-colors duration-200">
+                                                        <i class="fas fa-download mr-1"></i> تحميل
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             
                             <div v-if="organizedStudentContent.audio && organizedStudentContent.audio.length > 0" class="content-category">
                                 <div class="category-header" @click="toggleStudentCategory('audio')">
@@ -1445,9 +1545,8 @@
                                     <div class="content-grid">
                                         <div v-for="content in organizedStudentContent.pdf" :key="content.id" class="content-item">
                                             <div class="file-preview">
-                                                <div class="w-full h-full flex flex-col items-center justify-center">
-                                                    <i class="fas fa-file-pdf text-5xl text-red-500 mb-2"></i>
-                                                    <span class="text-sm text-gray-600">ملف PDF</span>
+                                                <div class="pdf-cover">
+                                                    <i class="fas fa-file-pdf text-4xl"></i>
                                                 </div>
                                             </div>
                                             <div class="content-info">
@@ -1621,6 +1720,10 @@
                     <div v-if="newContent.type === 'youtube'">
                         <label class="block text-sm font-medium text-gray-700 mb-1">رابط يوتيوب</label>
                         <input type="url" v-model="newContent.url" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" placeholder="أدخل رابط فيديو يوتيوب" required>
+                        <div v-if="newContent.url" class="mt-2">
+                            <p class="text-sm text-gray-500">معاينة الصورة المصغرة:</p>
+                            <img :src="getYouTubeThumbnail(newContent.url)" alt="معاينة يوتيوب" class="mt-1 w-32 h-20 object-cover rounded">
+                        </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">الصف</label>
@@ -1664,9 +1767,8 @@
                         <div v-if="newContent.filePreview" class="mt-4">
                             <div class="file-preview">
                                 <img v-if="newContent.type === 'image'" :src="newContent.filePreview" class="max-w-full max-h-full">
-                                <div v-else-if="newContent.type === 'pdf'" class="w-full h-full flex flex-col items-center justify-center">
-                                    <i class="fas fa-file-pdf text-5xl text-red-500 mb-2"></i>
-                                    <span class="text-sm text-gray-600">ملف PDF</span>
+                                <div v-else-if="newContent.type === 'pdf'" class="pdf-cover">
+                                    <i class="fas fa-file-pdf text-4xl"></i>
                                 </div>
                                 <div v-else-if="newContent.type === 'audio'" class="w-full h-full flex flex-col items-center justify-center">
                                     <i class="fas fa-music text-5xl text-green-500 mb-2"></i>
@@ -2072,12 +2174,20 @@
                 });
                 
                 // Methods
+                
                 const toggleCategory = (category) => {
                     expandedCategories.value[category] = !expandedCategories.value[category];
                 };
                 
                 const toggleStudentCategory = (category) => {
                     expandedStudentCategories.value[category] = !expandedStudentCategories.value[category];
+                };
+                
+                const getQuizMaxGrade = (quizId) => {
+                    if (!quizId) return 100;
+                    const quiz = availableQuizzes.value.find(q => q.id === quizId);
+                    if (!quiz) return 100;
+                    return quiz.maxGrade || quiz.totalMarks || quiz.fullMark || 100;
                 };
                 
                 const generateStudentCode = () => {
@@ -2860,7 +2970,9 @@
                     getContentTypeLabel,
                     getStatusClass,
                     saveGrade,
-                    downloadFile
+                    getQuizMaxGrade,
+                    downloadFile,
+                    getYouTubeThumbnail
                 };
             }
         }).mount('#app');
