@@ -3191,44 +3191,46 @@ const addQuestionAfter = (index) => {
                 };
                 
                 const handleLogin = async () => {
-                    const code = document.getElementById('code').value.trim();
-                    
-                    if (code === '') {
-                        loginError.value = 'الرجاء إدخال كود المعلم';
-                        return;
-                    }
-                    
-                    try {
-                        // For demo purposes, we'll use a simple check
-                        // In a real app, you would verify against Firestore
-                        if (code === 'T2023001') {
-                            // Simulate successful login
-                            isLoggedIn.value = true;
-                            currentUser.value = {
-                                uid: 'teacher001',
-                                name: 'miss sally siad',
-                                role: 'teacher',
-                                photoURL: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/622d8d48-58ff-42d5-9014-d1eb55371e38.png'
-                            };
-                            
-                            document.getElementById('loginScreen').classList.add('hidden');
-                            document.getElementById('teacherDashboard').classList.remove('hidden');
-                            
-                            // Load initial data
-                            loadStudents();
-                            loadTeacherContent();
-                            loadTeacherStats();
-                            loadQuizzes();
-                            loadMCQQuizzes();
-                            loadMCQGrades();
-                        } else {
-                            loginError.value = 'كود المعلم غير صحيح';
-                        }
-                    } catch (error) {
-                        console.error('Login error:', error);
-                        loginError.value = 'خطأ في تسجيل الدخول، الرجاء المحاولة مرة أخرى';
-                    }
-                };
+    const code = document.getElementById('code').value.trim();
+    
+    if (code === '') {
+        loginError.value = 'الرجاء إدخال كود المعلم';
+        return;
+    }
+    
+    try {
+        // For demo purposes, we'll use a simple check
+        if (code === 'T2023001') {
+            // Simulate successful login
+            isLoggedIn.value = true;
+            currentUser.value = {
+                uid: 'teacher001',
+                name: 'miss sally siad',
+                role: 'teacher',
+                photoURL: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/622d8d48-58ff-42d5-9014-d1eb55371e38.png'
+            };
+            
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('teacherDashboard').classList.remove('hidden');
+            
+            // Load initial data in sequence
+            await loadStudents();
+            await loadTeacherContent();
+            await loadQuizzes();
+            await loadMCQQuizzes();
+            await loadMCQGrades();
+            
+            // Now load stats after all data is loaded
+            await loadTeacherStats();
+            
+        } else {
+            loginError.value = 'كود المعلم غير صحيح';
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        loginError.value = 'خطأ في تسجيل الدخول، الرجاء المحاولة مرة أخرى';
+    }
+};
                 
                 const handleStudentLogin = async () => {
                     const studentCode = document.getElementById('studentCode').value.trim();
