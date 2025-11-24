@@ -256,6 +256,149 @@
             color: #374151;
             font-weight: 500;
         }
+        /* أنماط إضافية للاختبارات التفاعلية */
+.quiz-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.question-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: 1px solid #e2e8f0;
+}
+
+.question-image {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option-item:hover {
+    border-color: #9f7aea;
+    background-color: #f8fafc;
+}
+
+.option-item.selected {
+    border-color: #9f7aea;
+    background-color: #f3e8ff;
+}
+
+.option-letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: #9f7aea;
+    color: white;
+    border-radius: 50%;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.quiz-timer {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #e53e3e;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.quiz-progress {
+    background-color: #e2e8f0;
+    height: 6px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.quiz-progress-bar {
+    height: 100%;
+    background-color: #9f7aea;
+    transition: width 0.3s ease;
+}
+
+.quiz-results {
+    text-align: center;
+    padding: 30px;
+}
+
+.score-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(#10b981 0% var(--percentage), #e5e7eb var(--percentage) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.score-circle::before {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 50%;
+}
+
+.score-text {
+    position: relative;
+    font-size: 24px;
+    font-weight: bold;
+    color: #10b981;
+}
+
+.correct-answer {
+    border-color: #10b981 !important;
+    background-color: #f0fdf4 !important;
+}
+
+.wrong-answer {
+    border-color: #ef4444 !important;
+    background-color: #fef2f2 !important;
+}
+
+.quiz-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.mcq-quiz-badge {
+    background-color: #e9d8fd;
+    color: #6b46c1;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
 
         /* تحسينات للوضع الداكن */
         @media (prefers-color-scheme: dark) {
@@ -617,6 +760,174 @@
             align-items: center;
             justify-content: center;
         }
+
+        /* تحسينات جديدة للاختبارات التفاعلية */
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #4a5568;
+        }
+        
+        .add-question-btn {
+            background-color: #4f46e5;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-top: 10px;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .add-question-btn:hover {
+            background-color: #4338ca;
+        }
+        
+        .attempts-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .attempts-badge {
+            background-color: #e5e7eb;
+            color: #374151;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .show-answers-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #10b981;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .percentage-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .percentage-excellent {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .percentage-good {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+        .percentage-average {
+            background-color: #f59e0b;
+            color: white;
+        }
+        
+        .percentage-poor {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        /* تحسينات جديدة للتبويبات */
+        .tabs-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .tabs-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tabs-nav {
+            display: inline-flex;
+            min-width: 100%;
+        }
+
+        .tab-button {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        /* تحسينات لدرجة السؤال */
+        .question-points {
+            background-color: #e9d8fd;
+            color: #6b46c1;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .question-header-with-points {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
     </style>
 </head>
 <body class="dark:bg-gray-900 dark:text-white">
@@ -722,7 +1033,11 @@
                                     <i class="fas fa-user-plus mr-2"></i> إضافة طالب
                                 </button>
                                 <button @click="showAddQuizModal = true" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                                    <i class="fas fa-plus mr-2"></i>  إضافة اختبار شامل
+                                    <i class="fas fa-plus mr-2"></i>  إضافة اختبار سنتر شامل 
+                                </button>
+                                <!-- الزر الجديد لإضافة اختبار تفاعلي -->
+                                <button @click="showAddMCQModal = true" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200">
+                                    <i class="fas fa-question-circle mr-2"></i> إضافة اختبار تفاعلي
                                 </button>
                             </div>
                         </div>
@@ -743,47 +1058,67 @@
                             <p class="text-2xl font-bold">{{ teacherStats.classAverage || '0%' }}</p>
                         </div>
                         <div class="bg-white rounded-lg shadow p-4 stats-card">
-                            <p class="text-sm text-gray-500">الاختبارات المصححة</p>
-                            <p class="text-2xl font-bold">{{ teacherStats.gradedTests || '0/0' }}</p>
+                            <p class="text-sm text-gray-500">الاختبارات التفاعلية</p>
+                            <p class="text-2xl font-bold">{{ teacherStats.mcqQuizzes || '0' }}</p>
                         </div>
                     </div>
                     
-                    <!-- Tabs Navigation -->
+                    <!-- Tabs Navigation - تم التحديث -->
                     <div class="border-b border-gray-200 mb-6">
-                        <nav class="-mb-px flex space-x-8">
-                            <button @click="teacherActiveTab = 'students'" 
-                                    :class="{ 
-                                        'border-purple-600 text-purple-700 bg-purple-50 font-bold': teacherActiveTab === 'students', 
-                                        'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'students' 
-                                    }" 
-                                    class="whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
-                                الطلاب
-                            </button>
-                            <button @click="teacherActiveTab = 'content'" 
-                                    :class="{ 
-                                        'border-purple-600 text-purple-700 bg-purple-50 font-bold': teacherActiveTab === 'content', 
-                                        'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'content' 
-                                    }" 
-                                    class="whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
-                                المحتوى التعليمي
-                            </button>
-                            <button @click="teacherActiveTab = 'grades'" 
-                                    :class="{ 
-                                        'border-purple-600 text-purple-700 bg-purple-50 font-bold': teacherActiveTab === 'grades', 
-                                        'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'grades' 
-                                    }" 
-                                    class="whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
-                                الدرجات
-                            </button>
-                            <button @click="teacherActiveTab = 'quizzes'" 
-                                    :class="{ 
-                                        'border-purple-600 text-purple-700 bg-purple-50 font-bold': teacherActiveTab === 'quizzes', 
-                                        'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'quizzes' 
-                                    }" 
-                                    class="whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
-                                الاختبارات
-                            </button>
-                        </nav>
+                        <div class="tabs-container">
+                            <nav class="tabs-nav -mb-px flex space-x-8">
+                                <button @click="teacherActiveTab = 'students'" 
+                                        :class="{ 
+                                            'border-purple-600 text-purple-700 bg-purple-50 font-bold': teacherActiveTab === 'students', 
+                                            'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'students' 
+                                        }" 
+                                        class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
+                                    الطلاب
+                                </button>
+                                <button @click="teacherActiveTab = 'content'" 
+                                        :class="{ 
+                                            'border-purple-600 text-purple-700 bg-purple-50 font-bold': teacherActiveTab === 'content', 
+                                            'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'content' 
+                                        }" 
+                                        class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
+                                    المحتوى التعليمي
+                                </button>
+                                <button @click="teacherActiveTab = 'grades'" 
+                                        :class="{ 
+                                            'border-purple-600 text-purple-700 bg-purple-50 font-bold': teacherActiveTab === 'grades', 
+                                            'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'grades' 
+                                        }" 
+                                        class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
+                                    اضافه درجات امتحان السنتر
+                                </button>
+                                <button @click="teacherActiveTab = 'quizzes'" 
+                                        :class="{ 
+                                            'border-purple-600 text-purple-700 bg-purple-50 font-bold': teacherActiveTab === 'quizzes', 
+                                            'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'quizzes' 
+                                        }" 
+                                        class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
+                                    الاختبارات
+                                </button>
+                                <!-- تبويب جديد للاختبارات التفاعلية -->
+                                <button @click="teacherActiveTab = 'mcq-quizzes'" 
+                                        :class="{ 
+                                            'border-indigo-600 text-indigo-700 bg-indigo-50 font-bold': teacherActiveTab === 'mcq-quizzes', 
+                                            'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'mcq-quizzes' 
+                                        }" 
+                                        class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
+                                    الاختبارات التفاعلية
+                                </button>
+                                <!-- تبويب جديد لدرجات MCQ -->
+                                <button @click="teacherActiveTab = 'mcq-grades'" 
+                                        :class="{ 
+                                            'border-green-600 text-green-700 bg-green-50 font-bold': teacherActiveTab === 'mcq-grades', 
+                                            'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'mcq-grades' 
+                                        }" 
+                                        class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
+                                    درجات الاختبارات التفاعلية
+                                </button>
+                            </nav>
+                        </div>
                     </div>
                     
                     <!-- Students Tab -->
@@ -1271,6 +1606,152 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- الاختبارات التفاعلية Tab -->
+                    <div class="bg-white rounded-xl shadow overflow-hidden mb-8" v-show="teacherActiveTab === 'mcq-quizzes'">
+                        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                            <h3 class="text-lg font-medium text-gray-900">الاختبارات التفاعلية</h3>
+                            <button @click="showAddMCQModal = true" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200">
+                                <i class="fas fa-plus mr-2"></i> إضافة اختبار تفاعلي
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div v-for="quiz in mcqQuizzes" :key="quiz.id" class="border border-gray-200 rounded-lg overflow-hidden content-card">
+                                    <div class="bg-gray-100 h-48 flex items-center justify-center">
+                                        <i class="fas fa-question-circle text-5xl text-indigo-500"></i>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h3 class="font-bold text-lg text-gray-800">{{ quiz.title }}</h3>
+                                                <p class="text-sm text-gray-500">{{ quiz.class }}</p>
+                                            </div>
+                                            <span class="mcq-quiz-badge">اختبار تفاعلي</span>
+                                        </div>
+                                        <div class="mt-2">
+                                            <p class="text-sm text-gray-600">{{ quiz.description }}</p>
+                                            <div class="mt-2 flex items-center text-sm text-gray-500">
+                                                <i class="fas fa-clock mr-1"></i>
+                                                <span>الوقت: {{ quiz.duration }} دقيقة</span>
+                                            </div>
+                                            <div class="mt-1 flex items-center text-sm text-gray-500">
+                                                <i class="fas fa-question mr-1"></i>
+                                                <span>عدد الأسئلة: {{ quiz.questions ? quiz.questions.length : 0 }}</span>
+                                            </div>
+                                            <div class="mt-1 flex items-center text-sm text-gray-500">
+                                                <i class="fas fa-redo mr-1"></i>
+                                                <span>المحاولات: {{ quiz.maxAttempts || 1 }}</span>
+                                            </div>
+                                            <div class="mt-1 flex items-center text-sm" :class="quiz.showAnswers ? 'text-green-600' : 'text-gray-500'">
+                                                <i class="fas fa-eye mr-1"></i>
+                                                <span>عرض الإجابات: {{ quiz.showAnswers ? 'نعم' : 'لا' }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 flex justify-between">
+                                            <div class="flex items-center text-sm text-gray-500">
+                                                <i class="fas fa-calendar-alt mr-1"></i>
+                                                <span>{{ quiz.createdAt }}</span>
+                                            </div>
+                                            <div class="flex space-x-2">
+                                                <button @click="editMCQQuiz(quiz)" class="text-blue-500 hover:text-blue-700">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button @click="deleteMCQQuiz(quiz.id)" class="text-red-500 hover:text-red-700">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                                <button @click="toggleShowAnswers(quiz)" class="text-green-500 hover:text-green-700">
+                                                    <i class="fas" :class="quiz.showAnswers ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="mcqQuizzes.length === 0" class="col-span-full text-center py-8">
+                                    <i class="fas fa-question-circle text-4xl text-gray-300 mb-4"></i>
+                                    <p class="text-gray-500">لا يوجد اختبارات تفاعلية بعد</p>
+                                    <button @click="showAddMCQModal = true" class="mt-4 text-indigo-600 hover:text-indigo-800">
+                                        إضافة اختبار تفاعلي جديد
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- تبويب درجات الاختبارات التفاعلية الجديد -->
+                    <div class="bg-white rounded-xl shadow overflow-hidden mb-8" v-show="teacherActiveTab === 'mcq-grades'">
+                        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                            <h3 class="text-lg font-medium text-gray-900">درجات الطلاب في الاختبارات التفاعلية</h3>
+                            <div class="flex space-x-3">
+                                <select v-model="mcqGradeFilter.class" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
+                                    <option value="all">جميع الصفوف</option>
+                                    <option value="الصف الأول">الصف الأول</option>
+                                    <option value="الصف الثاني">الصف الثاني</option>
+                                    <option value="الصف الثالث">الصف الثالث</option>
+                                </select>
+                                <select v-model="mcqGradeFilter.quiz" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
+                                    <option value="all">جميع الاختبارات</option>
+                                    <option v-for="quiz in mcqQuizzes" :key="quiz.id" :value="quiz.id">{{ quiz.title }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الطالب</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الاختبار</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الدرجة</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">النسبة</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">المحاولة</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">التاريخ</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr v-for="grade in filteredMCQGrades" :key="grade.id">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full" :src="getStudentPhoto(grade.studentId)" :alt="'صورة ' + grade.studentName">
+                                                </div>
+                                                <div class="mr-4">
+                                                    <div class="text-sm font-medium text-gray-900">{{ grade.studentName }}</div>
+                                                    <div class="text-sm text-gray-500">{{ getStudentClass(grade.studentId) }}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ grade.quizTitle }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ grade.score }} / {{ grade.totalScore }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span :class="getPercentageClass(grade.percentage)" class="percentage-badge">
+                                                {{ grade.percentage }}%
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ grade.attemptNumber || 1 }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ grade.date }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button @click="viewMCQGradeDetails(grade)" class="text-blue-600 hover:text-blue-900 ml-3">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button @click="deleteMCQGrade(grade.id)" class="text-red-600 hover:text-red-900 ml-3">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="filteredMCQGrades.length === 0">
+                                        <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
+                                            لا توجد درجات مسجلة بعد
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </main>
             </div>
         </div>
@@ -1329,23 +1810,27 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr v-for="grade in studentGrades" :key="grade.id">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ grade.quizTitle }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="grade-display">
-                                                <span class="text-sm text-gray-500">{{ grade.grade }}</span>
-                                                <span class="text-sm text-gray-400">/</span>
-                                                <span class="text-sm text-gray-500">{{ grade.totalMarks || 100 }}</span>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span :class="getStatusClass(grade.status)" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
-                                                {{ grade.status }}
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 text-sm text-gray-500">{{ grade.comment || 'لا يوجد تعليق' }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ grade.date }}</td>
-                                    </tr>
+                                    <!-- في قسم Grades Table للطالب -->
+<tr v-for="grade in studentGrades" :key="grade.id">
+    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+        {{ grade.quizTitle }}
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+        <div class="grade-display">
+            <!-- التعديل هنا: عرض الدرجة بشكل صحيح -->
+            <span class="text-sm text-gray-500">{{ grade.score || grade.grade }}</span>
+            <span class="text-sm text-gray-400">/</span>
+            <span class="text-sm text-gray-500">{{ grade.totalScore || grade.totalMarks || 100 }}</span>
+        </div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+        <span :class="getStatusClass(grade.status)" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+            {{ grade.status || 'تم التصحيح' }}
+        </span>
+    </td>
+    <td class="px-6 py-4 text-sm text-gray-500">{{ grade.comment || 'لا يوجد تعليق' }}</td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ grade.date || grade.submittedAt }}</td>
+</tr>
                                     <tr v-if="studentGrades.length === 0">
                                         <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
                                             لا توجد درجات مسجلة بعد
@@ -1603,6 +2088,56 @@
                                 </div>
                             </div>
                             
+                            <!-- قسم جديد للاختبارات التفاعلية للطالب -->
+                            <div v-if="organizedStudentContent.mcqQuiz && organizedStudentContent.mcqQuiz.length > 0" class="content-category">
+                                <div class="category-header" @click="toggleStudentCategory('mcqQuiz')">
+                                    <h4 class="category-title">
+                                        <i class="fas fa-question-circle text-indigo-600 mr-2"></i>
+                                        الاختبارات التفاعلية
+                                    </h4>
+                                    <div class="flex items-center">
+                                        <span class="category-count">{{ organizedStudentContent.mcqQuiz.length }}</span>
+                                        <i class="fas fa-chevron-down toggle-arrow mr-2" :class="{ 'open': expandedStudentCategories.mcqQuiz }"></i>
+                                    </div>
+                                </div>
+                                <div class="category-content" :class="expandedStudentCategories.mcqQuiz ? 'expanded' : 'collapsed'">
+                                    <div class="content-grid">
+                                        <div v-for="content in organizedStudentContent.mcqQuiz" :key="content.id" class="content-item">
+                                            <div class="file-preview">
+                                                <div class="w-full h-full flex flex-col items-center justify-center">
+                                                    <i class="fas fa-question-circle text-5xl text-indigo-500 mb-2"></i>
+                                                    <span class="text-sm text-gray-600">اختبار تفاعلي</span>
+                                                </div>
+                                            </div>
+                                            <div class="content-info">
+                                                <h3 class="content-title">{{ content.title }}</h3>
+                                                <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                <div class="content-meta">
+                                                    <span>{{ content.class }}</span>
+                                                    <span class="content-type-badge mcq-quiz-badge">اختبار تفاعلي</span>
+                                                </div>
+                                                <div class="mt-3 flex justify-between items-center">
+                                                    <div class="flex items-center text-sm text-gray-500">
+                                                        <i class="fas fa-clock mr-1"></i>
+                                                        <span>{{ content.duration }} دقيقة</span>
+                                                    </div>
+                                                    <div class="attempts-badge" v-if="content.maxAttempts > 1">
+                                                        {{ getStudentAttempts(content.id) }}/{{ content.maxAttempts }} محاولات
+                                                    </div>
+                                                    <button @click="startMCQQuiz(content)" 
+                                                            :disabled="getStudentAttempts(content.id) >= content.maxAttempts"
+                                                            class="bg-indigo-600 text-white px-3 py-1 rounded-md text-sm hover:bg-indigo-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                                                        <i class="fas fa-play mr-1"></i> 
+                                                        <span v-if="getStudentAttempts(content.id) >= content.maxAttempts">تم الانتهاء</span>
+                                                        <span v-else>بدء الاختبار</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div v-if="Object.keys(organizedStudentContent).length === 0" class="text-center py-8">
                                 <i class="fas fa-folder-open text-4xl text-gray-300 mb-4"></i>
                                 <p class="text-gray-500">لا يوجد محتوى تعليمي متاح</p>
@@ -1710,7 +2245,7 @@
                             <option value="audio">صوت</option>
                             <option value="image">صورة</option>
                             <option value="pdf">ملف PDF</option>
-                            <option value="quiz">اختبار</option>
+                        
                         </select>
                     </div>
                     <div>
@@ -1941,6 +2476,244 @@
                 </form>
             </div>
         </div>
+        
+        <!-- Add/Edit MCQ Quiz Modal المحسن -->
+        <div id="addMCQModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" v-show="showAddMCQModal">
+            <div class="bg-white rounded-lg w-full max-w-4xl mx-4" style="max-height: 90vh; overflow-y: auto;">
+                <div class="p-4 flex justify-between items-center border-b border-gray-200">
+                    <h3 class="text-lg font-medium">{{ editingMCQQuiz ? 'تعديل الاختبار التفاعلي' : 'إضافة اختبار تفاعلي جديد' }}</h3>
+                    <button @click="closeAddMCQModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form @submit.prevent="saveMCQQuiz" class="p-4 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">عنوان الاختبار</label>
+                            <input type="text" v-model="newMCQQuiz.title" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="أدخل عنوان الاختبار" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">الصف</label>
+                            <select v-model="newMCQQuiz.class" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" required>
+                                <option value="">اختر الصف</option>
+                                <option value="الصف الأول">الصف الأول</option>
+                                <option value="الصف الثاني">الصف الثاني</option>
+                                <option value="الصف الثالث">الصف الثالث</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">الوصف</label>
+                            <textarea v-model="newMCQQuiz.description" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" rows="2" placeholder="أدخل وصفًا للاختبار"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">مدة الاختبار (بالدقائق)</label>
+                            <input type="number" v-model="newMCQQuiz.duration" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="أدخل مدة الاختبار" required min="1">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">عدد المحاولات المسموحة</label>
+                            <input type="number" v-model="newMCQQuiz.maxAttempts" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="عدد المحاولات" min="1" value="1">
+                        </div>
+                        <div class="show-answers-toggle">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">عرض الإجابات للطلاب بعد الاختبار</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" v-model="newMCQQuiz.showAnswers">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="text-sm text-gray-600">{{ newMCQQuiz.showAnswers ? 'مفعل' : 'معطل' }}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- قسم الأسئلة المحسن -->
+                    <div class="mt-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-lg font-medium text-gray-900">أسئلة الاختبار</h4>
+                            <button type="button" @click="addQuestion" class="bg-indigo-600 text-white px-3 py-1 rounded-md text-sm hover:bg-indigo-700 transition-colors duration-200">
+                                <i class="fas fa-plus mr-1"></i> إضافة سؤال
+                            </button>
+                        </div>
+                        
+                        <div v-for="(question, qIndex) in newMCQQuiz.questions" :key="qIndex" class="question-card">
+                            <div class="question-header-with-points">
+                                <div class="flex items-center">
+                                    <h5 class="question-number">السؤال {{ qIndex + 1 }}</h5>
+                                    <span class="question-points">{{ question.points || 1 }} نقطة</span>
+                                </div>
+                                <button type="button" @click="removeQuestion(qIndex)" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-trash"></i> حذف السؤال
+                                </button>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">نص السؤال</label>
+                                <textarea v-model="question.text" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" rows="2" placeholder="أدخل نص السؤال" required></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">الدرجة</label>
+                                <input type="number" v-model="question.points" class="block w-24 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="الدرجة" required min="1" value="1">
+                            </div>
+                            
+                            <!-- في قسم الخيارات داخل كل سؤال -->
+<div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">الخيارات (اختر الإجابة الصحيحة)</label>
+    <div v-for="(option, oIndex) in question.options" :key="oIndex" class="option-item">
+        <input type="radio" :name="'correctAnswer_' + qIndex" :value="oIndex" v-model="question.correctAnswer" class="mr-2">
+        <input type="text" v-model="option.text" class="block flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" :placeholder="'الخيار ' + String.fromCharCode(65 + oIndex)" required>
+        <button type="button" @click="removeOption(qIndex, oIndex)" class="mr-2 text-red-500 hover:text-red-700" v-if="question.options.length > 2">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <!-- تغيير الشرط من 4 إلى 5 -->
+    <button type="button" @click="addOption(qIndex)" class="text-indigo-600 hover:text-indigo-800 text-sm" v-if="question.options.length < 5">
+        <i class="fas fa-plus mr-1"></i> إضافة خيار
+    </button>
+</div>
+                            
+                            <!-- زر إضافة سؤال جديد تحت كل سؤال -->
+                            <div class="add-question-btn" @click="addQuestionAfter(qIndex)">
+                                <i class="fas fa-plus mr-2"></i> إضافة سؤال جديد بعد هذا السؤال
+                            </div>
+                        </div>
+                        
+                        <div v-if="newMCQQuiz.questions.length === 0" class="text-center py-8 border-2 border-dashed border-gray-300 rounded-md">
+                            <i class="fas fa-question-circle text-4xl text-gray-300 mb-4"></i>
+                            <p class="text-gray-500">لا توجد أسئلة بعد</p>
+                            <button type="button" @click="addQuestion" class="mt-4 text-indigo-600 hover:text-indigo-800">
+                                إضافة أول سؤال
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end pt-4">
+                        <button type="button" @click="closeAddMCQModal()" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            إلغاء
+                        </button>
+                        <button type="submit" :disabled="newMCQQuiz.questions.length === 0" class="mr-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                            {{ editingMCQQuiz ? 'تحديث الاختبار' : 'حفظ الاختبار' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- شاشة تقديم الاختبار التفاعلي المحسنة -->
+        <div id="mcqQuizScreen" class="fixed inset-0 bg-gray-100 z-50 hidden overflow-y-auto">
+            <div class="min-h-screen">
+                <!-- رأس الاختبار -->
+                <div class="bg-white shadow-sm p-4">
+                    <div class="max-w-4xl mx-auto flex justify-between items-center">
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-800">{{ currentMCQQuiz.title }}</h2>
+                            <p class="text-gray-600">{{ currentMCQQuiz.description }}</p>
+                            <div class="attempts-badge mt-1" v-if="currentMCQQuiz.maxAttempts > 1">
+                                المحاولة {{ currentAttempt }} من {{ currentMCQQuiz.maxAttempts }}
+                            </div>
+                        </div>
+                        <div class="quiz-timer" :class="{ 'bg-red-600': remainingTime < 60 }">
+                            الوقت المتبقي: {{ formatTime(remainingTime) }}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- شريط التقدم -->
+                <div class="max-w-4xl mx-auto mt-4">
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-bar" :style="{ width: ((currentQuestionIndex + 1) / (currentMCQQuiz.questions ? currentMCQQuiz.questions.length : 1)) * 100 + '%' }"></div>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600">
+                        <span>السؤال {{ currentQuestionIndex + 1 }} من {{ currentMCQQuiz.questions ? currentMCQQuiz.questions.length : 0 }}</span>
+                        <span>{{ Math.round(((currentQuestionIndex + 1) / (currentMCQQuiz.questions ? currentMCQQuiz.questions.length : 1)) * 100) }}%</span>
+                    </div>
+                </div>
+                
+                <!-- محتوى الاختبار -->
+                <div class="quiz-container">
+                    <div class="question-card" v-if="currentMCQQuiz.questions && currentQuestionIndex < currentMCQQuiz.questions.length && !showResults">
+                        <div class="question-header-with-points">
+                            <h3 class="text-lg font-bold">السؤال {{ currentQuestionIndex + 1 }}</h3>
+                            <span class="question-points">{{ currentQuestion.points || 1 }} نقطة</span>
+                        </div>
+                        
+                        <p class="text-gray-700 mb-6">{{ currentQuestion.text }}</p>
+                        
+<!-- في شاشة الاختبار للطالب -->
+<div class="space-y-3">
+    <div v-for="(option, index) in currentQuestion.options" 
+         :key="index" 
+         class="option-item"
+         :class="{ 'selected': studentAnswers[currentQuestionIndex] === index }"
+         @click="selectAnswer(index)">
+        <div class="option-letter">{{ String.fromCharCode(65 + index) }}</div>
+        <span class="flex-1">{{ option.text }}</span>
+    </div>
+</div>
+                        
+                        <div class="quiz-controls">
+                            <button @click="prevQuestion" :disabled="currentQuestionIndex === 0" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed">
+                                السابق
+                            </button>
+                            <button v-if="currentQuestionIndex < currentMCQQuiz.questions.length - 1" @click="nextQuestion" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
+                                التالي
+                            </button>
+                            <button v-else @click="submitQuiz" :disabled="isSubmitting" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <span v-if="isSubmitting">
+                                    <i class="fas fa-spinner fa-spin mr-2"></i> جاري التسليم...
+                                </span>
+                                <span v-else>
+                                    إنهاء الاختبار
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- شاشة النتائج المحسنة -->
+                    <div v-if="showResults" class="quiz-results">
+                        <div class="score-circle" :style="{ '--percentage': (quizScore / totalScore) * 100 + '%' }">
+                            <div class="score-text">{{ Math.round((quizScore / totalScore) * 100) }}%</div>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">نتيجة الاختبار</h3>
+                        <p class="text-gray-600 mb-6">لقد حصلت على {{ quizScore }} من أصل {{ totalScore }} نقطة</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <p class="text-green-800 font-bold">{{ correctAnswers }}</p>
+                                <p class="text-green-600">إجابات صحيحة</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <p class="text-red-800 font-bold">{{ wrongAnswers }}</p>
+                                <p class="text-red-600">إجابات خاطئة</p>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <p class="text-blue-800 font-bold">{{ skippedAnswers }}</p>
+                                <p class="text-blue-600">أسئلة لم تُجب عليها</p>
+                            </div>
+                        </div>
+                        
+                        <!-- عرض الإجابات إذا كان مسموحاً -->
+                        <div v-if="currentMCQQuiz.showAnswers" class="mb-6">
+                            <h4 class="text-lg font-bold mb-3">تفاصيل الإجابات</h4>
+                            <div v-for="(question, index) in currentMCQQuiz.questions" :key="index" class="mb-4 p-4 border rounded-lg">
+                                <p class="font-medium mb-2">السؤال {{ index + 1 }}: {{ question.text }}</p>
+                                <p class="text-sm text-gray-600 mb-2">الإجابة الصحيحة: {{ String.fromCharCode(65 + question.correctAnswer) }}</p>
+                                <p class="text-sm" :class="studentAnswers[index] === question.correctAnswer ? 'text-green-600' : 'text-red-600'">
+                                    إجابتك: {{ studentAnswers[index] !== undefined ? String.fromCharCode(65 + studentAnswers[index]) : 'لم تُجب' }}
+                                </p>
+                                <p class="text-sm text-gray-500 mt-1">الدرجة: {{ studentAnswers[index] === question.correctAnswer ? (question.points || 1) : 0 }} / {{ question.points || 1 }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-center space-x-4">
+                            <button @click="closeMCQQuiz" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors duration-200">
+                                العودة إلى المحتوى التعليمي
+                            </button>
+                            <button v-if="hasMoreAttempts" @click="retakeQuiz" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors duration-200">
+                                إعادة الاختبار
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Vue.js for dynamic functionality -->
@@ -1977,10 +2750,15 @@
             supabaseConfig.supabaseKey
         );
         
-        // دالة لرفع الملفات إلى Supabase Storage
+        // دالة محسنة لرفع الملفات إلى Supabase Storage
         const uploadToSupabase = async (file, bucketName = 'content', folder = '') => {
             try {
                 console.log('📤 بدء رفع الملف إلى Supabase...', file.name);
+
+                // التحقق من صحة الملف
+                if (!file || !file.type) {
+                    throw new Error('الملف غير صالح');
+                }
 
                 // إنشاء اسم فريد للملف
                 const timestamp = Date.now();
@@ -1989,10 +2767,15 @@
                 const fileName = folder ? `${folder}/${timestamp}_${randomString}.${fileExtension}` 
                                     : `${timestamp}_${randomString}.${fileExtension}`;
 
+                console.log('📝 اسم الملف:', fileName);
+
                 // رفع الملف إلى Supabase
                 const { data, error } = await supabase.storage
                     .from(bucketName)
-                    .upload(fileName, file);
+                    .upload(fileName, file, {
+                        cacheControl: '3600',
+                        upsert: false
+                    });
 
                 if (error) {
                     console.error('❌ خطأ في الرفع:', error);
@@ -2038,9 +2821,11 @@
                 const showAddContentModal = ref(false);
                 const showAddStudentModal = ref(false);
                 const showAddQuizModal = ref(false);
+                const showAddMCQModal = ref(false);
                 const editingContent = ref(false);
                 const editingStudent = ref(false);
                 const editingQuiz = ref(false);
+                const editingMCQQuiz = ref(false);
                 
                 // Data
                 const students = ref([]);
@@ -2048,6 +2833,7 @@
                 const studentContent = ref([]);
                 const studentGrades = ref([]);
                 const availableQuizzes = ref([]);
+                const mcqQuizzes = ref([]);
                 const loadingContent = ref(false);
                 
                 // Stats
@@ -2076,6 +2862,7 @@
                     photoPreview: null
                 });
                 
+                
                 // New quiz form
                 const newQuiz = ref({
                     title: '',
@@ -2083,6 +2870,19 @@
                     description: '',
                     totalMarks: '',
                     date: ''
+                });
+                
+                // New MCQ quiz form
+                const newMCQQuiz = ref({
+                    title: '',
+                    class: '',
+                    description: '',
+                    duration: 30,
+                    maxAttempts: 1,
+                    showAnswers: false,
+                    questions: [],
+                    createdAt: new Date().toISOString().split('T')[0],
+                    createdBy: ''
                 });
                 
                 // Video modal
@@ -2113,8 +2913,28 @@
                     audio: false,
                     image: false,
                     pdf: false,
-                    quiz: false
+                    quiz: false,
+                    mcqQuiz: false
                 });
+                
+                // MCQ Quiz state
+                const currentMCQQuiz = ref({});
+                const currentQuestionIndex = ref(0);
+                const studentAnswers = ref([]);
+                const showResults = ref(false);
+                const quizScore = ref(0);
+                const totalScore = ref(0);
+                const remainingTime = ref(0);
+                const timerInterval = ref(null);
+                const currentAttempt = ref(1);
+                const isSubmitting = ref(false);
+                
+                // MCQ Grades
+                const mcqGradeFilter = ref({
+                    class: 'all',
+                    quiz: 'all'
+                });
+                const mcqGrades = ref([]);
                 
                 // Computed properties
                 const filteredStudents = computed(() => {
@@ -2161,7 +2981,8 @@
                         audio: [],
                         image: [],
                         pdf: [],
-                        quiz: []
+                        quiz: [],
+                        mcqQuiz: [] // إضافة قسم جديد للاختبارات التفاعلية
                     };
                     
                     studentContent.value.forEach(content => {
@@ -2171,6 +2992,67 @@
                     });
                     
                     return organized;
+                });
+                
+                // إضافة خاصية محسوبة للحصول على السؤال الحالي مع التحقق من البيانات
+                const currentQuestion = computed(() => {
+                    if (currentMCQQuiz.value && 
+                        currentMCQQuiz.value.questions && 
+                        currentMCQQuiz.value.questions.length > 0) {
+                        return currentMCQQuiz.value.questions[currentQuestionIndex.value];
+                    }
+                    return { text: '', options: [], correctAnswer: 0, points: 1 };
+                });
+                
+                // إضافة خصائص محسوبة للإحصائيات مع التحقق من البيانات
+                const correctAnswers = computed(() => {
+                    if (!showResults.value || 
+                        !currentMCQQuiz.value || 
+                        !currentMCQQuiz.value.questions) return 0;
+                    
+                    return studentAnswers.value.filter((answer, index) => 
+                        answer === currentMCQQuiz.value.questions[index].correctAnswer
+                    ).length;
+                });
+                
+                const wrongAnswers = computed(() => {
+                    if (!showResults.value || 
+                        !currentMCQQuiz.value || 
+                        !currentMCQQuiz.value.questions) return 0;
+                    
+                    return studentAnswers.value.filter((answer, index) => 
+                        answer !== undefined && answer !== currentMCQQuiz.value.questions[index].correctAnswer
+                    ).length;
+                });
+                
+                const skippedAnswers = computed(() => {
+                    if (!showResults.value || 
+                        !currentMCQQuiz.value || 
+                        !currentMCQQuiz.value.questions) return 0;
+                    
+                    return studentAnswers.value.filter(answer => answer === undefined).length;
+                });
+                
+                const hasMoreAttempts = computed(() => {
+                    if (!currentMCQQuiz.value.maxAttempts) return false;
+                    return currentAttempt.value < currentMCQQuiz.value.maxAttempts;
+                });
+                
+                const filteredMCQGrades = computed(() => {
+                    let filtered = mcqGrades.value;
+                    
+                    if (mcqGradeFilter.value.class !== 'all') {
+                        filtered = filtered.filter(grade => {
+                            const studentClass = getStudentClass(grade.studentId);
+                            return studentClass === mcqGradeFilter.value.class;
+                        });
+                    }
+                    
+                    if (mcqGradeFilter.value.quiz !== 'all') {
+                        filtered = filtered.filter(grade => grade.quizId === mcqGradeFilter.value.quiz);
+                    }
+                    
+                    return filtered;
                 });
                 
                 // Methods
@@ -2197,6 +3079,115 @@
                         result += chars.charAt(Math.floor(Math.random() * chars.length));
                     }
                     newStudent.value.studentCode = result;
+                };
+                
+// دالة لإضافة سؤال جديد - ستتغير لتبدأ بأربع خيارات
+const addQuestion = () => {
+    newMCQQuiz.value.questions.push({
+        text: '',
+        options: [
+            { text: '' },
+            { text: '' },
+            { text: '' },
+            { text: '' } // الخيار الرابع المضاف
+        ],
+        correctAnswer: 0,
+        points: 1
+    });
+};
+                
+                // دالة لإضافة سؤال بعد سؤال محدد
+// دالة لإضافة سؤال جديد بعد سؤال محدد
+const addQuestionAfter = (index) => {
+    newMCQQuiz.value.questions.splice(index + 1, 0, {
+        text: '',
+        options: [
+            { text: '' },
+            { text: '' },
+            { text: '' },
+            { text: '' } // 4 خيارات بدلاً من 3
+        ],
+        correctAnswer: 0,
+        points: 1
+    });
+};
+                
+                // دالة لحذف سؤال
+                const removeQuestion = (index) => {
+                    newMCQQuiz.value.questions.splice(index, 1);
+                };
+                
+                // دالة لإضافة خيار جديد
+                const addOption = (questionIndex) => {
+    if (newMCQQuiz.value.questions[questionIndex].options.length < 5) { // تغيير من 4 إلى 5
+        newMCQQuiz.value.questions[questionIndex].options.push({ text: '' });
+    }
+};
+                // دالة لحذف خيار
+                const removeOption = (questionIndex, optionIndex) => {
+                    if (newMCQQuiz.value.questions[questionIndex].options.length > 2) {
+                        newMCQQuiz.value.questions[questionIndex].options.splice(optionIndex, 1);
+                        
+                        // إذا كان الخيار المحذوف هو الإجابة الصحيحة، نعيد تعيين الإجابة الصحيحة
+                        if (newMCQQuiz.value.questions[questionIndex].correctAnswer === optionIndex) {
+                            newMCQQuiz.value.questions[questionIndex].correctAnswer = 0;
+                        } else if (newMCQQuiz.value.questions[questionIndex].correctAnswer > optionIndex) {
+                            newMCQQuiz.value.questions[questionIndex].correctAnswer--;
+                        }
+                    }
+                };
+                
+                // دالة للحصول على صورة الطالب
+                const getStudentPhoto = (studentId) => {
+                    const student = students.value.find(s => s.id === studentId);
+                    return student?.photoURL || 'https://cdn-icons-png.flaticon.com/128/3135/3135810.png';
+                };
+                
+                // دالة للحصول على صف الطالب
+                const getStudentClass = (studentId) => {
+                    const student = students.value.find(s => s.id === studentId);
+                    return student?.class || 'غير محدد';
+                };
+                
+                // دالة للحصول على لون النسبة المئوية
+                const getPercentageClass = (percentage) => {
+                    if (percentage >= 80) return 'percentage-excellent';
+                    if (percentage >= 60) return 'percentage-good';
+                    if (percentage >= 40) return 'percentage-average';
+                    return 'percentage-poor';
+                };
+                
+                // دالة لعرض تفاصيل درجة MCQ
+                const viewMCQGradeDetails = (grade) => {
+                    alert(`تفاصيل الدرجة:\nالطالب: ${grade.studentName}\nالاختبار: ${grade.quizTitle}\nالدرجة: ${grade.score}/${grade.totalScore}\nالنسبة: ${grade.percentage}%\nالتاريخ: ${grade.date}`);
+                };
+                
+                // دالة لحذف درجة MCQ
+                const deleteMCQGrade = async (gradeId) => {
+                    if (confirm('هل أنت متأكد من حذف هذه الدرجة؟')) {
+                        try {
+                            await db.collection('mcq-grades').doc(gradeId).delete();
+                            loadMCQGrades();
+                        } catch (error) {
+                            console.error('Error deleting MCQ grade:', error);
+                            alert('حدث خطأ أثناء حذف الدرجة');
+                        }
+                    }
+                };
+                
+                // دالة للحصول على عدد محاولات الطالب
+                const getStudentAttempts = async (quizId) => {
+                    try {
+                        const snapshot = await db.collection('mcq-results')
+                            .where('studentId', '==', currentStudent.value.id)
+                            .where('quizId', '==', quizId)
+                            .get();
+                        
+                        return snapshot.size;
+                    } catch (error) {
+                        console.error('Error getting student attempts:', error);
+                        return 0;
+                    }
                 };
                 
                 const handleLogin = async () => {
@@ -2228,6 +3219,8 @@
                             loadTeacherContent();
                             loadTeacherStats();
                             loadQuizzes();
+                            loadMCQQuizzes();
+                            loadMCQGrades();
                         } else {
                             loginError.value = 'كود المعلم غير صحيح';
                         }
@@ -2363,6 +3356,22 @@
                     };
                 };
                 
+                const closeAddMCQModal = () => {
+                    showAddMCQModal.value = false;
+                    editingMCQQuiz.value = false;
+                    newMCQQuiz.value = {
+                        title: '',
+                        class: '',
+                        description: '',
+                        duration: 30,
+                        maxAttempts: 1,
+                        showAnswers: false,
+                        questions: [],
+                        createdAt: new Date().toISOString().split('T')[0],
+                        createdBy: ''
+                    };
+                };
+                
                 const editContent = (content) => {
                     editingContent.value = true;
                     newContent.value = { ...content };
@@ -2386,6 +3395,15 @@
                         id: quiz.id
                     };
                     showAddQuizModal.value = true;
+                };
+                
+                const editMCQQuiz = (quiz) => {
+                    editingMCQQuiz.value = true;
+                    newMCQQuiz.value = { 
+                        ...quiz,
+                        id: quiz.id
+                    };
+                    showAddMCQModal.value = true;
                 };
                 
                 const saveContent = async () => {
@@ -2432,7 +3450,7 @@
                         loadTeacherStats();
                     } catch (error) {
                         console.error('Error saving content:', error);
-                        alert('حدث خطأ أثناء حفظ المحتوى');
+                        alert('حدث خطأ أثناء حفظ المحتوى: ' + error.message);
                     } finally {
                         uploading.value = false;
                     }
@@ -2485,7 +3503,7 @@
                         loadTeacherStats();
                     } catch (error) {
                         console.error('Error saving student:', error);
-                        alert('حدث خطأ أثناء حفظ بيانات الطالب');
+                        alert('حدث خطأ أثناء حفظ بيانات الطالب: ' + error.message);
                     } finally {
                         studentUploading.value = false;
                     }
@@ -2555,6 +3573,69 @@
                     }
                 };
                 
+                // دالة لحفظ الاختبار التفاعلي
+                const saveMCQQuiz = async () => {
+                    try {
+                        // التحقق من وجود أسئلة
+                        if (!newMCQQuiz.value.questions || newMCQQuiz.value.questions.length === 0) {
+                            alert('الرجاء إضافة أسئلة للاختبار');
+                            return;
+                        }
+                        
+                        // نسخ البيانات الأساسية
+                        let quizData = {
+                            title: newMCQQuiz.value.title,
+                            class: newMCQQuiz.value.class,
+                            description: newMCQQuiz.value.description,
+                            duration: parseInt(newMCQQuiz.value.duration) || 30,
+                            maxAttempts: parseInt(newMCQQuiz.value.maxAttempts) || 1,
+                            questions: [],
+                            showAnswers: newMCQQuiz.value.showAnswers || false,
+                            createdAt: newMCQQuiz.value.createdAt || new Date().toISOString().split('T')[0],
+                            createdBy: currentUser.value.uid
+                        };
+                        
+                        // معالجة الأسئلة
+                        for (let i = 0; i < newMCQQuiz.value.questions.length; i++) {
+                            const question = newMCQQuiz.value.questions[i];
+                            
+                            // التأكد من وجود بيانات السؤال الأساسية
+                            if (!question.text || !question.options) {
+                                continue; // تخطي الأسئلة غير المكتملة
+                            }
+                            
+                            let questionData = {
+                                text: question.text,
+                                options: question.options.filter(opt => opt.text.trim() !== ''), // تصفية الخيارات الفارغة
+                                correctAnswer: parseInt(question.correctAnswer) || 0,
+                                points: parseInt(question.points) || 1
+                            };
+                            
+                            quizData.questions.push(questionData);
+                        }
+                        
+                        // التحقق مرة أخرى من وجود أسئلة بعد المعالجة
+                        if (quizData.questions.length === 0) {
+                            alert('الرجاء إضافة أسئلة صالحة للاختبار');
+                            return;
+                        }
+                        
+                        if (editingMCQQuiz.value) {
+                            // تحديث الاختبار الموجود
+                            await db.collection('mcq-quizzes').doc(newMCQQuiz.value.id).update(quizData);
+                        } else {
+                            // إضافة اختبار جديد
+                            await db.collection('mcq-quizzes').add(quizData);
+                        }
+                        
+                        closeAddMCQModal();
+                        loadMCQQuizzes();
+                    } catch (error) {
+                        console.error('Error saving MCQ quiz:', error);
+                        alert('حدث خطأ أثناء حفظ الاختبار التفاعلي');
+                    }
+                };
+                
                 const deleteContent = async (contentId) => {
                     if (confirm('هل أنت متأكد من حذف هذا المحتوى؟')) {
                         try {
@@ -2590,6 +3671,32 @@
                             console.error('Error deleting quiz:', error);
                             alert('حدث خطأ أثناء حذف الاختبار');
                         }
+                    }
+                };
+                
+                // دالة لحذف الاختبار التفاعلي
+                const deleteMCQQuiz = async (quizId) => {
+                    if (confirm('هل أنت متأكد من حذف هذا الاختبار التفاعلي؟')) {
+                        try {
+                            await db.collection('mcq-quizzes').doc(quizId).delete();
+                            loadMCQQuizzes();
+                        } catch (error) {
+                            console.error('Error deleting MCQ quiz:', error);
+                            alert('حدث خطأ أثناء حذف الاختبار التفاعلي');
+                        }
+                    }
+                };
+                
+                // دالة لتبديل عرض الإجابات
+                const toggleShowAnswers = async (quiz) => {
+                    try {
+                        await db.collection('mcq-quizzes').doc(quiz.id).update({
+                            showAnswers: !quiz.showAnswers
+                        });
+                        loadMCQQuizzes();
+                    } catch (error) {
+                        console.error('Error toggling show answers:', error);
+                        alert('حدث خطأ أثناء تغيير إعدادات عرض الإجابات');
                     }
                 };
                 
@@ -2700,13 +3807,15 @@
                 };
                 
                 const getStatusClass = (status) => {
-                    switch (status) {
-                        case 'تم التصحيح': return 'bg-green-100 text-green-800';
-                        case 'قيد المراجعة': return 'bg-yellow-100 text-yellow-800';
-                        case 'لم يتم التصحيح': return 'bg-red-100 text-red-800';
-                        default: return 'bg-gray-100 text-gray-800';
-                    }
-                };
+    switch (status) {
+        case 'تم التصحيح': return 'bg-green-100 text-green-800';
+        case 'قيد المراجعة': return 'bg-yellow-100 text-yellow-800';
+        case 'لم يتم التصحيح': return 'bg-red-100 text-red-800';
+        case 'مكتمل': return 'bg-green-100 text-green-800';
+        case 'غير مكتمل': return 'bg-red-100 text-red-800';
+        default: return 'bg-gray-100 text-gray-800';
+    }
+};
                 
                 const saveGrade = async (student) => {
                     try {
@@ -2774,6 +3883,196 @@
                     }
                 };
                 
+                // تعديل دالة بدء الاختبار لتشمل تتبع المحاولات
+                const startMCQQuiz = async (quiz) => {
+                    if (!quiz || !quiz.questions) {
+                        alert('بيانات الاختبار غير صالحة');
+                        return;
+                    }
+                    
+                    // التحقق من عدد المحاولات
+                    const attempts = await getStudentAttempts(quiz.id);
+                    if (attempts >= quiz.maxAttempts) {
+                        alert('لقد استنفذت عدد المحاولات المسموحة لهذا الاختبار');
+                        return;
+                    }
+                    
+                    currentMCQQuiz.value = { ...quiz };
+                    currentQuestionIndex.value = 0;
+                    studentAnswers.value = new Array(quiz.questions.length).fill(undefined);
+                    showResults.value = false;
+                    quizScore.value = 0;
+                    totalScore.value = 0;
+                    isSubmitting.value = false;
+                    currentAttempt.value = attempts + 1;
+                    
+                    // حساب مجموع الدرجات الكلي بشكل صحيح
+                    totalScore.value = quiz.questions.reduce((total, question) => {
+                        return total + (parseInt(question.points) || 1);
+                    }, 0);
+                    
+                    remainingTime.value = (quiz.duration || 30) * 60;
+                    startTimer();
+                    
+                    document.getElementById('studentDashboard').classList.add('hidden');
+                    document.getElementById('mcqQuizScreen').classList.remove('hidden');
+                };
+                
+                // دالة لبدء المؤقت
+                const startTimer = () => {
+                    if (timerInterval.value) {
+                        clearInterval(timerInterval.value);
+                    }
+                    
+                    timerInterval.value = setInterval(() => {
+                        remainingTime.value--;
+                        
+                        if (remainingTime.value <= 0) {
+                            clearInterval(timerInterval.value);
+                            submitQuiz();
+                        }
+                    }, 1000);
+                };
+                
+                // دالة لتنسيق الوقت
+                const formatTime = (seconds) => {
+                    const minutes = Math.floor(seconds / 60);
+                    const remainingSeconds = seconds % 60;
+                    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+                };
+                
+                // دالة للانتقال إلى السؤال التالي
+                const nextQuestion = () => {
+                    if (currentQuestionIndex.value < currentMCQQuiz.value.questions.length - 1) {
+                        currentQuestionIndex.value++;
+                    }
+                };
+                
+                // دالة للانتقال إلى السؤال السابق
+                const prevQuestion = () => {
+                    if (currentQuestionIndex.value > 0) {
+                        currentQuestionIndex.value--;
+                    }
+                };
+                
+                // دالة لاختيار إجابة
+                const selectAnswer = (answerIndex) => {
+                    studentAnswers.value[currentQuestionIndex.value] = answerIndex;
+                };
+                
+                // دالة محسنة لتسليم الاختبار
+                const submitQuiz = async () => {
+                    if (isSubmitting.value) return;
+                    
+                    isSubmitting.value = true;
+                    
+                    // إيقاف المؤقت
+                    if (timerInterval.value) {
+                        clearInterval(timerInterval.value);
+                    }
+                    
+                    // حساب النتيجة بشكل صحيح
+                    let score = 0;
+                    let correct = 0;
+                    let wrong = 0;
+                    let skipped = 0;
+                    
+                    for (let i = 0; i < currentMCQQuiz.value.questions.length; i++) {
+                        const question = currentMCQQuiz.value.questions[i];
+                        const studentAnswer = studentAnswers.value[i];
+                        
+                        if (studentAnswer === undefined) {
+                            skipped++;
+                        } else if (studentAnswer === question.correctAnswer) {
+                            score += parseInt(question.points) || 1;
+                            correct++;
+                        } else {
+                            wrong++;
+                        }
+                    }
+                    
+                    quizScore.value = score;
+                    
+                    // حفظ النتيجة في قاعدة البيانات
+                    try {
+                        const resultData = {
+                            studentId: currentStudent.value.id,
+                            studentName: currentStudent.value.name,
+                            quizId: currentMCQQuiz.value.id,
+                            quizTitle: currentMCQQuiz.value.title,
+                            score: quizScore.value,
+                            totalScore: totalScore.value,
+                            percentage: totalScore.value > 0 ? Math.round((quizScore.value / totalScore.value) * 100) : 0,
+                            correctAnswers: correct,
+                            wrongAnswers: wrong,
+                            skippedAnswers: skipped,
+                            answers: studentAnswers.value,
+                            attemptNumber: currentAttempt.value,
+                            submittedAt: new Date().toISOString().split('T')[0],
+                            duration: currentMCQQuiz.value.duration * 60 - remainingTime.value
+                        };
+                        
+                        await db.collection('mcq-results').add(resultData);
+                        
+                        // حفظ الدرجة بشكل صحيح
+                        await updateStudentMCQGrade(
+                            currentStudent.value.id, 
+                            quizScore.value, 
+                            totalScore.value,
+                            currentMCQQuiz.value.id,
+                            currentAttempt.value
+                        );
+                    } catch (error) {
+                        console.error('Error saving quiz result:', error);
+                    }
+                    
+                    // عرض النتائج
+                    showResults.value = true;
+                    isSubmitting.value = false;
+                };
+                
+                // دالة لإعادة الاختبار
+                const retakeQuiz = () => {
+                    startMCQQuiz(currentMCQQuiz.value);
+                };
+                
+                // تعديل دالة حفظ درجة MCQ لتشمل رقم المحاولة
+                const updateStudentMCQGrade = async (studentId, score, totalScore, quizId, attemptNumber) => {
+                    try {
+                        const percentage = totalScore > 0 ? (score / totalScore) * 100 : 0;
+                        
+                        await db.collection('mcq-grades').add({
+                            studentId: studentId,
+                            studentName: currentStudent.value.name,
+                            quizId: quizId,
+                            quizTitle: currentMCQQuiz.value.title,
+                            score: score,
+                            totalScore: totalScore,
+                            percentage: percentage.toFixed(1),
+                            status: 'تم التصحيح',
+                            comment: 'اختبار تفاعلي',
+                            attemptNumber: attemptNumber,
+                            date: new Date().toISOString().split('T')[0],
+                            type: 'mcq',
+                            submittedAt: new Date().toISOString().split('T')[0]
+                        });
+                        
+                        await updateStudentAverageGrade(studentId);
+                    } catch (error) {
+                        console.error('Error updating student MCQ grade:', error);
+                    }
+                };
+                
+                // دالة لإغلاق شاشة الاختبار
+                const closeMCQQuiz = () => {
+                    document.getElementById('mcqQuizScreen').classList.add('hidden');
+                    document.getElementById('studentDashboard').classList.remove('hidden');
+                    
+                    // إعادة تحميل المحتوى التعليمي للطالب (سيخفي الاختبارات المكتملة)
+                    loadStudentContent();
+                    loadStudentGrades();
+                };
+                
                 // Data loading functions
                 const loadStudents = async () => {
                     try {
@@ -2810,13 +4109,41 @@
                 
                 const loadStudentContent = async () => {
                     try {
+                        // تحميل المحتوى العادي
                         const snapshot = await db.collection('content')
                             .where('class', '==', currentStudent.value.class)
                             .get();
-                        studentContent.value = snapshot.docs.map(doc => ({
+                            
+                        const contentData = snapshot.docs.map(doc => ({
                             id: doc.id,
                             ...doc.data()
                         }));
+                        
+                        // تحميل الاختبارات التفاعلية
+                        const mcqSnapshot = await db.collection('mcq-quizzes')
+                            .where('class', '==', currentStudent.value.class)
+                            .get();
+                            
+                        const mcqData = mcqSnapshot.docs.map(doc => {
+                            const quizData = doc.data();
+                            return {
+                                id: doc.id,
+                                ...quizData,
+                                type: 'mcqQuiz' // إضافة نوع خاص للاختبارات التفاعلية
+                            };
+                        });
+                        
+                        // تصفية الاختبارات المكتملة (التي استنفذ الطالب محاولاتها)
+                        const filteredMCQData = [];
+                        for (const quiz of mcqData) {
+                            const attempts = await getStudentAttempts(quiz.id);
+                            if (attempts < (quiz.maxAttempts || 1)) {
+                                filteredMCQData.push(quiz);
+                            }
+                        }
+                        
+                        // دمج البيانات
+                        studentContent.value = [...contentData, ...filteredMCQData];
                     } catch (error) {
                         console.error('Error loading student content:', error);
                         studentContent.value = [];
@@ -2824,19 +4151,49 @@
                 };
                 
                 const loadStudentGrades = async () => {
-                    try {
-                        const snapshot = await db.collection('grades')
-                            .where('studentId', '==', currentStudent.value.id)
-                            .get();
-                        studentGrades.value = snapshot.docs.map(doc => ({
-                            id: doc.id,
-                            ...doc.data()
-                        }));
-                    } catch (error) {
-                        console.error('Error loading student grades:', error);
-                        studentGrades.value = [];
-                    }
-                };
+    try {
+        // تحميل الدرجات العادية
+        const gradesSnapshot = await db.collection('grades')
+            .where('studentId', '==', currentStudent.value.id)
+            .get();
+            
+        const gradesData = gradesSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+            type: 'regular' // إضافة نوع للتمييز
+        }));
+        
+        // تحميل درجات الاختبارات التفاعلية
+        const mcqGradesSnapshot = await db.collection('mcq-grades')
+            .where('studentId', '==', currentStudent.value.id)
+            .get();
+            
+        const mcqGradesData = mcqGradesSnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                ...data,
+                type: 'mcq',
+                quizTitle: data.quizTitle + ' (تفاعلي)',
+                // التأكد من وجود البيانات بشكل صحيح
+                score: data.score || 0,
+                totalScore: data.totalScore || 100,
+                grade: data.score, // للحفاظ على التوافق
+                totalMarks: data.totalScore // للحفاظ على التوافق
+            };
+        });
+        
+        // دمج البيانات وترتيبها حسب التاريخ
+        const allGrades = [...gradesData, ...mcqGradesData].sort((a, b) => {
+            return new Date(b.date || b.submittedAt) - new Date(a.date || a.submittedAt);
+        });
+        
+        studentGrades.value = allGrades;
+    } catch (error) {
+        console.error('Error loading student grades:', error);
+        studentGrades.value = [];
+    }
+};
                 
                 const loadQuizzes = async () => {
                     try {
@@ -2850,6 +4207,42 @@
                     } catch (error) {
                         console.error('Error loading quizzes:', error);
                         availableQuizzes.value = [];
+                    }
+                };
+                
+                // دالة لتحميل الاختبارات التفاعلية
+                const loadMCQQuizzes = async () => {
+                    try {
+                        const snapshot = await db.collection('mcq-quizzes')
+                            .where('createdBy', '==', currentUser.value.uid)
+                            .get();
+                        
+                        mcqQuizzes.value = snapshot.docs.map(doc => {
+                            const data = doc.data();
+                            // التأكد من أن كل اختبار يحتوي على مصفوفة أسئلة
+                            return {
+                                id: doc.id,
+                                questions: data.questions || [],
+                                ...data
+                            };
+                        });
+                    } catch (error) {
+                        console.error('Error loading MCQ quizzes:', error);
+                        mcqQuizzes.value = [];
+                    }
+                };
+                
+                // دالة لتحميل درجات MCQ
+                const loadMCQGrades = async () => {
+                    try {
+                        const snapshot = await db.collection('mcq-grades').get();
+                        mcqGrades.value = snapshot.docs.map(doc => ({
+                            id: doc.id,
+                            ...doc.data()
+                        }));
+                    } catch (error) {
+                        console.error('Error loading MCQ grades:', error);
+                        mcqGrades.value = [];
                     }
                 };
                 
@@ -2880,11 +4273,15 @@
                         const totalTests = students.value.length * availableQuizzes.value.length;
                         const gradedTests = gradedTestsSnapshot.size;
                         
+                        // Count MCQ quizzes
+                        const mcqQuizzesCount = mcqQuizzes.value.length;
+                        
                         teacherStats.value = {
                             totalStudents,
                             totalContent,
                             classAverage,
-                            gradedTests: `${gradedTests}/${totalTests}`
+                            gradedTests: `${gradedTests}/${totalTests}`,
+                            mcqQuizzes: mcqQuizzesCount
                         };
                     } catch (error) {
                         console.error('Error loading teacher stats:', error);
@@ -2892,7 +4289,8 @@
                             totalStudents: 0,
                             totalContent: 0,
                             classAverage: '0%',
-                            gradedTests: '0/0'
+                            gradedTests: '0/0',
+                            mcqQuizzes: 0
                         };
                     }
                 };
@@ -2915,19 +4313,23 @@
                     showAddContentModal,
                     showAddStudentModal,
                     showAddQuizModal,
+                    showAddMCQModal,
                     editingContent,
                     editingStudent,
                     editingQuiz,
+                    editingMCQQuiz,
                     students,
                     teacherContent,
                     studentContent,
                     studentGrades,
                     availableQuizzes,
+                    mcqQuizzes,
                     loadingContent,
                     teacherStats,
                     newContent,
                     newStudent,
                     newQuiz,
+                    newMCQQuiz,
                     currentVideo,
                     currentFile,
                     selectedClass,
@@ -2936,13 +4338,41 @@
                     studentUploading,
                     expandedCategories,
                     expandedStudentCategories,
+                    currentMCQQuiz,
+                    currentQuestionIndex,
+                    studentAnswers,
+                    showResults,
+                    quizScore,
+                    totalScore,
+                    remainingTime,
+                    currentAttempt,
+                    isSubmitting,
+                    mcqGradeFilter,
+                    mcqGrades,
                     filteredStudents,
                     filteredStudentsForGrades,
                     organizedContent,
                     organizedStudentContent,
+                    currentQuestion,
+                    correctAnswers,
+                    wrongAnswers,
+                    skippedAnswers,
+                    hasMoreAttempts,
+                    filteredMCQGrades,
                     toggleCategory,
                     toggleStudentCategory,
                     generateStudentCode,
+                    addQuestion,
+                    addQuestionAfter,
+                    removeQuestion,
+                    addOption,
+                    removeOption,
+                    getStudentPhoto,
+                    getStudentClass,
+                    getPercentageClass,
+                    viewMCQGradeDetails,
+                    deleteMCQGrade,
+                    getStudentAttempts,
                     handleLogin,
                     handleStudentLogin,
                     logout,
@@ -2954,15 +4384,20 @@
                     closeAddContentModal,
                     closeAddStudentModal,
                     closeAddQuizModal,
+                    closeAddMCQModal,
                     editContent,
                     editStudent,
                     editQuiz,
+                    editMCQQuiz,
                     saveContent,
                     saveStudent,
                     saveQuiz,
+                    saveMCQQuiz,
                     deleteContent,
                     deleteStudent,
                     deleteQuiz,
+                    deleteMCQQuiz,
+                    toggleShowAnswers,
                     handleFileUpload,
                     handleStudentPhotoUpload,
                     extractYouTubeId,
@@ -2972,7 +4407,16 @@
                     saveGrade,
                     getQuizMaxGrade,
                     downloadFile,
-                    getYouTubeThumbnail
+                    getYouTubeThumbnail,
+                    startMCQQuiz,
+                    formatTime,
+                    nextQuestion,
+                    prevQuestion,
+                    selectAnswer,
+                    submitQuiz,
+                    retakeQuiz,
+                    closeMCQQuiz,
+                    loadMCQGrades
                 };
             }
         }).mount('#app');
