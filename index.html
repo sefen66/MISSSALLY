@@ -1297,7 +1297,7 @@
                                 </button>
                                 <!-- الزر الجديد لإضافة اختبار تفاعلي -->
                                 <button @click="showAddMCQModal = true" class="bg-indigo-600 text-white px-4 py-3 rounded-lg hover:bg-indigo-700 transition-colors duration-200 text-sm">
-                                    <i class="fas fa-question-circle mr-2"></i> اختبار تفاعلي
+                                    <i class="fas fa-question-circle mr-2"></i>  (اونلاين) اختبار تفاعلي
                                 </button>
                             </div>
                         </div>
@@ -1317,7 +1317,7 @@
                             <p class="text-2xl font-bold">{{ teacherStats.classAverage || '0%' }}</p>
                         </div>
                         <div class="bg-white rounded-lg shadow p-4 stats-card">
-                            <p class="text-sm text-gray-500">الاختبارات التفاعلية</p>
+                            <p class="text-sm text-gray-500">(اونلاين) الاختبارات التفاعلية</p>
                             <p class="text-2xl font-bold">{{ teacherStats.mcqQuizzes || '0' }}</p>
                         </div>
                     </div>
@@ -1374,7 +1374,7 @@
                                             'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'mcq-grades' 
                                         }" 
                                         class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
-                                    درجات الاختبارات التفاعلية
+                                        (اونلاين) درجات الاختبارات التفاعلية
                                 </button>
                             </nav>
                         </div>
@@ -1886,7 +1886,7 @@
                                                 <h3 class="font-bold text-lg text-gray-800">{{ quiz.title }}</h3>
                                                 <p class="text-sm text-gray-500">{{ quiz.class }}</p>
                                             </div>
-                                            <span class="mcq-quiz-badge">اختبار تفاعلي</span>
+                                            <span class="mcq-quiz-badge"> (اونلاين) اختبار تفاعلي</span>
                                         </div>
                                         <div class="mt-2">
                                             <p class="text-sm text-gray-600">{{ quiz.description }}</p>
@@ -2142,7 +2142,7 @@
                 <div class="chart-icon interactive">
                     <i class="fas fa-brain"></i>
                 </div>
-                تقدمي في الاختبارات التفاعلية
+                (اونلاين)تقدمي في الاختبارات التفاعلية
             </h3>
         </div>
         <div class="chart-container">
@@ -4925,7 +4925,7 @@ const cleanupCharts = () => {
                 id: doc.id,
                 ...data,
                 type: 'mcq',
-                quizTitle: data.quizTitle + ' (تفاعلي)',
+                quizTitle: data.quizTitle + ' ( "online"تفاعلي)',
                 score: data.score || 0,
                 totalScore: data.totalScore || 100,
                 grade: data.score,
