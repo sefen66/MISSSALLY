@@ -12,6 +12,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+    <!-- Chart.js for beautiful charts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
@@ -41,7 +43,264 @@
             justify-content: center;
             border-radius: 9999px;
         }
-        
+        /* أنماط المخططات */
+.charts-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .charts-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.chart-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.chart-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chart-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    color: white;
+}
+
+.chart-icon.central {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.chart-icon.interactive {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.charts-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .charts-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.chart-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chart-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    color: white;
+}
+
+.chart-icon.central {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.chart-icon.interactive {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+/* تحسينات أساسية للحاوية والمخطط */
+.chart-container {
+    position: relative;
+    height: 250px;
+    width: 100%;
+    min-height: 200px;
+}
+
+/* تأكد من أن Canvas يأخذ المساحة كاملة */
+.chart-container canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* تحسينات لشاشة عدم وجود بيانات */
+.no-data-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: #9ca3af;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(248, 250, 252, 0.8);
+    z-index: 10;
+}
+
+.no-data-chart i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.no-data-chart p {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.no-data-chart small {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    line-height: 1.4;
+}
+
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    justify-content: center;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.progress-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.summary-item {
+    text-align: center;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.summary-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #374151;
+}
+
+.summary-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+/* تحسينات للاستجابة على الشاشات الصغيرة */
+@media (max-width: 640px) {
+    .chart-card {
+        padding: 1rem;
+    }
+    
+    .chart-container {
+        height: 200px;
+        min-height: 180px;
+    }
+    
+    .chart-title {
+        font-size: 1rem;
+    }
+    
+    .progress-summary {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .summary-item {
+        padding: 0.5rem;
+    }
+    
+    .summary-value {
+        font-size: 1.1rem;
+    }
+}
         .video-thumbnail {
             position: relative;
             padding-bottom: 56.25%; /* 16:9 aspect ratio */
@@ -1840,6 +2099,76 @@
                             </table>
                         </div>
                     </div>
+                    <!-- Progress Charts Section -->
+<div class="charts-container">
+    <!-- Central Exams Progress Chart -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <h3 class="chart-title">
+                <div class="chart-icon central">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                تقدمي في امتحانات السنتر
+            </h3>
+        </div>
+        <div class="chart-container">
+            <canvas id="centralExamsChart"></canvas>
+            <div v-if="!hasCentralExamData" class="no-data-chart">
+                <i class="fas fa-chart-bar"></i>
+                <p>لا توجد بيانات كافية لعرض التقدم</p>
+                <small>سيظهر المخطط بعد إضافة درجات الامتحانات</small>
+            </div>
+        </div>
+        <div v-if="hasCentralExamData" class="progress-summary">
+            <div class="summary-item">
+                <div class="summary-value">{{ centralExamStats.average }}%</div>
+                <div class="summary-label">المتوسط</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-value">{{ centralExamStats.highest }}%</div>
+                <div class="summary-label">أعلى درجة</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-value">{{ centralExamStats.total }}</div>
+                <div class="summary-label">عدد الاختبارات</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Exams Progress Chart -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <h3 class="chart-title">
+                <div class="chart-icon interactive">
+                    <i class="fas fa-brain"></i>
+                </div>
+                تقدمي في الاختبارات التفاعلية
+            </h3>
+        </div>
+        <div class="chart-container">
+            <canvas id="interactiveExamsChart"></canvas>
+            <div v-if="!hasInteractiveExamData" class="no-data-chart">
+                <i class="fas fa-chart-pie"></i>
+                <p>لا توجد بيانات كافية لعرض التقدم</p>
+                <small>سيظهر المخطط بعد إكمال الاختبارات التفاعلية</small>
+            </div>
+        </div>
+        <div v-if="hasInteractiveExamData" class="progress-summary">
+            <div class="summary-item">
+                <div class="summary-value">{{ interactiveExamStats.average }}%</div>
+                <div class="summary-label">المتوسط</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-value">{{ interactiveExamStats.completed }}</div>
+                <div class="summary-label">مكتملة</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-value">{{ interactiveExamStats.total }}</div>
+                <div class="summary-label">إجمالي الاختبارات</div>
+            </div>
+        </div>
+    </div>
+</div>
                     
                     <!-- Available Content -->
                     <div class="bg-white rounded-xl shadow overflow-hidden">
@@ -2690,15 +3019,139 @@
                         </div>
                         
                         <!-- عرض الإجابات إذا كان مسموحاً -->
-                        <div v-if="currentMCQQuiz.showAnswers" class="mb-6">
-                            <h4 class="text-lg font-bold mb-3">تفاصيل الإجابات</h4>
-                            <div v-for="(question, index) in currentMCQQuiz.questions" :key="index" class="mb-4 p-4 border rounded-lg">
-                                <p class="font-medium mb-2">السؤال {{ index + 1 }}: {{ question.text }}</p>
-                                <p class="text-sm text-gray-600 mb-2">الإجابة الصحيحة: {{ String.fromCharCode(65 + question.correctAnswer) }}</p>
-                                <p class="text-sm" :class="studentAnswers[index] === question.correctAnswer ? 'text-green-600' : 'text-red-600'">
-                                    إجابتك: {{ studentAnswers[index] !== undefined ? String.fromCharCode(65 + studentAnswers[index]) : 'لم تُجب' }}
-                                </p>
-                                <p class="text-sm text-gray-500 mt-1">الدرجة: {{ studentAnswers[index] === question.correctAnswer ? (question.points || 1) : 0 }} / {{ question.points || 1 }}</p>
+                        <div v-if="currentMCQQuiz.showAnswers" class="mb-8">
+                            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 border border-indigo-100">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h4 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                                        <i class="fas fa-chart-pie text-indigo-600"></i>
+                                        تفاصيل الإجابات
+                                    </h4>
+                                    <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">
+                                        {{ correctAnswers }} / {{ currentMCQQuiz.questions.length }} صحيحة
+                                    </span>
+                                </div>
+                                
+                                <div class="grid gap-4">
+                                    <div v-for="(question, index) in currentMCQQuiz.questions" :key="index" 
+                                         class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+                                        <!-- رأس السؤال -->
+                                        <div class="flex items-start justify-between mb-4">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">
+                                                    {{ index + 1 }}
+                                                </div>
+                                                <p class="font-semibold text-gray-800 text-lg leading-relaxed">{{ question.text }}</p>
+                                            </div>
+                                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-xs font-medium">
+                                                {{ question.points || 1 }} نقطة
+                                            </span>
+                                        </div>
+                        
+                                        <!-- تفاصيل الإجابات -->
+                                        <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                            <!-- الإجابة الصحيحة -->
+                                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <i class="fas fa-check-circle text-green-600"></i>
+                                                    <span class="text-green-800 font-medium">الإجابة الصحيحة</span>
+                                                </div>
+                                                <div class="flex items-center gap-3">
+                                                    <span class="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                                        {{ String.fromCharCode(65 + question.correctAnswer) }}
+                                                    </span>
+                                                    <span class="text-green-700 font-medium">
+                                                        {{ question.options[question.correctAnswer]?.text }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                        
+                                            <!-- إجابة الطالب -->
+                                            <div :class="studentAnswers[index] === question.correctAnswer ? 
+                                                        'bg-green-50 border-green-200' : 
+                                                        'bg-red-50 border-red-200'" 
+                                                 class="border rounded-lg p-4">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <i :class="studentAnswers[index] === question.correctAnswer ? 
+                                                              'fas fa-check-circle text-green-600' : 
+                                                              'fas fa-times-circle text-red-600'"></i>
+                                                    <span :class="studentAnswers[index] === question.correctAnswer ? 
+                                                                 'text-green-800' : 'text-red-800'" 
+                                                          class="font-medium">
+                                                        إجابتك
+                                                    </span>
+                                                </div>
+                                                <div class="flex items-center gap-3">
+                                                    <span v-if="studentAnswers[index] !== undefined" 
+                                                          :class="studentAnswers[index] === question.correctAnswer ? 
+                                                                 'bg-green-600 text-white' : 
+                                                                 'bg-red-600 text-white'"
+                                                          class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
+                                                        {{ String.fromCharCode(65 + studentAnswers[index]) }}
+                                                    </span>
+                                                    <span v-else 
+                                                          class="w-8 h-8 bg-gray-400 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                                        ؟
+                                                    </span>
+                                                    <span :class="studentAnswers[index] === question.correctAnswer ? 
+                                                                 'text-green-700' : 'text-red-700'" 
+                                                          class="font-medium">
+                                                        {{ studentAnswers[index] !== undefined ? 
+                                                            question.options[studentAnswers[index]]?.text : 
+                                                            'لم تُجب على السؤال' }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <!-- نتيجة السؤال -->
+                                        <div class="mt-4 pt-4 border-t border-gray-200">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center gap-2">
+                                                    <i class="fas fa-star text-yellow-500"></i>
+                                                    <span class="text-gray-700 font-medium">النتيجة</span>
+                                                </div>
+                                                <div class="flex items-center gap-3">
+                                                    <span :class="studentAnswers[index] === question.correctAnswer ? 
+                                                                 'text-green-600 font-bold' : 
+                                                                 'text-red-600 font-bold'">
+                                                        {{ studentAnswers[index] === question.correctAnswer ? 
+                                                           (question.points || 1) : 0 }} / {{ question.points || 1 }}
+                                                    </span>
+                                                    <span v-if="studentAnswers[index] === question.correctAnswer" 
+                                                          class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                                                        ✓ صحيح
+                                                    </span>
+                                                    <span v-else-if="studentAnswers[index] !== undefined" 
+                                                          class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">
+                                                        ✗ خاطئ
+                                                    </span>
+                                                    <span v-else 
+                                                          class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs font-medium">
+                                                        ؟ لم تُجب
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                                <!-- ملخص النتائج -->
+                                <div class="mt-6 bg-white rounded-xl p-4 border border-gray-200">
+                                    <div class="grid grid-cols-3 gap-4 text-center">
+                                        <div class="bg-green-50 rounded-lg p-3">
+                                            <div class="text-2xl font-bold text-green-600">{{ correctAnswers }}</div>
+                                            <div class="text-green-700 text-sm">إجابات صحيحة</div>
+                                        </div>
+                                        <div class="bg-red-50 rounded-lg p-3">
+                                            <div class="text-2xl font-bold text-red-600">{{ wrongAnswers }}</div>
+                                            <div class="text-red-700 text-sm">إجابات خاطئة</div>
+                                        </div>
+                                        <div class="bg-blue-50 rounded-lg p-3">
+                                            <div class="text-2xl font-bold text-blue-600">{{ skippedAnswers }}</div>
+                                            <div class="text-blue-700 text-sm">أسئلة لم تُجب</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
@@ -2719,7 +3172,7 @@
     <!-- Vue.js for dynamic functionality -->
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.min.js"></script>
     <script>
-        const { createApp, ref, computed, onMounted } = Vue;
+        const { createApp, ref, computed, onMounted, watch, nextTick } = Vue;
         
         // Firebase configuration - replace with your actual config
         const firebaseConfig = {
@@ -2814,6 +3267,10 @@
                 const currentUser = ref({});
                 const currentStudent = ref({});
                 const showTeacherLogin = ref(false);
+                // Chart control variables
+const chartsInitialized = ref(false);
+const chartsInitializing = ref(false);
+const chartsCleanup = ref(false);
                 
                 // Dashboard state
                 const teacherActiveTab = ref('students');
@@ -2935,6 +3392,10 @@
                     quiz: 'all'
                 });
                 const mcqGrades = ref([]);
+
+                // Chart instances
+                const centralExamsChart = ref(null);
+                const interactiveExamsChart = ref(null);
                 
                 // Computed properties
                 const filteredStudents = computed(() => {
@@ -3053,6 +3514,57 @@
                     }
                     
                     return filtered;
+                });
+
+                // Chart data computed properties
+                const hasCentralExamData = computed(() => {
+                    return studentGrades.value.filter(grade => grade.type !== 'mcq').length > 0;
+                });
+
+                const hasInteractiveExamData = computed(() => {
+                    return studentGrades.value.filter(grade => grade.type === 'mcq').length > 0;
+                });
+
+                // Central exam statistics
+                const centralExamStats = computed(() => {
+                    const centralGrades = studentGrades.value.filter(grade => grade.type !== 'mcq');
+                    
+                    if (centralGrades.length === 0) {
+                        return { average: 0, highest: 0, total: 0 };
+                    }
+                    
+                    const percentages = centralGrades.map(grade => {
+                        const score = grade.score || grade.grade || 0;
+                        const total = grade.totalScore || grade.totalMarks || 100;
+                        return (score / total) * 100;
+                    });
+                    
+                    const average = percentages.reduce((a, b) => a + b, 0) / percentages.length;
+                    const highest = Math.max(...percentages);
+                    
+                    return {
+                        average: Math.round(average),
+                        highest: Math.round(highest),
+                        total: centralGrades.length
+                    };
+                });
+
+                // Interactive exam statistics
+                const interactiveExamStats = computed(() => {
+                    const interactiveGrades = studentGrades.value.filter(grade => grade.type === 'mcq');
+                    
+                    if (interactiveGrades.length === 0) {
+                        return { average: 0, completed: 0, total: mcqQuizzes.value.length };
+                    }
+                    
+                    const percentages = interactiveGrades.map(grade => grade.percentage || 0);
+                    const average = percentages.reduce((a, b) => a + b, 0) / percentages.length;
+                    
+                    return {
+                        average: Math.round(average),
+                        completed: interactiveGrades.length,
+                        total: mcqQuizzes.value.length
+                    };
                 });
                 
                 // Methods
@@ -3188,6 +3700,241 @@ const addQuestionAfter = (index) => {
                         console.error('Error getting student attempts:', error);
                         return 0;
                     }
+                };
+
+                // Methods for charts
+                const initCharts = () => {
+    // منع التهيئة المتعددة
+    if (chartsInitializing.value || chartsCleanup.value) {
+        console.log('⏳ جاري بالفعل معالجة المخططات...');
+        return;
+    }
+    
+    chartsInitializing.value = true;
+    console.log('🔄 بدء تهيئة المخططات...');
+    
+    // التحقق من وجود عناصر canvas أولاً
+    const centralCtx = document.getElementById('centralExamsChart');
+    const interactiveCtx = document.getElementById('interactiveExamsChart');
+    
+    if (!centralCtx && !interactiveCtx) {
+        console.log('❌ لم يتم العثور على عناصر المخططات');
+        chartsInitializing.value = false;
+        return;
+    }
+    
+    // تنظيف المخططات القديمة بشكل آمن
+    cleanupCharts();
+    
+    // تهيئة مخطط امتحانات السنتر فقط إذا كان هناك بيانات
+    if (hasCentralExamData.value && centralCtx) {
+        try {
+            console.log('📊 إنشاء مخطط امتحانات السنتر...');
+            
+            // الانتظار قليلاً لضمان استقرار DOM
+            setTimeout(() => {
+                if (chartsCleanup.value) return; // إذا كان هناك تنظيف جاري، توقف
+                
+                centralExamsChart.value = new Chart(centralCtx, {
+                    type: 'line',
+                    data: getCentralExamsChartData(),
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                rtl: true,
+                                callbacks: {
+                                    label: function(context) {
+                                        return `الدرجة: ${context.parsed.y}%`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.1)'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        },
+                        interaction: {
+                            mode: 'nearest',
+                            axis: 'x',
+                            intersect: false
+                        }
+                    }
+                });
+                console.log('✅ تم إنشاء مخطط امتحانات السنتر بنجاح');
+            }, 200);
+        } catch (error) {
+            console.error('❌ خطأ في إنشاء مخطط امتحانات السنتر:', error);
+        }
+    }
+    
+    // تهيئة مخطط الاختبارات التفاعلية فقط إذا كان هناك بيانات
+    if (hasInteractiveExamData.value && interactiveCtx) {
+        try {
+            console.log('📊 إنشاء مخطط الاختبارات التفاعلية...');
+            
+            // الانتظار قليلاً لضمان استقرار DOM
+            setTimeout(() => {
+                if (chartsCleanup.value) return; // إذا كان هناك تنظيف جاري، توقف
+                
+                interactiveExamsChart.value = new Chart(interactiveCtx, {
+                    type: 'doughnut',
+                    data: getInteractiveExamsChartData(),
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                rtl: true,
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 20
+                                }
+                            },
+                            tooltip: {
+                                rtl: true,
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.label || '';
+                                        const value = context.parsed || 0;
+                                        return `${label}: ${value}%`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                console.log('✅ تم إنشاء مخطط الاختبارات التفاعلية بنجاح');
+            }, 250);
+        } catch (error) {
+            console.error('❌ خطأ في إنشاء مخطط الاختبارات التفاعلية:', error);
+        }
+    }
+    
+    // إعادة تعيين الحالة بعد اكتمال التهيئة
+    setTimeout(() => {
+        chartsInitializing.value = false;
+        chartsInitialized.value = true;
+        chartsCleanup.value = false;
+        console.log('🎉 اكتملت تهيئة المخططات');
+    }, 300);
+};
+// دالة لتنظيف المخططات بشكل آمن
+const cleanupCharts = () => {
+    if (chartsCleanup.value) return;
+    
+    chartsCleanup.value = true;
+    console.log('🧹 تنظيف المخططات...');
+    
+    if (centralExamsChart.value) {
+        try {
+            centralExamsChart.value.destroy();
+            centralExamsChart.value = null;
+            console.log('🗑️ تم تدمير مخطط امتحانات السنتر');
+        } catch (error) {
+            console.error('❌ خطأ في تدمير مخطط امتحانات السنتر:', error);
+        }
+    }
+    
+    if (interactiveExamsChart.value) {
+        try {
+            interactiveExamsChart.value.destroy();
+            interactiveExamsChart.value = null;
+            console.log('🗑️ تم تدمير مخطط الاختبارات التفاعلية');
+        } catch (error) {
+            console.error('❌ خطأ في تدمير مخطط الاختبارات التفاعلية:', error);
+        }
+    }
+    
+    chartsCleanup.value = false;
+};
+
+                const getCentralExamsChartData = () => {
+                    const centralGrades = studentGrades.value
+                        .filter(grade => grade.type !== 'mcq')
+                        .slice(-6) // Last 6 exams
+                        .reverse();
+                    
+                    const labels = centralGrades.map(grade => {
+                        const title = grade.quizTitle || 'اختبار';
+                        return title.length > 15 ? title.substring(0, 15) + '...' : title;
+                    });
+                    
+                    const data = centralGrades.map(grade => {
+                        const score = grade.score || grade.grade || 0;
+                        const total = grade.totalScore || grade.totalMarks || 100;
+                        return Math.round((score / total) * 100);
+                    });
+                    
+                    return {
+                        labels: labels,
+                        datasets: [{
+                            label: 'الدرجة',
+                            data: data,
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: '#8b5cf6',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }]
+                    };
+                };
+
+                const getInteractiveExamsChartData = () => {
+                    const interactiveGrades = studentGrades.value.filter(grade => grade.type === 'mcq');
+                    
+                    const excellent = interactiveGrades.filter(grade => grade.percentage >= 80).length;
+                    const good = interactiveGrades.filter(grade => grade.percentage >= 60 && grade.percentage < 80).length;
+                    const average = interactiveGrades.filter(grade => grade.percentage >= 40 && grade.percentage < 60).length;
+                    const poor = interactiveGrades.filter(grade => grade.percentage < 40).length;
+                    
+                    return {
+                        labels: ['ممتاز (80%+)', 'جيد (60-79%)', 'متوسط (40-59%)', 'ضعيف (<40%)'],
+                        datasets: [{
+                            data: [excellent, good, average, poor],
+                            backgroundColor: [
+                                'rgba(16, 185, 129, 0.8)',
+                                'rgba(34, 197, 94, 0.8)',
+                                'rgba(245, 158, 11, 0.8)',
+                                'rgba(239, 68, 68, 0.8)'
+                            ],
+                            borderColor: [
+                                'rgb(16, 185, 129)',
+                                'rgb(34, 197, 94)',
+                                'rgb(245, 158, 11)',
+                                'rgb(239, 68, 68)'
+                            ],
+                            borderWidth: 2,
+                            hoverOffset: 15
+                        }]
+                    };
                 };
                 
                 const handleLogin = async () => {
@@ -4154,6 +4901,8 @@ const addQuestionAfter = (index) => {
                 
                 const loadStudentGrades = async () => {
     try {
+        console.log('📊 جاري تحميل درجات الطالب...');
+        
         // تحميل الدرجات العادية
         const gradesSnapshot = await db.collection('grades')
             .where('studentId', '==', currentStudent.value.id)
@@ -4162,7 +4911,7 @@ const addQuestionAfter = (index) => {
         const gradesData = gradesSnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data(),
-            type: 'regular' // إضافة نوع للتمييز
+            type: 'regular'
         }));
         
         // تحميل درجات الاختبارات التفاعلية
@@ -4177,11 +4926,12 @@ const addQuestionAfter = (index) => {
                 ...data,
                 type: 'mcq',
                 quizTitle: data.quizTitle + ' (تفاعلي)',
-                // التأكد من وجود البيانات بشكل صحيح
                 score: data.score || 0,
                 totalScore: data.totalScore || 100,
-                grade: data.score, // للحفاظ على التوافق
-                totalMarks: data.totalScore // للحفاظ على التوافق
+                grade: data.score,
+                totalMarks: data.totalScore,
+                percentage: data.percentage || (data.score && data.totalScore ? 
+                    Math.round((data.score / data.totalScore) * 100) : 0)
             };
         });
         
@@ -4191,6 +4941,14 @@ const addQuestionAfter = (index) => {
         });
         
         studentGrades.value = allGrades;
+        console.log(`📈 تم تحميل ${allGrades.length} درجة`);
+
+        // الانتظار حتى يتم تحديث DOM ثم تهيئة المخططات
+        nextTick(() => {
+            setTimeout(() => {
+                initCharts();
+            }, 300); // زيادة وقت الانتظار
+        });
     } catch (error) {
         console.error('Error loading student grades:', error);
         studentGrades.value = [];
@@ -4297,9 +5055,18 @@ const addQuestionAfter = (index) => {
                     }
                 };
                 
-                // Initialize app
+                // Watch for grade changes to update charts
+                watch(studentGrades, () => {
+                    nextTick(() => {
+                        initCharts();
+                    });
+                }, { deep: true });
+
+                // Initialize charts when component mounts
                 onMounted(() => {
-                    // No more hardcoded quizzes - they will be loaded from Firebase
+                    nextTick(() => {
+                        initCharts();
+                    });
                 });
                 
                 return {
@@ -4361,6 +5128,10 @@ const addQuestionAfter = (index) => {
                     skippedAnswers,
                     hasMoreAttempts,
                     filteredMCQGrades,
+                    hasCentralExamData,
+                    hasInteractiveExamData,
+                    centralExamStats,
+                    interactiveExamStats,
                     toggleCategory,
                     toggleStudentCategory,
                     generateStudentCode,
@@ -4375,6 +5146,7 @@ const addQuestionAfter = (index) => {
                     viewMCQGradeDetails,
                     deleteMCQGrade,
                     getStudentAttempts,
+                    initCharts,
                     handleLogin,
                     handleStudentLogin,
                     logout,
