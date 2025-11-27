@@ -12,6 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+    
     <!-- Chart.js for beautiful charts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Supabase SDK -->
@@ -2227,6 +2228,47 @@
 .bb8:hover .bb8__head::after {
   background-position: 0 0 !important;
 }
+/* Loading Screen Styles */
+#loadingScreen {
+    font-family: 'Tajawal', sans-serif;
+}
+
+.loading-progress {
+    animation: loadingBar 2s ease-in-out infinite;
+    background: linear-gradient(90deg, 
+        rgba(255,255,255,0.8) 0%, 
+        rgba(255,255,255,1) 50%, 
+        rgba(255,255,255,0.8) 100%);
+    background-size: 200% 100%;
+}
+
+@keyframes loadingBar {
+    0% {
+        transform: translateX(-100%);
+        background-position: 200% 0;
+    }
+    50% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(100%);
+        background-position: -200% 0;
+    }
+}
+
+/* Floating Animation */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.floating {
+    animation: float 3s ease-in-out infinite;
+}
         /* تحسينات للوضع الداكن */
         @media (prefers-color-scheme: dark) {
             .audio-player-container {
@@ -2759,8 +2801,54 @@
     </style>
 </head>
 <body class="dark:bg-gray-900 dark:text-white">
+    
+    <!-- Main Container --><body class="dark:bg-gray-900 dark:text-white">
+    
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="fixed inset-0 bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 z-[9999] flex flex-col items-center justify-center">
+        <!-- Animated Logo -->
+        <div class="relative mb-8">
+            <div class="w-24 h-24 rounded-full bg-white/20 backdrop-blur-lg border border-white/30 flex items-center justify-center">
+                <div class="w-16 h-16 rounded-full bg-white/30 backdrop-blur-md border border-white/40 flex items-center justify-center">
+                    <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                </div>
+            </div>
+            
+            <!-- Pulsing Rings -->
+            <div class="absolute inset-0 rounded-full border-2 border-white/20 animate-ping"></div>
+            <div class="absolute inset-0 rounded-full border-2 border-white/30 animate-pulse"></div>
+        </div>
+
+        <!-- Loading Text -->
+        <div class="text-center text-white mb-8">
+            <h2 class="text-2xl font-bold mb-2">Miss Sally's Platform</h2>
+            <p class="text-white/80">جاري تحميل المنصة التعليمية...</p>
+        </div>
+
+        <!-- Modern Loading Animation -->
+        <div class="w-64 h-2 bg-white/20 rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-white to-white/80 rounded-full loading-progress"></div>
+        </div>
+
+        <!-- Loading Dots -->
+        <div class="flex space-x-2 mt-6">
+            <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0s"></div>
+            <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+            <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+        </div>
+
+        <!-- Developer Info -->
+        <div class="absolute bottom-6 text-center text-white/60 text-sm">
+            <p>Developed by <span class="text-white/80">SefenZkarya</span></p>
+        </div>
+    </div>
+
     <!-- Main Container -->
     <div class="min-h-screen overflow-hidden" id="app">
+        <!-- باقي المحتوى الحالي -->
+        ...
+    <div class="min-h-screen overflow-hidden" id="app">
+        
         <!-- Login Screen (Initial View) -->
         <div class="min-h-screen flex flex-col justify-center items-center bg-gray-50" id="loginScreen">
             <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
@@ -4989,6 +5077,29 @@ const toggleDarkMode = (event) => {
         localStorage.setItem('darkMode', 'disabled');
     }
 };
+// Loading Screen Management
+const loadingScreen = document.getElementById('loadingScreen');
+
+// Hide loading screen when everything is loaded
+window.addEventListener('load', function() {
+    setTimeout(() => {
+        loadingScreen.style.opacity = '0';
+        loadingScreen.style.transition = 'opacity 0.5s ease';
+        
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 500);
+    }, 1500); // Show for minimum 1.5 seconds
+});
+
+// Optional: Show loading screen on page transitions
+document.addEventListener('DOMContentLoaded', function() {
+    // Add floating animation to logo
+    const logo = document.querySelector('#loadingScreen .relative');
+    if (logo) {
+        logo.classList.add('floating');
+    }
+});
         
         createApp({
             setup() {
