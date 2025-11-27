@@ -3106,7 +3106,9 @@
                                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">رقم الهاتف</th>
                                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">هاتف ولي الأمر</th>
                                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">المعدل</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">آخر دخول للمنصه</th>
                                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">إجراءات</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -3129,6 +3131,12 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ student.phone }}</td>
                                         <td class="px-6py-4 whitespace-nowrap text-sm text-gray-500">{{ student.parentPhone }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ student.averageGrade || 'لم يتم التقييم' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span :class="getLastLoginColor(student.lastLogin)" class="px-2 py-1 rounded-full text-xs font-medium">
+                                                {{ formatLastLogin(student.lastLogin) }}
+                                            </span>
+                                        </td>
+                                        
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <button @click="editStudent(student)" class="text-blue-500 hover:text-blue-900 ml-3">
                                                 <i class="fas fa-edit"></i>
@@ -3143,6 +3151,7 @@
                                             لا يوجد طلاب مسجلين بعد
                                         </td>
                                     </tr>
+                                    
                                 </tbody>
                             </table>
                         </div>
@@ -5064,6 +5073,41 @@
                 throw error;
             }
         };
+       // دالة لتحديد لون آخر دخول
+const getLastLoginColor = (lastLogin) => {
+    if (!lastLogin) return 'bg-gray-100 text-gray-800';
+    
+    const loginDate = new Date(lastLogin);
+    const now = new Date();
+    const diffMs = now - loginDate;
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    if (diffHours < 1) return 'bg-green-100 text-green-800'; // أقل من ساعة - أخضر
+    if (diffHours < 24) return 'bg-blue-100 text-blue-800'; // أقل من يوم - أزرق
+    if (diffDays < 3) return 'bg-yellow-100 text-yellow-800'; // أقل من 3 أيام - أصفر
+    if (diffDays < 7) return 'bg-orange-100 text-orange-800'; // أقل من أسبوع - برتقالي
+    return 'bg-red-100 text-red-800'; // أكثر من أسبوع - أحمر
+};
+
+// دالة مساعدة لتنسيق وقت الدخول
+const formatLastLogin = (lastLogin) => {
+    if (!lastLogin) return 'لم يدخل بعد';
+    
+    const loginDate = new Date(lastLogin);
+    const now = new Date();
+    const diffMs = now - loginDate;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    if (diffMins < 1) return 'الآن';
+    if (diffMins < 60) return `قبل ${diffMins} دقيقة`;
+    if (diffHours < 24) return `قبل ${diffHours} ساعة`;
+    if (diffDays < 7) return `قبل ${diffDays} يوم`;
+    
+    return loginDate.toLocaleDateString('ar-EG');
+};
         // في قسم methods
 // تعديل دالة toggleDarkMode
 const toggleDarkMode = (event) => {
@@ -5824,44 +5868,53 @@ const cleanupCharts = () => {
     }
 };
                 
-                const handleStudentLogin = async () => {
-                    const studentCode = document.getElementById('studentCode').value.trim();
-                    
-                    if (studentCode === '') {
-                        studentLoginError.value = 'الرجاء إدخال كود الطالب';
-                        return;
-                    }
-                    
-                    try {
-                        // Find student by code
-                        const snapshot = await db.collection('students')
-                            .where('studentCode', '==', studentCode)
-                            .get();
-                        
-                        if (!snapshot.empty) {
-                            const studentDoc = snapshot.docs[0];
-                            const student = {
-                                id: studentDoc.id,
-                                ...studentDoc.data()
-                            };
-                            
-                            isStudentLoggedIn.value = true;
-                            currentStudent.value = student;
-                            
-                            document.getElementById('loginScreen').classList.add('hidden');
-                            document.getElementById('studentDashboard').classList.remove('hidden');
-                            
-                            // Load student data
-                            loadStudentContent();
-                            loadStudentGrades();
-                        } else {
-                            studentLoginError.value = 'كود الطالب غير صحيح';
-                        }
-                    } catch (error) {
-                        console.error('Student login error:', error);
-                        studentLoginError.value = 'خطأ في تسجيل الدخول، الرجاء المحاولة مرة أخرى';
-                    }
-                };
+const handleStudentLogin = async () => {
+    const studentCode = document.getElementById('studentCode').value.trim();
+    
+    if (studentCode === '') {
+        studentLoginError.value = 'الرجاء إدخال كود الطالب';
+        return;
+    }
+    
+    try {
+        // Find student by code
+        const snapshot = await db.collection('students')
+            .where('studentCode', '==', studentCode)
+            .get();
+        
+        if (!snapshot.empty) {
+            const studentDoc = snapshot.docs[0];
+            const student = {
+                id: studentDoc.id,
+                ...studentDoc.data()
+            };
+            
+            // تحديث وقت آخر دخول للطالب
+            const lastLoginTime = new Date().toISOString();
+            await db.collection('students').doc(studentDoc.id).update({
+                lastLogin: lastLoginTime
+            });
+            
+            student.lastLogin = lastLoginTime;
+            
+            isStudentLoggedIn.value = true;
+            currentStudent.value = student;
+            
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('studentDashboard').classList.remove('hidden');
+            
+            // Load student data
+            loadStudentContent();
+            loadStudentGrades();
+        } else {
+            studentLoginError.value = 'كود الطالب غير صحيح';
+        }
+    } catch (error) {
+        console.error('Student login error:', error);
+        studentLoginError.value = 'خطأ في تسجيل الدخول، الرجاء المحاولة مرة أخرى';
+    }
+};
+
                 
                 const logout = async () => {
                     try {
@@ -7055,6 +7108,8 @@ onMounted(() => {
                     retakeQuiz,
                     closeMCQQuiz,
                         toggleDarkMode,
+                        formatLastLogin,
+                        getLastLoginColor,
                     loadMCQGrades
                 };
             }
