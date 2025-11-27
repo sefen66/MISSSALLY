@@ -43,6 +43,856 @@
             justify-content: center;
             border-radius: 9999px;
         }
+        /* تصميم الهيدر الزجاجي */
+.glass-header {
+    position: relative;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0 0 24px 24px;
+    margin: 0 16px 16px 16px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    overflow: hidden;
+}
+
+/* النوتش */
+.notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 0 0 16px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    z-index: 10;
+}
+
+.notch-camera {
+    width: 12px;
+    height: 12px;
+    background: #333;
+    border-radius: 50%;
+    border: 2px solid #666;
+}
+
+.notch-speaker {
+    width: 60px;
+    height: 6px;
+    background: #333;
+    border-radius: 3px;
+}
+
+/* محتوى الهيدر */
+.header-content {
+    position: relative;
+    z-index: 5;
+    margin-top: 12px;
+}
+
+/* تحسين الصورة الشخصية */
+.avatar-container {
+    position: relative;
+    display: inline-block;
+}
+
+.teacher-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
+}
+
+.teacher-avatar:hover {
+    transform: scale(1.05);
+    border-color: rgba(159, 122, 234, 0.8);
+}
+
+.online-indicator {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background: #10B981;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* تحسين النصوص */
+.teacher-name {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+.teacher-title {
+    background: rgba(0, 0, 0, 0.6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 500;
+}
+
+/* /* تصميم الهيدر الزجاجي للطالب */
+/* تصميم الهيدر الزجاجي للطالب - الإصلاح */
+.student-glass-header {
+    position: relative;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0 0 24px 24px;
+    margin: 0 16px 16px 16px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    overflow: hidden;
+}
+
+/* النوتش للطالب */
+.student-notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 0 0 16px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    z-index: 10;
+}
+
+.student-notch-camera {
+    width: 12px;
+    height: 12px;
+    background: #333;
+    border-radius: 50%;
+    border: 2px solid #666;
+}
+
+.student-notch-speaker {
+    width: 60px;
+    height: 6px;
+    background: #333;
+    border-radius: 3px;
+}
+
+/* محتوى الهيدر للطالب */
+.student-header-content {
+    position: relative;
+    z-index: 5;
+    margin-top: 12px;
+}
+
+/* تحسين الصورة الشخصية للطالب */
+.student-avatar-container {
+    position: relative;
+    display: inline-block;
+}
+
+.student-avatar-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
+}
+
+.student-avatar-img:hover {
+    transform: scale(1.05);
+    border-color: rgba(59, 130, 246, 0.8);
+}
+
+.student-online-indicator {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background: #10B981;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* تحسين النصوص للطالب */
+.student-header-name {
+    background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+.student-header-title {
+    background: rgba(0, 0, 0, 0.6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 500;
+}
+
+/* تحسين زر الخروج للطالب */
+.student-logout-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    color: #6B7280;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.student-logout-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #EF4444;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* تحسينات للوضع الداكن للطالب */
+.dark .student-glass-header {
+    background: rgba(31, 41, 55, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.dark .student-notch {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.dark .student-avatar-img {
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.dark .student-header-name {
+    background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dark .student-header-title {
+    background: rgba(255, 255, 255, 0.7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dark .student-logout-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #9CA3AF;
+}
+
+.dark .student-logout-btn:hover {
+    background: rgba(239, 68, 68, 0.3);
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #FCA5A5;
+}
+
+/* تأثيرات تفاعلية للطالب */
+.student-glass-header {
+    animation: studentGlassSlideIn 0.6s ease-out;
+}
+
+@keyframes studentGlassSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* استجابة للشاشات الصغيرة للطالب */
+@media (max-width: 768px) {
+    .student-glass-header {
+        margin: 0 8px 16px 8px;
+        border-radius: 0 0 20px 20px;
+    }
+    
+    .student-notch {
+        width: 140px;
+        height: 20px;
+    }
+    
+    .student-avatar-img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .student-header-name {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .student-glass-header {
+        margin: 0 4px 16px 4px;
+        border-radius: 0 0 16px 16px;
+    }
+    
+    .student-notch {
+        width: 120px;
+        height: 18px;
+    }
+    
+    .student-notch-speaker {
+        width: 40px;
+    }
+    
+    .student-header-name {
+        font-size: 0.9rem;
+    }
+    
+    .student-header-title {
+        font-size: 0.7rem;
+    }
+    
+    .student-logout-btn {
+        width: 40px;
+        height: 40px;
+    }
+}ر الخروج */
+.logout-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    color: #6B7280;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #EF4444;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+/* تحسينات الوضع الداكن اليدوي لمطابقة التلقائي */
+.dark {
+  background-color: #1f2937 !important;
+  color: #f9fafb !important;
+}
+
+.dark .bg-white {
+  background-color: #374151 !important;
+}
+
+.dark .bg-gray-50 {
+  background-color: #4b5563 !important;
+}
+
+.dark .text-gray-800,
+.dark .text-gray-900 {
+  color: #f9fafb !important;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-500 {
+  color: #d1d5db !important;
+}
+
+.dark .border-gray-200,
+.dark .border-gray-300 {
+  border-color: #4b5563 !important;
+}
+
+.dark .bg-purple-600:hover {
+  background-color: #7c3aed !important;
+}
+
+.dark .bg-blue-600:hover {
+  background-color: #2563eb !important;
+}
+
+.dark .bg-green-600:hover {
+  background-color: #059669 !important;
+}
+
+/* Teacher Dashboard */
+.dark .teacher-dashboard {
+  background: linear-gradient(135deg, #6b46c1 0%, #553c9a 100%) !important;
+}
+
+/* Cards */
+.dark .content-card {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+}
+
+.dark .content-card:hover {
+  background-color: #4b5563 !important;
+}
+
+/* Tables */
+.dark .bg-gray-50 {
+  background-color: #4b5563 !important;
+}
+
+.dark .divide-gray-200 > * + * {
+  border-color: #4b5563 !important;
+}
+
+/* Inputs */
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: #4b5563 !important;
+  border-color: #6b7280 !important;
+  color: #f9fafb !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Modals */
+.dark .bg-white.rounded-lg {
+  background-color: #374151 !important;
+}
+
+/* Content Items */
+.dark .content-item {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+}
+
+.dark .content-item:hover {
+  background-color: #4b5563 !important;
+}
+
+.dark .content-title {
+  color: #f9fafb !important;
+}
+
+.dark .content-description {
+  color: #d1d5db !important;
+}
+
+.dark .content-meta span {
+  color: #9ca3af !important;
+}
+
+/* Stats Cards */
+.dark .stats-card {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+.dark .stats-card p:first-child {
+  color: #d1d5db !important;
+}
+
+/* Charts */
+.dark .chart-card {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+}
+
+.dark .chart-title {
+  color: #f9fafb !important;
+}
+
+.dark .no-data-chart {
+  background: rgba(31, 41, 55, 0.8) !important;
+  color: #d1d5db !important;
+}
+
+.dark .summary-item {
+  background: #4b5563 !important;
+  border-color: #6b7280 !important;
+}
+
+.dark .summary-value {
+  color: #f9fafb !important;
+}
+
+.dark .summary-label {
+  color: #d1d5db !important;
+}
+
+/* Tabs */
+.dark .tabs-nav button {
+  color: #d1d5db !important;
+}
+
+.dark .tabs-nav button:hover {
+  color: #f9fafb !important;
+  border-color: #9ca3af !important;
+}
+
+.dark .tabs-nav button.border-purple-600 {
+  background-color: rgba(139, 92, 246, 0.1) !important;
+  color: #8b5cf6 !important;
+}
+
+.dark .tabs-nav button.border-indigo-600 {
+  background-color: rgba(79, 70, 229, 0.1) !important;
+  color: #6366f1 !important;
+}
+
+.dark .tabs-nav button.border-green-600 {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+  color: #10b981 !important;
+}
+
+/* Quiz Styles */
+.dark .question-card {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+}
+
+.dark .option-item {
+  background-color: #4b5563 !important;
+  border-color: #6b7280 !important;
+  color: #f9fafb !important;
+}
+
+.dark .option-item:hover {
+  background-color: #6b7280 !important;
+  border-color: #9ca3af !important;
+}
+
+.dark .option-item.selected {
+  background-color: #6b7280 !important;
+  border-color: #8b5cf6 !important;
+}
+
+/* Login Screen */
+.dark #loginScreen {
+  background-color: #111827 !important;
+}
+
+.dark #loginScreen .bg-white {
+  background-color: #374151 !important;
+}
+
+.dark #loginScreen .text-gray-900 {
+  color: #f9fafb !important;
+}
+
+.dark #loginScreen .text-gray-600 {
+  color: #d1d5db !important;
+}
+
+.dark #loginScreen input {
+  background-color: #4b5563 !important;
+  border-color: #6b7280 !important;
+  color: #f9fafb !important;
+}
+
+/* Video Modal */
+.dark #videoModal .bg-white {
+  background-color: #374151 !important;
+}
+
+.dark #videoModal .text-gray-900 {
+  color: #f9fafb !important;
+}
+
+.dark #videoModal .text-gray-600 {
+  color: #d1d5db !important;
+}
+
+/* File Viewer Modal */
+.dark #fileViewerModal .bg-white {
+  background-color: #374151 !important;
+}
+
+/* Add Content Modal */
+.dark #addContentModal .bg-white {
+  background-color: #374151 !important;
+}
+
+.dark #addContentModal input,
+.dark #addContentModal select,
+.dark #addContentModal textarea {
+  background-color: #4b5563 !important;
+  border-color: #6b7280 !important;
+  color: #f9fafb !important;
+}
+
+/* Add Student Modal */
+.dark #addStudentModal .bg-white {
+  background-color: #374151 !important;
+}
+
+/* Add Quiz Modal */
+.dark #addQuizModal .bg-white {
+  background-color: #374151 !important;
+}
+
+/* Add MCQ Modal */
+.dark #addMCQModal .bg-white {
+  background-color: #374151 !important;
+}
+
+/* MCQ Quiz Screen */
+.dark #mcqQuizScreen {
+  background-color: #1f2937 !important;
+}
+
+.dark #mcqQuizScreen .bg-white {
+  background-color: #374151 !important;
+}
+
+.dark #mcqQuizScreen .text-gray-800 {
+  color: #f9fafb !important;
+}
+
+.dark #mcqQuizScreen .text-gray-600 {
+  color: #d1d5db !important;
+}
+
+.dark #mcqQuizScreen .text-gray-700 {
+  color: #e5e7eb !important;
+}
+
+/* Code Display */
+.dark .code-display {
+  background-color: #4b5563 !important;
+  border-color: #6b7280 !important;
+  color: #f9fafb !important;
+}
+
+/* Audio Player */
+.dark .audio-player-container {
+  background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
+  border-color: #047857 !important;
+}
+
+.dark .audio-player-container audio::-webkit-media-controls-panel {
+  background-color: #1f2937 !important;
+}
+
+.dark .audio-player-container h4 {
+  color: #f9fafb !important;
+}
+
+/* Video Player */
+.dark .video-player-container {
+  background-color: #1f2937 !important;
+}
+
+/* Badges */
+.dark .youtube-badge {
+  background-color: #7f1d1d !important;
+  color: #fecaca !important;
+}
+
+.dark .video-badge {
+  background-color: #1e3a8a !important;
+  color: #dbeafe !important;
+}
+
+.dark .audio-badge {
+  background-color: #064e3b !important;
+  color: #d1fae5 !important;
+}
+
+.dark .image-badge {
+  background-color: #78350f !important;
+  color: #fef3c7 !important;
+}
+
+.dark .pdf-badge {
+  background-color: #7f1d1d !important;
+  color: #fecaca !important;
+}
+
+.dark .quiz-badge {
+  background-color: #4c1d95 !important;
+  color: #e9d5ff !important;
+}
+
+.dark .mcq-quiz-badge {
+  background-color: #3730a3 !important;
+  color: #c7d2fe !important;
+}
+
+/* Progress Bars */
+.dark .quiz-progress {
+  background-color: #4b5563 !important;
+}
+
+.dark .upload-progress {
+  background-color: #4b5563 !important;
+}
+
+/* File Preview */
+.dark .file-preview {
+  background-color: #4b5563 !important;
+}
+
+.dark .pdf-cover {
+  background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%) !important;
+}
+/* تحسينات للوضع الداكن */
+.dark .glass-header {
+    background: rgba(31, 41, 55, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.dark .notch {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.dark .teacher-avatar {
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.dark .teacher-name {
+    background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dark .teacher-title {
+    background: rgba(255, 255, 255, 0.7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dark .logout-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #9CA3AF;
+}
+
+.dark .logout-btn:hover {
+    background: rgba(239, 68, 68, 0.3);
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #FCA5A5;
+}
+
+/* تأثيرات تفاعلية */
+.glass-header {
+    animation: glassSlideIn 0.6s ease-out;
+}
+
+@keyframes glassSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* استجابة للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .glass-header {
+        margin: 0 8px 16px 8px;
+        border-radius: 0 0 20px 20px;
+    }
+    
+    .notch {
+        width: 140px;
+        height: 20px;
+    }
+    
+    .teacher-avatar {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .teacher-name {
+        font-size: 1rem;
+    }
+    
+    .header-content .flex {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .glass-header {
+        margin: 0 4px 16px 4px;
+        border-radius: 0 0 16px 16px;
+    }
+    
+    .notch {
+        width: 120px;
+        height: 18px;
+    }
+    
+    .notch-speaker {
+        width: 40px;
+    }
+    
+    .teacher-name {
+        font-size: 0.9rem;
+    }
+    
+    .teacher-title {
+        font-size: 0.7rem;
+    }
+    
+    .logout-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
         /* أنماط المخططات */
 .charts-container {
     display: grid;
@@ -658,7 +1508,725 @@
     font-size: 12px;
     font-weight: 600;
 }
+/* BB-8 Dark Mode Toggle Switch - حجم أصغر */
+.bb8-toggle {
+  --toggle-size: 10px; /* تصغير أكثر */
+  --toggle-width: 7em;
+  --toggle-height: 3.5em;
+  --toggle-offset: calc((var(--toggle-height) - var(--bb8-diameter)) / 2);
+  --toggle-bg: linear-gradient(#2c4770, #070e2b 35%, #628cac 50% 70%, #a6c5d4)
+    no-repeat;
+  --bb8-diameter: 2.8em;
+  --radius: 99em;
+  --transition: 0.4s;
+  --accent: #de7d2f;
+  --bb8-bg: #fff;
+}
 
+.bb8-toggle,
+.bb8-toggle *,
+.bb8-toggle *::before,
+.bb8-toggle *::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.bb8-toggle {
+  cursor: pointer;
+  font-size: var(--toggle-size);
+  margin: 0;
+  transform: scale(0.9); /* تصغير إضافي */
+  transform-origin: right center; /* محاذاة للتحجيم من اليمين */
+}
+
+.bb8-toggle__checkbox {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+.bb8-toggle__container {
+  width: var(--toggle-width);
+  height: var(--toggle-height);
+  background: var(--toggle-bg);
+  background-size: 100% 7em;
+  background-position-y: -3.5em;
+  border-radius: var(--radius);
+  position: relative;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+}
+
+.bb8 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: absolute;
+  top: calc(var(--toggle-offset) - 1.08em + 0.12em);
+  left: var(--toggle-offset);
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+  z-index: 2;
+}
+
+.bb8__head-container {
+  position: relative;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+  z-index: 2;
+  -webkit-transform-origin: 0.8em 2.4em;
+  -ms-transform-origin: 0.8em 2.4em;
+  transform-origin: 0.8em 2.4em;
+}
+
+.bb8__head {
+  overflow: hidden;
+  margin-bottom: -0.12em;
+  width: 1.6em;
+  height: 1.08em;
+  background: linear-gradient(
+      transparent 0.04em,
+      dimgray 0.04em 0.2em,
+      transparent 0.2em 0.24em,
+      var(--accent) 0.24em 0.32em,
+      transparent 0.32em 0.84em,
+      silver 0.84em 0.92em,
+      transparent 0.92em
+    ),
+    linear-gradient(
+      45deg,
+      transparent 0.12em,
+      var(--bb8-bg) 0.12em 0.8em,
+      transparent 0.8em
+    ),
+    linear-gradient(
+      -45deg,
+      transparent 0.12em,
+      var(--bb8-bg) 0.12em 0.8em,
+      transparent 0.8em
+    ),
+    linear-gradient(var(--bb8-bg) 0.8em, transparent 0.8em);
+  border-radius: var(--radius) var(--radius) 0 0;
+  position: relative;
+  z-index: 1;
+  -webkit-filter: drop-shadow(0 0.04em 0.08em gray);
+  filter: drop-shadow(0 0.04em 0.08em gray);
+}
+
+.bb8__head::before {
+  content: "";
+  position: absolute;
+  width: 0.36em;
+  height: 0.36em;
+  background: radial-gradient(
+      0.08em circle at 0.16em 0.24em,
+      red,
+      transparent
+    ),
+    radial-gradient(
+      0.04em circle at 0.24em 0.12em,
+      var(--bb8-bg) 50%,
+      transparent 100%
+    ),
+    linear-gradient(45deg, #000 0.12em, dimgray 0.2em 0.24em, #000 0.32em);
+  border-radius: var(--radius);
+  top: 0.264em;
+  left: 50%;
+  -webkit-transform: translate(-50%);
+  -ms-transform: translate(-50%);
+  transform: translate(-50%);
+  -webkit-box-shadow: 0 0 0 0.056em lightgray, 0.36em 0.18em 0 -0.096em,
+    0.36em 0.18em 0 -0.064em var(--bb8-bg), 0.36em 0.18em 0 -0.04em;
+  box-shadow: 0 0 0 0.056em lightgray, 0.36em 0.18em 0 -0.096em,
+    0.36em 0.18em 0 -0.064em var(--bb8-bg), 0.36em 0.18em 0 -0.04em;
+  z-index: 1;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+}
+
+.bb8__head::after {
+  content: "";
+  position: absolute;
+  bottom: 0.24em;
+  left: 0;
+  width: 100%;
+  height: 0.12em;
+  background: linear-gradient(
+    to right,
+    var(--accent) 0.08em,
+    transparent 0.08em 0.12em,
+    var(--accent) 0.12em 0.2em,
+    transparent 0.2em 0.24em,
+    var(--accent) 0.24em 0.6em,
+    transparent 0.6em 0.64em,
+    var(--accent) 0.64em 0.72em,
+    transparent 0.72em 1.2em,
+    var(--accent) 1.2em 1.28em,
+    transparent 1.28em 1.32em,
+    var(--accent) 1.32em 1.44em,
+    transparent 1.44em 1.48em,
+    var(--accent) 1.48em 1.52em,
+    transparent 1.52em 1.56em,
+    var(--accent) 1.56em
+  );
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+}
+
+.bb8__antenna {
+  position: absolute;
+  -webkit-transform: translateY(-90%);
+  -ms-transform: translateY(-90%);
+  transform: translateY(-90%);
+  width: 0.038em;
+  border-radius: var(--radius) var(--radius) 0 0;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+}
+
+.bb8__antenna:nth-child(1) {
+  height: 0.6em;
+  right: 0.6em;
+  background: linear-gradient(#000 0.12em, silver 0.12em);
+}
+
+.bb8__antenna:nth-child(2) {
+  height: 0.24em;
+  left: 50%;
+  -webkit-transform: translate(-50%, -90%);
+  -ms-transform: translate(-50%, -90%);
+  transform: translate(-50%, -90%);
+  background: silver;
+}
+
+.bb8__body {
+  width: 2.8em;
+  height: 2.8em;
+  background: var(--bb8-bg);
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+  z-index: 1;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  background: linear-gradient(
+      -90deg,
+      var(--bb8-bg) 4%,
+      var(--accent) 4% 10%,
+      transparent 10% 90%,
+      var(--accent) 90% 96%,
+      var(--bb8-bg) 96%
+    ),
+    linear-gradient(
+      var(--bb8-bg) 4%,
+      var(--accent) 4% 10%,
+      transparent 10% 90%,
+      var(--accent) 90% 96%,
+      var(--bb8-bg) 96%
+    ),
+    linear-gradient(
+      to right,
+      transparent 1.38em,
+      silver 1.38em 1.42em,
+      transparent 1.4em
+    ),
+    linear-gradient(
+      transparent 1.38em,
+      silver 1.38em 1.42em,
+      transparent 1.4em
+    );
+  background-color: var(--bb8-bg);
+}
+
+.bb8__body::after {
+  content: "";
+  bottom: 0.96em;
+  left: 0.36em;
+  position: absolute;
+  width: 0.12em;
+  height: 0.12em;
+  background: rgb(236, 236, 236);
+  color: rgb(236, 236, 236);
+  border-radius: 50%;
+  -webkit-box-shadow: 0.56em 0.6em, 0 -0.8em, 0.56em -1.36em,
+    1.36em -1.36em, 1.96em -0.8em, 1.96em 0, 1.36em 0.6em;
+  box-shadow: 0.56em 0.6em, 0 -0.8em, 0.56em -1.36em,
+    1.36em -1.36em, 1.96em -0.8em, 1.96em 0, 1.36em 0.6em;
+}
+
+.bb8__body::before {
+  content: "";
+  width: 1.68em;
+  height: 1.68em;
+  position: absolute;
+  border-radius: 50%;
+  z-index: 0.1;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border: 0.2em solid var(--accent);
+  background: radial-gradient(
+      0.64em circle at center,
+      rgb(236, 236, 236) 50%,
+      transparent 51%
+    ),
+    radial-gradient(0.8em circle at center, var(--bb8-bg) 50%, transparent 51%),
+    linear-gradient(
+      -90deg,
+      transparent 42%,
+      var(--accent) 42% 58%,
+      transparent 58%
+    ),
+    linear-gradient(var(--bb8-bg) 42%, var(--accent) 42% 58%, var(--bb8-bg) 58%);
+}
+
+.artificial__hidden {
+  position: absolute;
+  border-radius: inherit;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bb8__shadow {
+  content: "";
+  width: var(--bb8-diameter);
+  height: 20%;
+  border-radius: 50%;
+  background: #3a271c;
+  -webkit-box-shadow: 0.2em 0 2em #3a271c;
+  box-shadow: 0.2em 0 2em #3a271c;
+  opacity: 0.25;
+  position: absolute;
+  bottom: 0;
+  left: calc(var(--toggle-offset) - 0.6em);
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+  -webkit-transform: skew(-70deg);
+  -ms-transform: skew(-70deg);
+  transform: skew(-70deg);
+  z-index: 1;
+}
+
+.bb8-toggle__scenery {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  position: relative;
+  border-radius: inherit;
+}
+
+.bb8-toggle__scenery::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 30%;
+  bottom: 0;
+  background: #b18d71;
+  z-index: 1;
+}
+
+.bb8-toggle__cloud {
+  z-index: 1;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.bb8-toggle__cloud:nth-last-child(1) {
+  width: 0.56em;
+  height: 0.4em;
+  -webkit-filter: blur(0.08em) drop-shadow(0.2em 0.2em #ffffffae)
+    drop-shadow(-0.4em 0 #fff) drop-shadow(-0.6em -0.08em #fff);
+  filter: blur(0.08em) drop-shadow(0.2em 0.2em #ffffffae)
+    drop-shadow(-0.4em 0 #fff) drop-shadow(-0.6em -0.08em #fff);
+  right: 1.2em;
+  top: 1.8em;
+  background: linear-gradient(to top right, #ffffffae, #ffffffae);
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+}
+
+.bb8-toggle__cloud:nth-last-child(2) {
+  top: 0.4em;
+  right: 2.8em;
+  width: 0.56em;
+  height: 0.24em;
+  background: #dfdedeae;
+  -webkit-filter: blur(0.08em) drop-shadow(-0.2em -0.12em #e0dfdfae)
+    drop-shadow(-0.4em -0.12em #bbbbbbae) drop-shadow(-0.64em 0.04em #cfcfcfae);
+  filter: blur(0.08em) drop-shadow(-0.2em -0.12em #e0dfdfae)
+    drop-shadow(-0.4em -0.12em #bbbbbbae) drop-shadow(-0.64em 0.04em #cfcfcfae);
+  -webkit-transition: 0.6s;
+  -o-transition: 0.6s;
+  transition: 0.6s;
+}
+
+.bb8-toggle__cloud:nth-last-child(3) {
+  top: 0.8em;
+  right: 0.6em;
+  width: 0.56em;
+  height: 0.24em;
+  background: #ffffffae;
+  -webkit-filter: blur(0.08em) drop-shadow(0.28em 0.12em #ffffffae)
+    drop-shadow(-0.4em 0.2em #ffffffae);
+  filter: blur(0.08em) drop-shadow(0.28em 0.12em #ffffffae)
+    drop-shadow(-0.4em 0.2em #ffffffae);
+  -webkit-transition: 0.8s;
+  -o-transition: 0.8s;
+  transition: 0.8s;
+}
+
+.gomrassen,
+.hermes,
+.chenini {
+  position: absolute;
+  border-radius: var(--radius);
+  background: linear-gradient(#fff, #6e8ea2);
+  top: 100%;
+}
+
+.gomrassen {
+  left: 0.6em;
+  width: 1.2em;
+  height: 1.2em;
+  -webkit-box-shadow: 0 0 0.12em #ffffff52, 0 0 0.12em #6e8ea24b;
+  box-shadow: 0 0 0.12em #ffffff52, 0 0 0.12em #6e8ea24b;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+}
+
+.gomrassen::before,
+.gomrassen::after {
+  content: "";
+  position: absolute;
+  border-radius: inherit;
+  -webkit-box-shadow: inset 0 0 0.04em rgb(140, 162, 169);
+  box-shadow: inset 0 0 0.04em rgb(140, 162, 169);
+  background: rgb(184, 196, 200);
+}
+
+.gomrassen::before {
+  left: 0.2em;
+  top: 0.2em;
+  width: 0.28em;
+  height: 0.28em;
+}
+
+.gomrassen::after {
+  width: 0.16em;
+  height: 0.16em;
+  left: 0.8em;
+  top: 0.48em;
+}
+
+.hermes {
+  left: 2.2em;
+  width: 0.4em;
+  height: 0.4em;
+  -webkit-box-shadow: 0 0 0.08em #ffffff52, 0 0 0.08em #6e8ea24b;
+  box-shadow: 0 0 0.08em #ffffff52, 0 0 0.08em #6e8ea24b;
+  -webkit-transition: 0.6s;
+  -o-transition: 0.6s;
+  transition: 0.6s;
+}
+
+.chenini {
+  left: 2.8em;
+  width: 0.32em;
+  height: 0.32em;
+  -webkit-box-shadow: 0 0 0.08em #ffffff52, 0 0 0.08em #6e8ea24b;
+  box-shadow: 0 0 0.08em #ffffff52, 0 0 0.08em #6e8ea24b;
+  -webkit-transition: 0.8s;
+  -o-transition: 0.8s;
+  transition: 0.8s;
+}
+
+.tatto-1,
+.tatto-2 {
+  position: absolute;
+  width: 0.8em;
+  height: 0.8em;
+  border-radius: var(--radius);
+}
+
+.tatto-1 {
+  background: #fefefe;
+  right: 2em;
+  top: 0.4em;
+  -webkit-box-shadow: 0 0 0.28em #fdf4e1;
+  box-shadow: 0 0 0.28em #fdf4e1;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+}
+
+.tatto-2 {
+  background: linear-gradient(#e6ac5c, #d75449);
+  right: 0.8em;
+  top: 1.4em;
+  -webkit-box-shadow: 0 0 0.28em #e6ad5c3d, 0 0 0.28em #d755494f;
+  box-shadow: 0 0 0.28em #e6ad5c3d, 0 0 0.28em #d755494f;
+  -webkit-transition: 0.7s;
+  -o-transition: 0.7s;
+  transition: 0.7s;
+}
+
+.bb8-toggle__star {
+  position: absolute;
+  width: 0.04em;
+  height: 0.04em;
+  background: #fff;
+  border-radius: var(--radius);
+  -webkit-filter: drop-shadow(0 0 0.04em #fff);
+  filter: drop-shadow(0 0 0.04em #fff);
+  color: #fff;
+  top: 100%;
+}
+
+.bb8-toggle__star:nth-child(1) {
+  left: 2.4em;
+  -webkit-box-shadow: 0.8em 0.6em, -0.8em 1.6em, 0 0.8em, 1.2em 0.4em,
+    -2em 1.2em, 0.8em 1.8em;
+  box-shadow: 0.8em 0.6em, -0.8em 1.6em, 0 0.8em, 1.2em 0.4em,
+    -2em 1.2em, 0.8em 1.8em;
+  -webkit-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.bb8-toggle__star:nth-child(2) {
+  left: 3em;
+  -webkit-box-shadow: 0.4em 0, 0 0.4em, -0.4em -0.4em, 0.4em 0.6em,
+    -2em 0.8em, 0.8em -1em;
+  box-shadow: 0.4em 0, 0 0.4em, -0.4em -0.4em, 0.4em 0.6em,
+    -2em 0.8em, 0.8em -1em;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.bb8-toggle__star:nth-child(3) {
+  left: 3.4em;
+  -webkit-box-shadow: -0.4em -0.4em, -1.4em 0.8em, -1.4em 0,
+    -2.4em -0.4em, -2em -0.4em, -1.6em -0.2em, 0.48em -0.4em;
+  box-shadow: -0.4em -0.4em, -1.4em 0.8em, -1.4em 0, -2.4em -0.4em,
+    -2em -0.4em, -1.6em -0.2em, 0.48em -0.4em;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+}
+
+.bb8-toggle__star:nth-child(4) {
+  left: 1.2em;
+  width: 0.08em;
+  height: 0.08em;
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.bb8-toggle__star:nth-child(5) {
+  left: 3.2em;
+  width: 0.08em;
+  height: 0.08em;
+  -webkit-transition: 0.6s;
+  -o-transition: 0.6s;
+  transition: 0.6s;
+}
+
+.bb8-toggle__star:nth-child(6) {
+  left: 1.6em;
+  width: 0.08em;
+  height: 0.08em;
+  -webkit-transition: 0.7s;
+  -o-transition: 0.7s;
+  transition: 0.7s;
+}
+
+.bb8-toggle__star:nth-child(7) {
+  left: 2.2em;
+  width: 0.08em;
+  height: 0.08em;
+  -webkit-transition: 0.8s;
+  -o-transition: 0.8s;
+  transition: 0.8s;
+}
+
+/* actions */
+.bb8-toggle__checkbox:checked
+  + .bb8-toggle__container
+  .bb8-toggle__star:nth-child(1) {
+  top: 0.4em;
+}
+
+.bb8-toggle__checkbox:checked
+  + .bb8-toggle__container
+  .bb8-toggle__star:nth-child(2) {
+  top: 1.2em;
+}
+
+.bb8-toggle__checkbox:checked
+  + .bb8-toggle__container
+  .bb8-toggle__star:nth-child(3) {
+  top: 0.8em;
+}
+
+.bb8-toggle__checkbox:checked
+  + .bb8-toggle__container
+  .bb8-toggle__star:nth-child(4) {
+  top: 2.2em;
+}
+
+.bb8-toggle__checkbox:checked
+  + .bb8-toggle__container
+  .bb8-toggle__star:nth-child(5) {
+  top: 2.2em;
+}
+
+.bb8-toggle__checkbox:checked
+  + .bb8-toggle__container
+  .bb8-toggle__star:nth-child(6) {
+  top: 0.2em;
+}
+
+.bb8-toggle__checkbox:checked
+  + .bb8-toggle__container
+  .bb8-toggle__star:nth-child(7) {
+  top: 1.2em;
+}
+
+.bb8-toggle__checkbox:checked + .bb8-toggle__container .bb8-toggle__cloud {
+  right: -100%;
+}
+
+.bb8-toggle__checkbox:checked + .bb8-toggle__container .gomrassen {
+  top: 0.6em;
+}
+
+.bb8-toggle__checkbox:checked + .bb8-toggle__container .hermes {
+  top: 1.6em;
+}
+
+.bb8-toggle__checkbox:checked + .bb8-toggle__container .chenini {
+  top: 1.76em;
+}
+
+.bb8-toggle__checkbox:checked + .bb8-toggle__container {
+  background-position-y: 0;
+}
+
+.bb8-toggle__checkbox:checked + .bb8-toggle__container .tatto-1 {
+  top: 100%;
+}
+
+.bb8-toggle__checkbox:checked + .bb8-toggle__container .tatto-2 {
+  top: 100%;
+}
+
+.bb8-toggle__checkbox:checked + .bb8-toggle__container .bb8 {
+  left: calc(100% - var(--bb8-diameter) - var(--toggle-offset));
+}
+
+.bb8-toggle__checkbox:checked + .bb8-toggle__container .bb8__shadow {
+  left: calc(100% - var(--bb8-diameter) - var(--toggle-offset) + 0.6em);
+  -webkit-transform: skew(70deg);
+  -ms-transform: skew(70deg);
+  transform: skew(70deg);
+}
+
+.bb8-toggle__checkbox:checked + .bb8-toggle__container .bb8__body {
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(225deg);
+}
+
+.bb8-toggle__checkbox:hover + .bb8-toggle__container .bb8__head::before {
+  left: 100%;
+}
+
+.bb8-toggle__checkbox:not(:checked):hover
+  + .bb8-toggle__container
+  .bb8__antenna:nth-child(1) {
+  right: 0.96em;
+}
+
+.bb8-toggle__checkbox:hover
+  + .bb8-toggle__container
+  .bb8__antenna:nth-child(2) {
+  left: 0.6em;
+}
+
+.bb8-toggle__checkbox:hover + .bb8-toggle__container .bb8__head::after {
+  background-position: 0.88em 0;
+}
+
+.bb8-toggle__checkbox:checked:hover
+  + .bb8-toggle__container
+  .bb8__head::before {
+  left: 0;
+}
+
+.bb8-toggle__checkbox:checked:hover
+  + .bb8-toggle__container
+  .bb8__antenna:nth-child(2) {
+  left: calc(100% - 0.6em);
+}
+
+.bb8-toggle__checkbox:checked:hover + .bb8-toggle__container .bb8__head::after {
+  background-position: -0.88em 0;
+}
+
+.bb8-toggle__checkbox:active + .bb8-toggle__container .bb8__head-container {
+  -webkit-transform: rotate(25deg);
+  -ms-transform: rotate(25deg);
+  transform: rotate(25deg);
+}
+
+.bb8-toggle__checkbox:checked:active
+  + .bb8-toggle__container
+  .bb8__head-container {
+  -webkit-transform: rotate(-25deg);
+  -ms-transform: rotate(-25deg);
+  transform: rotate(-25deg);
+}
+
+.bb8:hover .bb8__head::before,
+.bb8:hover .bb8__antenna:nth-child(2) {
+  left: 50% !important;
+}
+
+.bb8:hover .bb8__antenna:nth-child(1) {
+  right: 0.6em !important;
+}
+
+.bb8:hover .bb8__head::after {
+  background-position: 0 0 !important;
+}
         /* تحسينات للوضع الداكن */
         @media (prefers-color-scheme: dark) {
             .audio-player-container {
@@ -678,6 +2246,7 @@
         .dark .audio-player-container {
             background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
         }
+        
 
         /* تحسينات للعرض على الشاشات الصغيرة */
         @media (max-width: 640px) {
@@ -1257,23 +2826,68 @@
         <!-- Teacher Dashboard -->
         <div class="hidden" id="teacherDashboard">
             <div class="teacher-dashboard min-h-screen">
-                <!-- Header -->
-                <header class="bg-white bg-opacity-90 shadow-sm">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div class="flex justify-between items-center py-4">
+                <!-- Header with Glass Morphism Design -->
+                <div class="glass-header">
+                    <!-- Notch -->
+
+                    
+                    <!-- Header Content -->
+                    <div class="header-content">
+                        <div class="flex justify-between items-center py-4 px-6">
                             <div class="flex items-center space-x-4">
-                                <img src="https://scontent-hbe1-1.xx.fbcdn.net/v/t39.30808-6/475507956_9082054621872083_6722155559152051923_n.jpg?_nc_cat=102&cb2=99be929b-bd9a46d7&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFKlvStzMXzEDKiL5lpXQhL06d3yG0xLB_Tp3fIbTEsHygIQvxAN5belF6Wt1J9hzsY_YKJ8lErv6UvbbOKdt9c&_nc_ohc=Tw7aGJrqXhEQ7kNvwG6SK6I&_nc_oc=Adn9OkQpTVeuBKnQ_xKdnvHeBZPBuHmRbEVI6paNdJtnvWDRkw6pZCtXj2TQ3phWOok&_nc_zt=23&_nc_ht=scontent-hbe1-1.xx&_nc_gid=QG3nxuwLbLX_HOcWG3Ol-Q&oh=00_AfgxcOfrz06sg-Vv-1v6qSsb74IhYwbn_zP6qkCBNZ86jg&oe=6926BD90" alt="صورة المعلم الشخصية" class="h-10 w-10 rounded-full object-cover">
+                                <div class="avatar-container">
+                                    <img src="https://scontent-hbe1-1.xx.fbcdn.net/v/t39.30808-6/475507956_9082054621872083_6722155559152051923_n.jpg?_nc_cat=102&cb2=99be929b-bd9a46d7&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFKlvStzMXzEDKiL5lpXQhL06d3yG0xLB_Tp3fIbTEsHygIQvxAN5belF6Wt1J9hzsY_YKJ8lErv6UvbbOKdt9c&_nc_ohc=Tw7aGJrqXhEQ7kNvwG6SK6I&_nc_oc=Adn9OkQpTVeuBKnQ_xKdnvHeBZPBuHmRbEVI6paNdJtnvWDRkw6pZCtXj2TQ3phWOok&_nc_zt=23&_nc_ht=scontent-hbe1-1.xx&_nc_gid=QG3nxuwLbLX_HOcWG3Ol-Q&oh=00_AfgxcOfrz06sg-Vv-1v6qSsb74IhYwbn_zP6qkCBNZ86jg&oe=6926BD90" 
+                                         alt="صورة المعلم الشخصية" 
+                                         class="teacher-avatar">
+                                    <div class="online-indicator"></div>
+                                </div>
                                 <div>
-                                    <h1 class="text-lg font-bold text-gray-800">{{ currentUser.name || ' Miss Sally said' }}</h1>
-                                    <p class="text-xs text-gray-500">  professional English teacher </p>
+                                    <h1 class="text-lg font-bold text-gray-800 teacher-name">{{ currentUser.name || ' Miss Sally said' }}</h1>
+                                    <p class="text-xs text-gray-500 teacher-title">professional English teacher</p>
                                 </div>
                             </div>
-                            <button @click="logout" class="text-gray-500 hover:text-gray-700">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </button>
+                            <div class="flex items-center space-x-4">
+                                <!-- زر BB-8 لتبديل الوضع الداكن -->
+                                <label class="bb8-toggle">
+                                    <input class="bb8-toggle__checkbox" type="checkbox" @change="toggleDarkMode">
+                                    <div class="bb8-toggle__container">
+                                        <div class="bb8-toggle__scenery">
+                                            <div class="bb8-toggle__star"></div>
+                                            <div class="bb8-toggle__star"></div>
+                                            <div class="bb8-toggle__star"></div>
+                                            <div class="bb8-toggle__star"></div>
+                                            <div class="bb8-toggle__star"></div>
+                                            <div class="bb8-toggle__star"></div>
+                                            <div class="bb8-toggle__star"></div>
+                                            <div class="tatto-1"></div>
+                                            <div class="tatto-2"></div>
+                                            <div class="gomrassen"></div>
+                                            <div class="hermes"></div>
+                                            <div class="chenini"></div>
+                                            <div class="bb8-toggle__cloud"></div>
+                                            <div class="bb8-toggle__cloud"></div>
+                                            <div class="bb8-toggle__cloud"></div>
+                                        </div>
+                                        <div class="bb8">
+                                            <div class="bb8__head-container">
+                                                <div class="bb8__antenna"></div>
+                                                <div class="bb8__antenna"></div>
+                                                <div class="bb8__head"></div>
+                                            </div>
+                                            <div class="bb8__body"></div>
+                                        </div>
+                                        <div class="artificial__hidden">
+                                            <div class="bb8__shadow"></div>
+                                        </div>
+                                    </div>
+                                </label>
+                                <button @click="logout" class="logout-btn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </header>
+                </div>
                 
                 <!-- Main Content -->
                 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -2019,22 +3633,74 @@
         <div class="hidden" id="studentDashboard">
             <div class="min-h-screen bg-gray-50">
                 <!-- Header -->
-                <header class="bg-white shadow-sm">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div class="flex justify-between items-center py-4">
-                            <div class="flex items-center space-x-4">
-                                <img :src="currentStudent.photoURL || 'https://cdn-icons-png.flaticon.com/128/3135/3135810.png'" alt="صورة الطالب الشخصية" class="h-10 w-10 rounded-full object-cover">
-                                <div>
-                                    <h1 class="text-lg font-bold text-gray-800">{{ currentStudent.name }}</h1>
-                                    <p class="text-xs text-gray-500">طالب - {{ currentStudent.class }}</p>
-                                </div>
+                <!-- Header with Glass Morphism Design for Student -->
+        <!-- Header with Glass Morphism Design for Student -->
+<!-- Header with Glass Morphism Design for Student -->
+<!-- استبدل قسم الهيدر الزجاجي للطلاب بالكود التالي -->
+
+<!-- Header with Glass Morphism Design for Student -->
+<div class="student-glass-header">
+
+    
+    <!-- Header Content -->
+    <div class="student-header-content">
+        <div class="flex justify-between items-center py-4 px-6">
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <div class="student-avatar-container">
+                    <img :src="currentStudent.photoURL || 'https://cdn-icons-png.flaticon.com/128/3135/3135810.png'" 
+                         alt="صورة الطالب الشخصية" 
+                         class="student-avatar-img">
+                    <div class="student-online-indicator"></div>
+                </div>
+                <div class="text-right">
+                    <h1 class="student-header-name">{{ currentStudent.name }}</h1>
+                    <p class="student-header-title">طالب - {{ currentStudent.class }}</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <label class="bb8-toggle">
+                    <input class="bb8-toggle__checkbox" type="checkbox" @change="toggleDarkMode">
+                    <div class="bb8-toggle__container">
+                        <div class="bb8-toggle__scenery">
+                            <div class="bb8-toggle__star"></div>
+                            <div class="bb8-toggle__star"></div>
+                            <div class="bb8-toggle__star"></div>
+                            <div class="bb8-toggle__star"></div>
+                            <div class="bb8-toggle__star"></div>
+                            <div class="bb8-toggle__star"></div>
+                            <div class="bb8-toggle__star"></div>
+                            <div class="tatto-1"></div>
+                            <div class="tatto-2"></div>
+                            <div class="gomrassen"></div>
+                            <div class="hermes"></div>
+                            <div class="chenini"></div>
+                            <div class="bb8-toggle__cloud"></div>
+                            <div class="bb8-toggle__cloud"></div>
+                            <div class="bb8-toggle__cloud"></div>
+                        </div>
+                        <div class="bb8">
+                            <div class="bb8__head-container">
+                                <div class="bb8__antenna"></div>
+                                <div class="bb8__antenna"></div>
+                                <div class="bb8__head"></div>
                             </div>
-                            <button @click="studentLogout" class="text-gray-500 hover:text-gray-700">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </button>
+                            <div class="bb8__body"></div>
+                        </div>
+                        <div class="artificial__hidden">
+                            <div class="bb8__shadow"></div>
                         </div>
                     </div>
-                </header>
+                </label>
+                <button @click="studentLogout" class="student-logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
                 
                 <!-- Main Content -->
                 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -3019,141 +4685,141 @@
                         </div>
                         
                         <!-- عرض الإجابات إذا كان مسموحاً -->
-                        <div v-if="currentMCQQuiz.showAnswers" class="mb-8">
-                            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 border border-indigo-100">
-                                <div class="flex items-center justify-between mb-6">
-                                    <h4 class="text-xl font-bold text-gray-800 flex items-center gap-2">
-                                        <i class="fas fa-chart-pie text-indigo-600"></i>
-                                        تفاصيل الإجابات
-                                    </h4>
-                                    <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">
-                                        {{ correctAnswers }} / {{ currentMCQQuiz.questions.length }} صحيحة
-                                    </span>
-                                </div>
-                                
-                                <div class="grid gap-4">
-                                    <div v-for="(question, index) in currentMCQQuiz.questions" :key="index" 
-                                         class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
-                                        <!-- رأس السؤال -->
-                                        <div class="flex items-start justify-between mb-4">
-                                            <div class="flex items-center gap-3">
-                                                <div class="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">
-                                                    {{ index + 1 }}
-                                                </div>
-                                                <p class="font-semibold text-gray-800 text-lg leading-relaxed">{{ question.text }}</p>
-                                            </div>
-                                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-xs font-medium">
-                                                {{ question.points || 1 }} نقطة
-                                            </span>
-                                        </div>
-                        
-                                        <!-- تفاصيل الإجابات -->
-                                        <div class="grid md:grid-cols-2 gap-4 mt-4">
-                                            <!-- الإجابة الصحيحة -->
-                                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-                                                <div class="flex items-center gap-2 mb-2">
-                                                    <i class="fas fa-check-circle text-green-600"></i>
-                                                    <span class="text-green-800 font-medium">الإجابة الصحيحة</span>
-                                                </div>
-                                                <div class="flex items-center gap-3">
-                                                    <span class="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                                                        {{ String.fromCharCode(65 + question.correctAnswer) }}
-                                                    </span>
-                                                    <span class="text-green-700 font-medium">
-                                                        {{ question.options[question.correctAnswer]?.text }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                        
-                                            <!-- إجابة الطالب -->
-                                            <div :class="studentAnswers[index] === question.correctAnswer ? 
-                                                        'bg-green-50 border-green-200' : 
-                                                        'bg-red-50 border-red-200'" 
-                                                 class="border rounded-lg p-4">
-                                                <div class="flex items-center gap-2 mb-2">
-                                                    <i :class="studentAnswers[index] === question.correctAnswer ? 
-                                                              'fas fa-check-circle text-green-600' : 
-                                                              'fas fa-times-circle text-red-600'"></i>
-                                                    <span :class="studentAnswers[index] === question.correctAnswer ? 
-                                                                 'text-green-800' : 'text-red-800'" 
-                                                          class="font-medium">
-                                                        إجابتك
-                                                    </span>
-                                                </div>
-                                                <div class="flex items-center gap-3">
-                                                    <span v-if="studentAnswers[index] !== undefined" 
-                                                          :class="studentAnswers[index] === question.correctAnswer ? 
-                                                                 'bg-green-600 text-white' : 
-                                                                 'bg-red-600 text-white'"
-                                                          class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
-                                                        {{ String.fromCharCode(65 + studentAnswers[index]) }}
-                                                    </span>
-                                                    <span v-else 
-                                                          class="w-8 h-8 bg-gray-400 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                                                        ؟
-                                                    </span>
-                                                    <span :class="studentAnswers[index] === question.correctAnswer ? 
-                                                                 'text-green-700' : 'text-red-700'" 
-                                                          class="font-medium">
-                                                        {{ studentAnswers[index] !== undefined ? 
-                                                            question.options[studentAnswers[index]]?.text : 
-                                                            'لم تُجب على السؤال' }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                        
-                                        <!-- نتيجة السؤال -->
-                                        <div class="mt-4 pt-4 border-t border-gray-200">
-                                            <div class="flex items-center justify-between">
-                                                <div class="flex items-center gap-2">
-                                                    <i class="fas fa-star text-yellow-500"></i>
-                                                    <span class="text-gray-700 font-medium">النتيجة</span>
-                                                </div>
-                                                <div class="flex items-center gap-3">
-                                                    <span :class="studentAnswers[index] === question.correctAnswer ? 
-                                                                 'text-green-600 font-bold' : 
-                                                                 'text-red-600 font-bold'">
-                                                        {{ studentAnswers[index] === question.correctAnswer ? 
-                                                           (question.points || 1) : 0 }} / {{ question.points || 1 }}
-                                                    </span>
-                                                    <span v-if="studentAnswers[index] === question.correctAnswer" 
-                                                          class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
-                                                        ✓ صحيح
-                                                    </span>
-                                                    <span v-else-if="studentAnswers[index] !== undefined" 
-                                                          class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">
-                                                        ✗ خاطئ
-                                                    </span>
-                                                    <span v-else 
-                                                          class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs font-medium">
-                                                        ؟ لم تُجب
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                                <!-- ملخص النتائج -->
-                                <div class="mt-6 bg-white rounded-xl p-4 border border-gray-200">
-                                    <div class="grid grid-cols-3 gap-4 text-center">
-                                        <div class="bg-green-50 rounded-lg p-3">
-                                            <div class="text-2xl font-bold text-green-600">{{ correctAnswers }}</div>
-                                            <div class="text-green-700 text-sm">إجابات صحيحة</div>
-                                        </div>
-                                        <div class="bg-red-50 rounded-lg p-3">
-                                            <div class="text-2xl font-bold text-red-600">{{ wrongAnswers }}</div>
-                                            <div class="text-red-700 text-sm">إجابات خاطئة</div>
-                                        </div>
-                                        <div class="bg-blue-50 rounded-lg p-3">
-                                            <div class="text-2xl font-bold text-blue-600">{{ skippedAnswers }}</div>
-                                            <div class="text-blue-700 text-sm">أسئلة لم تُجب</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                       <div v-if="currentMCQQuiz.showAnswers" class="mb-8">
+    <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 border border-indigo-100">
+        <div class="flex items-center justify-between mb-6">
+            <h4 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                <i class="fas fa-chart-pie text-indigo-600"></i>
+                تفاصيل الإجابات
+            </h4>
+            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">
+                {{ correctAnswers }} / {{ currentMCQQuiz.questions.length }} صحيحة
+            </span>
+        </div>
+        
+        <div class="grid gap-4">
+            <div v-for="(question, index) in currentMCQQuiz.questions" :key="index" 
+                 class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+                <!-- رأس السؤال -->
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">
+                            {{ index + 1 }}
                         </div>
+                        <p class="font-semibold text-gray-800 text-lg leading-relaxed">{{ question.text }}</p>
+                    </div>
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-lg text-xs font-medium">
+                        {{ question.points || 1 }} نقطة
+                    </span>
+                </div>
+
+                <!-- تفاصيل الإجابات -->
+                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                    <!-- الإجابة الصحيحة -->
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-check-circle text-green-600"></i>
+                            <span class="text-green-800 font-medium">الإجابة الصحيحة</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                {{ String.fromCharCode(65 + question.correctAnswer) }}
+                            </span>
+                            <span class="text-green-700 font-medium">
+                                {{ question.options[question.correctAnswer]?.text }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- إجابة الطالب -->
+                    <div :class="studentAnswers[index] === question.correctAnswer ? 
+                                'bg-green-50 border-green-200' : 
+                                'bg-red-50 border-red-200'" 
+                         class="border rounded-lg p-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i :class="studentAnswers[index] === question.correctAnswer ? 
+                                      'fas fa-check-circle text-green-600' : 
+                                      'fas fa-times-circle text-red-600'"></i>
+                            <span :class="studentAnswers[index] === question.correctAnswer ? 
+                                         'text-green-800' : 'text-red-800'" 
+                                  class="font-medium">
+                                إجابتك
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span v-if="studentAnswers[index] !== undefined" 
+                                  :class="studentAnswers[index] === question.correctAnswer ? 
+                                         'bg-green-600 text-white' : 
+                                         'bg-red-600 text-white'"
+                                  class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
+                                {{ String.fromCharCode(65 + studentAnswers[index]) }}
+                            </span>
+                            <span v-else 
+                                  class="w-8 h-8 bg-gray-400 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                ؟
+                            </span>
+                            <span :class="studentAnswers[index] === question.correctAnswer ? 
+                                         'text-green-700' : 'text-red-700'" 
+                                  class="font-medium">
+                                {{ studentAnswers[index] !== undefined ? 
+                                    question.options[studentAnswers[index]]?.text : 
+                                    'لم تُجب على السؤال' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نتيجة السؤال -->
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-star text-yellow-500"></i>
+                            <span class="text-gray-700 font-medium">النتيجة</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span :class="studentAnswers[index] === question.correctAnswer ? 
+                                         'text-green-600 font-bold' : 
+                                         'text-red-600 font-bold'">
+                                {{ studentAnswers[index] === question.correctAnswer ? 
+                                   (question.points || 1) : 0 }} / {{ question.points || 1 }}
+                            </span>
+                            <span v-if="studentAnswers[index] === question.correctAnswer" 
+                                  class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                                ✓ صحيح
+                            </span>
+                            <span v-else-if="studentAnswers[index] !== undefined" 
+                                  class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">
+                                ✗ خاطئ
+                            </span>
+                            <span v-else 
+                                  class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs font-medium">
+                                ؟ لم تُجب
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ملخص النتائج -->
+        <div class="mt-6 bg-white rounded-xl p-4 border border-gray-200">
+            <div class="grid grid-cols-3 gap-4 text-center">
+                <div class="bg-green-50 rounded-lg p-3">
+                    <div class="text-2xl font-bold text-green-600">{{ correctAnswers }}</div>
+                    <div class="text-green-700 text-sm">إجابات صحيحة</div>
+                </div>
+                <div class="bg-red-50 rounded-lg p-3">
+                    <div class="text-2xl font-bold text-red-600">{{ wrongAnswers }}</div>
+                    <div class="text-red-700 text-sm">إجابات خاطئة</div>
+                </div>
+                <div class="bg-blue-50 rounded-lg p-3">
+                    <div class="text-2xl font-bold text-blue-600">{{ skippedAnswers }}</div>
+                    <div class="text-blue-700 text-sm">أسئلة لم تُجب</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                         
                         <div class="flex justify-center space-x-4">
                             <button @click="closeMCQQuiz" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors duration-200">
@@ -3256,6 +4922,20 @@
                 throw error;
             }
         };
+        // في قسم methods
+// تعديل دالة toggleDarkMode
+const toggleDarkMode = (event) => {
+    const isDarkMode = event.target.checked;
+    if (isDarkMode) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+        localStorage.setItem('darkMode', 'enabled');
+    } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        localStorage.setItem('darkMode', 'disabled');
+    }
+};
         
         createApp({
             setup() {
@@ -5064,6 +6744,25 @@ const cleanupCharts = () => {
 
                 // Initialize charts when component mounts
                 onMounted(() => {
+                    // في setup() بعد onMounted
+onMounted(() => {
+    // التحقق من الوضع الداكن المحفوظ
+    const darkMode = localStorage.getItem('darkMode');
+    if (darkMode === 'enabled') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+        // تحديد حالة زر BB-8
+        const bb8Checkboxes = document.querySelectorAll('.bb8-toggle__checkbox');
+        bb8Checkboxes.forEach(checkbox => {
+            checkbox.checked = true;
+        });
+    } else if (darkMode === 'disabled') {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+    }
+    
+    // باقي الكود الحالي...
+});
                     nextTick(() => {
                         initCharts();
                     });
@@ -5190,6 +6889,7 @@ const cleanupCharts = () => {
                     submitQuiz,
                     retakeQuiz,
                     closeMCQQuiz,
+                        toggleDarkMode,
                     loadMCQGrades
                 };
             }
