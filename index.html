@@ -27,6 +27,303 @@
             background-color: #f8fafc;
             transition: all 0.3s ease;
         }
+        /* تحسينات للزر العائم للتحفيز الذكي */
+.ai-motivation-floating-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    animation: pulse-motivation 3s infinite;
+}
+
+@keyframes pulse-motivation {
+    0%, 100% {
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 8px 35px rgba(102, 126, 234, 0.6);
+        transform: scale(1.05);
+    }
+}
+
+.ai-motivation-floating-btn:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.ai-motivation-floating-btn i {
+    font-size: 28px;
+    color: white;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.ai-motivation-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.ai-motivation-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ai-motivation-card {
+    width: 90%;
+    max-width: 450px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(20px);
+    transform: translateY(30px);
+    transition: transform 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-motivation-modal.active .ai-motivation-card {
+    transform: translateY(0);
+}
+
+.ai-motivation-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+.ai-motivation-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.ai-motivation-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+}
+
+.ai-motivation-content {
+    text-align: center;
+    padding: 20px 0;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ai-motivation-quote {
+    font-size: 20px;
+    line-height: 1.6;
+    color: #2d3748;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding: 0 10px;
+    position: relative;
+    quotes: "“" "”" "‘" "’";
+}
+
+.ai-motivation-quote::before {
+    content: open-quote;
+    font-size: 60px;
+    color: rgba(102, 126, 234, 0.2);
+    position: absolute;
+    top: -20px;
+    right: 0;
+    line-height: 1;
+}
+
+.ai-motivation-quote::after {
+    content: close-quote;
+    font-size: 60px;
+    color: rgba(102, 126, 234, 0.2);
+    position: absolute;
+    bottom: -40px;
+    left: 0;
+    line-height: 1;
+}
+
+.ai-motivation-translation {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #4a5568;
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(102, 126, 234, 0.08);
+    border-radius: 12px;
+    border-right: 4px solid #667eea;
+    font-weight: 500;
+}
+
+.ai-motivation-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.ai-motivation-btn {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+}
+
+.ai-motivation-btn.primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.ai-motivation-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.ai-motivation-btn.secondary {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    border: 2px solid rgba(102, 126, 234, 0.3);
+}
+
+.ai-motivation-btn.secondary:hover {
+    background: rgba(102, 126, 234, 0.2);
+    transform: translateY(-2px);
+}
+
+.ai-motivation-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px 20px;
+}
+
+.ai-loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(102, 126, 234, 0.2);
+    border-top-color: #667eea;
+    border-radius: 50%;
+    animation: spin-ai 1s linear infinite;
+}
+
+@keyframes spin-ai {
+    to { transform: rotate(360deg); }
+}
+
+.ai-motivation-tag {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ai-motivation-error {
+    text-align: center;
+    padding: 30px;
+    color: #e53e3e;
+}
+
+.ai-motivation-error i {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.dark .ai-motivation-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .ai-motivation-quote {
+    color: #f7fafc;
+}
+
+.dark .ai-motivation-translation {
+    color: #cbd5e0;
+    background: rgba(102, 126, 234, 0.15);
+}
+
+@media (max-width: 480px) {
+    .ai-motivation-floating-btn {
+        bottom: 20px;
+        left: 20px;
+        width: 60px;
+        height: 60px;
+    }
+    
+    .ai-motivation-floating-btn i {
+        font-size: 24px;
+    }
+    
+    .ai-motivation-card {
+        padding: 20px;
+        border-radius: 20px;
+    }
+    
+    .ai-motivation-quote {
+        font-size: 18px;
+    }
+    
+    .ai-motivation-actions {
+        flex-direction: column;
+    }
+}
         /* Custom Animations */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
@@ -5614,6 +5911,76 @@ input:focus {
         </div>
     </div>
 </div>
+<!-- زر التحفيز الذكي العائم للطلاب -->
+<div v-if="isStudentLoggedIn" class="ai-motivation-floating-btn" @click="openMotivationModal">
+    <i class="fas fa-bolt"></i>
+</div>
+
+<!-- نافذة الجمل التحفيزية -->
+<div class="ai-motivation-modal" :class="{ active: showMotivationModal }" @click.self="showMotivationModal = false">
+    <div class="ai-motivation-card">
+        <div class="ai-motivation-tag">
+            <i class="fas fa-robot"></i>
+            جيميني AI
+        </div>
+        
+        <div class="ai-motivation-header">
+            <div class="ai-motivation-title">
+                <div class="ai-motivation-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                دفعة قوة إيجابية
+            </div>
+            <button @click="showMotivationModal = false" class="text-gray-500 hover:text-gray-700 text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="ai-motivation-content">
+            <div v-if="motivationLoading" class="ai-motivation-loading">
+                <div class="ai-loading-spinner"></div>
+                <p class="text-gray-600">جيميني يجهل لك دفعة تحفيزية...</p>
+            </div>
+            
+            <div v-else-if="motivationError" class="ai-motivation-error">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>{{ motivationError }}</p>
+                <button @click="generateMotivation" class="ai-motivation-btn primary mt-4">
+                    <i class="fas fa-redo"></i>
+                    حاول مرة أخرى
+                </button>
+            </div>
+            
+            <div v-else>
+                <div class="ai-motivation-quote">
+                    {{ currentMotivation.quote }}
+                </div>
+                
+                <div v-if="currentMotivation.translation" class="ai-motivation-translation">
+                    <i class="fas fa-language mr-2 text-purple-500"></i>
+                    {{ currentMotivation.translation }}
+                </div>
+            </div>
+        </div>
+        
+        <div class="ai-motivation-actions">
+            <button @click="generateMotivation" class="ai-motivation-btn primary" :disabled="motivationLoading">
+                <i class="fas fa-sync-alt"></i>
+                جملة جديدة
+            </button>
+            
+            <button @click="toggleTranslation" class="ai-motivation-btn secondary" v-if="currentMotivation.translation">
+                <i class="fas" :class="showTranslation ? 'fa-eye-slash' : 'fa-eye'"></i>
+                {{ showTranslation ? 'إخفاء الترجمة' : 'عرض الترجمة' }}
+            </button>
+            
+            <button @click="copyToClipboard" class="ai-motivation-btn secondary">
+                <i class="fas fa-copy"></i>
+                نسخ
+            </button>
+        </div>
+    </div>
+</div>
     
     
 
@@ -5787,6 +6154,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentUser = ref({});
                 const currentStudent = ref({});
                 const showTeacherLogin = ref(false);
+// في دالة setup، أضف هذه المتغيرات:
+const showMotivationModal = ref(false);
+const motivationLoading = ref(false);
+const motivationError = ref('');
+const currentMotivation = ref({
+    quote: '',
+    translation: '',
+    category: '',
+    timestamp: '',
+    source: ''
+});
+const showTranslation = ref(true);
+const copyBtnText = ref('نسخ');
+
+// استدعاء دالة التحميل عند بداية التطبيق
+onMounted(() => {
+    loadLastMotivation();
+    addMotivationStyles();
+});
+
                 // Notification state
 const showAddNotificationModal = ref(false);
 const notifications = ref([]);
@@ -6116,6 +6503,382 @@ const chartsCleanup = ref(false);
                     if (!quiz) return 100;
                     return quiz.maxGrade || quiz.totalMarks || quiz.fullMark || 100;
                 };
+                // AI Motivation methods
+                // عدّل اسم الدالة في قسم الـ methods
+// إضافة هذه الثوابت في بداية الـ setup
+const GROQ_API_KEY = "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";
+const motivationCategories = [
+    "التعلم والنمو",
+    "النجاح والتقدم",
+    "الطموح والأحلام",
+    "العزيمة والإصرار",
+    "التفوق الأكاديمي",
+    "الثقة بالنفس",
+    "تحدي الصعاب",
+    "الاستمرارية"
+];
+
+// دالة فتح النافذة
+const openMotivationModal = () => {
+    showMotivationModal.value = true;
+    if (!currentMotivation.value.quote) {
+        generateMotivation();
+    }
+};
+
+// دالة توليد الجمل التحفيزية باستخدام Groq API
+const generateMotivation = async () => {
+    motivationLoading.value = true;
+    motivationError.value = '';
+
+    try {
+        // اختيار فئة عشوائية
+        const randomCategory = motivationCategories[Math.floor(Math.random() * motivationCategories.length)];
+        
+        console.log('🚀 Sending request to Groq AI...');
+
+        // استخدام Groq API
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${GROQ_API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile", // يمكنك استخدام أي موديل متوفر
+                messages: [{
+                    role: "user",
+                    content: `أعطني جملة تحفيزية باللغة الإنجليزية للطلاب عن موضوع: ${randomCategory}
+                    ثم اكتب الترجمة العربية لها.
+                    
+                    التنسيق المطلوب:
+                    English: [الجملة الإنجليزية هنا]
+                    Arabic: [الترجمة العربية هنا]
+                    
+                    متطلبات:
+                    - جملة واحدة قصيرة (10-15 كلمة)
+                    - إيجابية وملهمة
+                    - تتعلق بالتعلم أو التعليم
+                    - مناسبة للطلاب`
+                }],
+                temperature: 0.8,
+                max_tokens: 150,
+                stream: false
+            })
+        });
+
+        console.log('📡 Response status:', response.status);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('❌ API Error details:', errorData);
+            throw new Error(`API Error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
+        }
+
+        const data = await response.json();
+        console.log('✨ AI Response:', data);
+        
+        if (!data.choices || !data.choices[0]) {
+            throw new Error('Invalid response from AI');
+        }
+
+        const content = data.choices[0].message.content;
+        
+        if (!content) throw new Error('No content returned from AI');
+
+        // معالجة النص وإظهاره
+        processMotivationResponse(content, randomCategory, 'Groq AI (Llama 3)');
+
+    } catch (error) {
+        console.error('💥 generateMotivation failed:', error.message);
+
+        // استخدام جملة محفوظة عند الخطأ
+        useSavedMotivation();
+        motivationError.value = `تم استخدام جملة محفوظة. ${error.message}`;
+    } finally {
+        motivationLoading.value = false;
+    }
+};
+
+// دالة بديلة لو أردت تجربة موديل آخر
+const tryDifferentModel = async (category) => {
+    try {
+        console.log('🔄 Trying Mixtral model...');
+        
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${GROQ_API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: "mixtral-8x7b-32768", // موديل بديل
+                messages: [{
+                    role: "user",
+                    content: `Motivational quote about ${category} for students. English first, then Arabic translation.`
+                }],
+                temperature: 0.7,
+                max_tokens: 100
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            const content = data.choices?.[0]?.message?.content || '';
+            processMotivationResponse(content, category, 'Groq AI (Mixtral)');
+        } else {
+            throw new Error(`Mixtral failed: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('❌ فشل Mixtral:', error);
+        throw error;
+    }
+};
+
+// معالجة الاستجابة - نفس الكود مع تعديلات بسيطة
+const processMotivationResponse = (content, category, source = 'AI') => {
+    // تنظيف وتحليل النص
+    const lines = content.split('\n').map(line => line.trim()).filter(line => line);
+    
+    let englishQuote = '';
+    let arabicTranslation = '';
+    
+    // البحث عن English و Arabic
+    for (let i = 0; i < lines.length; i++) {
+        if (lines[i].toLowerCase().startsWith('english:')) {
+            englishQuote = lines[i].replace(/^english:\s*/i, '').trim();
+            // التحقق من السطر التالي للعربية
+            if (i + 1 < lines.length) {
+                arabicTranslation = lines[i + 1].replace(/^arabic:\s*/i, '').trim();
+            }
+            break;
+        }
+    }
+    
+    // إذا لم نجد بالتنسيق المتوقع، نبحث عن أي سطر يحتوي على جملة
+    if (!englishQuote) {
+        // البحث عن أول سطر يبدو جملة تحفيزية
+        for (const line of lines) {
+            if (line && !line.toLowerCase().includes('english:') && !line.toLowerCase().includes('arabic:') && line.length > 20) {
+                englishQuote = line;
+                break;
+            }
+        }
+    }
+    
+    // إذا لم نجد ترجمة، نستخدم السطر التالي للجملة الإنجليزية
+    if (!arabicTranslation && englishQuote) {
+        const englishIndex = lines.findIndex(line => line.includes(englishQuote));
+        if (englishIndex !== -1 && englishIndex + 1 < lines.length) {
+            arabicTranslation = lines[englishIndex + 1];
+        }
+    }
+    
+    // تنظيف النصوص
+    englishQuote = englishQuote.replace(/^["']|["']$/g, '').trim();
+    arabicTranslation = arabicTranslation.replace(/^["']|["']$/g, '').trim();
+    
+    // إذا كانت العربية تحتوي على "Arabic:"، تنظيفها
+    if (arabicTranslation.toLowerCase().includes('arabic:')) {
+        arabicTranslation = arabicTranslation.replace(/^arabic:\s*/i, '').trim();
+    }
+    
+    // تعيين القيم النهائية
+    currentMotivation.value = {
+        quote: englishQuote || 'Education is the key to unlocking your potential.',
+        translation: arabicTranslation || 'التعليم هو المفتاح لإطلاق إمكاناتك.',
+        category: category,
+        timestamp: new Date().toISOString(),
+        source: source
+    };
+    
+    console.log('🎉 الجملة النهائية:', currentMotivation.value);
+    
+    // حفظ في localStorage
+    saveMotivationToStorage();
+};
+
+// دالة حفظ في localStorage
+const saveMotivationToStorage = () => {
+    try {
+        // حفظ الجملة الحالية
+        localStorage.setItem('lastMotivation', JSON.stringify(currentMotivation.value));
+        
+        // حفظ في السجل
+        const history = JSON.parse(localStorage.getItem('motivationHistory') || '[]');
+        history.unshift({
+            ...currentMotivation.value,
+            savedAt: new Date().toISOString()
+        });
+        
+        // حفظ فقط آخر 20 جملة
+        if (history.length > 20) {
+            history.pop();
+        }
+        
+        localStorage.setItem('motivationHistory', JSON.stringify(history));
+        
+        console.log('💾 Saved motivation to localStorage');
+    } catch (error) {
+        console.warn('⚠️ Could not save to localStorage:', error);
+    }
+};
+
+// استخدام جمل محفوظة - نفس الكود
+const useSavedMotivation = () => {
+    const randomCategory = motivationCategories[Math.floor(Math.random() * motivationCategories.length)];
+    const fallbackQuotes = [
+        {
+            quote: "The beautiful thing about learning is that no one can take it away from you.",
+            translation: "الجمال في التعلم هو أن لا أحد يستطيع أن يسلبه منك.",
+            category: "التعلم والنمو"
+        },
+        {
+            quote: "Your education is a dress rehearsal for the life you're about to lead.",
+            translation: "تعليمك هو بروفة للحياة التي أنت على وشك قيادتها.",
+            category: "التعلم والنمو"
+        },
+        {
+            quote: "Success is the sum of small efforts repeated day in and day out.",
+            translation: "النجاح هو مجموع الجهود الصغيرة المتكررة يوماً بعد يوم.",
+            category: "النجاح والتقدم"
+        },
+        {
+            quote: "The future belongs to those who believe in the beauty of their dreams.",
+            translation: "المستقبل يخص أولئك الذين يؤمنون بجمال أحلامهم.",
+            category: "الطموح والأحلام"
+        },
+        {
+            quote: "Don't let what you cannot do interfere with what you can do.",
+            translation: "لا تدع ما لا تستطيع فعله يتعارض مع ما تستطيع فعله.",
+            category: "العزيمة والإصرار"
+        },
+        {
+            quote: "Education is the most powerful weapon which you can use to change the world.",
+            translation: "التعليم هو أقوى سلاح يمكنك استخدامه لتغيير العالم.",
+            category: "التعلم والنمو"
+        },
+        {
+            quote: "The only way to do great work is to love what you do.",
+            translation: "الطريقة الوحيدة للقيام بعمل عظيم هي أن تحب ما تفعله.",
+            category: "التفوق الأكاديمي"
+        },
+        {
+            quote: "It does not matter how slowly you go as long as you do not stop.",
+            translation: "لا يهم مدى بطئك طالما أنك لا تتوقف.",
+            category: "العزيمة والإصرار"
+        }
+    ];
+    
+    // اختيار جملة عشوائية
+    const randomQuote = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
+    
+    currentMotivation.value = {
+        ...randomQuote,
+        timestamp: new Date().toISOString(),
+        source: 'Saved Quotes'
+    };
+    
+    saveMotivationToStorage();
+};
+
+// تبديل عرض الترجمة
+const toggleTranslation = () => {
+    showTranslation.value = !showTranslation.value;
+    
+    // التحكم في عرض الترجمة باستخدام Vue مباشرة
+    nextTick(() => {
+        const translationElement = document.querySelector('.ai-motivation-translation');
+        if (translationElement) {
+            translationElement.style.display = showTranslation.value ? 'block' : 'none';
+        }
+    });
+};
+
+// نسخ إلى الحافظة
+const copyToClipboard = () => {
+    const textToCopy = showTranslation.value 
+        ? `${currentMotivation.value.quote}\n\n${currentMotivation.value.translation}`
+        : currentMotivation.value.quote;
+    
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        // عرض رسالة نجاح مؤقتة
+        const originalText = copyBtnText.value;
+        copyBtnText.value = 'تم النسخ!';
+        
+        setTimeout(() => {
+            copyBtnText.value = originalText;
+        }, 2000);
+        
+        // أو استخدام Toast
+        showToast('تم نسخ الجملة إلى الحافظة!', 'success');
+        
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+        showToast('فشل النسخ، حاول مرة أخرى', 'error');
+    });
+};
+
+// تحميل آخر جملة تحفيزية
+const loadLastMotivation = () => {
+    const lastMotivation = localStorage.getItem('lastMotivation');
+    if (lastMotivation) {
+        try {
+            const parsed = JSON.parse(lastMotivation);
+            
+            // التحقق إذا كانت الجملة حديثة (أقل من 24 ساعة)
+            const savedDate = new Date(parsed.timestamp);
+            const now = new Date();
+            const diffHours = Math.abs(now - savedDate) / 36e5;
+            
+            if (diffHours < 24) {
+                currentMotivation.value = parsed;
+                console.log('🔄 Loaded recent motivation from storage');
+            }
+        } catch (e) {
+            console.error('Error parsing last motivation:', e);
+        }
+    }
+};
+
+// دالة لعرض إشعارات (اختياري)
+const showToast = (message, type = 'info') => {
+    // يمكنك استخدام مكتبة Toast أو إنشاء عنصر بسيط
+    const toast = document.createElement('div');
+    toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 animate-slide-in ${
+        type === 'success' ? 'bg-green-500 text-white' : 
+        type === 'error' ? 'bg-red-500 text-white' : 
+        'bg-blue-500 text-white'
+    }`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+};
+
+// إضافة هذه الأنماط CSS
+const addMotivationStyles = () => {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slide-in {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .animate-slide-in {
+            animation: slide-in 0.3s ease;
+        }
+    `;
+    document.head.appendChild(style);
+};
                 // Methods for notifications
 // Methods for notifications
 const toggleNotifications = () => {
@@ -6744,6 +7507,7 @@ const handleStudentLogin = async () => {
             loadStudentContent();
             loadStudentGrades();
            loadNotifications();
+                       loadLastMotivation();
         } else {
             studentLoginError.value = 'كود الطالب غير صحيح';
         }
@@ -7826,6 +8590,7 @@ onMounted(() => {
         document.documentElement.classList.remove('dark');
         document.documentElement.classList.add('light');
     }
+    loadLastMotivation();
     
     // باقي الكود الحالي...
 });
@@ -7974,6 +8739,19 @@ onMounted(() => {
     getNotificationIcon,
     getNotificationTypeText,
     formatNotificationDate,
+    showMotivationModal,  // خاصية
+    currentMotivation,
+    motivationLoading,
+    motivationError,
+    showTranslation,
+    
+    // ... الـ computed properties
+    
+    // الطرق Methods
+    openMotivationModal,  // ← تأكد من إضافتها هنا
+    generateMotivation,
+    toggleTranslation,
+    copyToClipboard,
                     loadMCQGrades
                 };
             }
