@@ -6512,7 +6512,7 @@ const chartsCleanup = ref(false);
                 // AI Motivation methods
                 // عدّل اسم الدالة في قسم الـ methods
 // إضافة هذه الثوابت في بداية الـ setup
-const GROQ_API_KEY = process.env.GROQ_API_KEY || import.meta.env.VITE_GROQ_API_KEY;
+const GROQ_API_KEY = window.GROQ_API_KEY || "fallback_key_if_needed";
 const motivationCategories = [
     "التعلم والنمو",
     "النجاح والتقدم",
