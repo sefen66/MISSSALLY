@@ -5912,16 +5912,17 @@ input:focus {
     </div>
 </div>
 <!-- زر التحفيز الذكي العائم للطلاب -->
+<!-- زر التحفيز الذكي العائم للطلاب -->
 <div v-if="isStudentLoggedIn" class="ai-motivation-floating-btn" @click="openMotivationModal">
     <i class="fas fa-bolt"></i>
 </div>
 
-<!-- نافذة الجمل التحفيزية -->
+<!-- نافذة الجمل التحفيزية المعدلة -->
 <div class="ai-motivation-modal" :class="{ active: showMotivationModal }" @click.self="showMotivationModal = false">
     <div class="ai-motivation-card">
         <div class="ai-motivation-tag">
             <i class="fas fa-robot"></i>
-             AI generated
+            AI generated
         </div>
         
         <div class="ai-motivation-header">
@@ -5929,7 +5930,7 @@ input:focus {
                 <div class="ai-motivation-icon">
                     <i class="fas fa-brain"></i>
                 </div>
-                Motivational phrase
+                جملة تحفيزية
             </div>
             <button @click="showMotivationModal = false" class="text-gray-500 hover:text-gray-700 text-xl">
                 <i class="fas fa-times"></i>
@@ -5952,11 +5953,13 @@ input:focus {
             </div>
             
             <div v-else>
+                <!-- الجملة الإنجليزية تظهر دائماً -->
                 <div class="ai-motivation-quote">
                     {{ currentMotivation.quote }}
                 </div>
                 
-                <div v-if="currentMotivation.translation" class="ai-motivation-translation">
+                <!-- الترجمة العربية تظهر فقط عند الضغط على الزر -->
+                <div v-if="currentMotivation.translation && showTranslation" class="ai-motivation-translation">
                     <i class="fas fa-language mr-2 text-purple-500"></i>
                     {{ currentMotivation.translation }}
                 </div>
@@ -5969,7 +5972,10 @@ input:focus {
                 جملة جديدة
             </button>
             
-            <button @click="toggleTranslation" class="ai-motivation-btn secondary" v-if="currentMotivation.translation">
+            <!-- زر الترجمة - يظهر فقط إذا كان هناك ترجمة -->
+            <button @click="toggleTranslation" class="ai-motivation-btn secondary" 
+                    v-if="currentMotivation.translation"
+                    :disabled="!currentMotivation.translation">
                 <i class="fas" :class="showTranslation ? 'fa-eye-slash' : 'fa-eye'"></i>
                 {{ showTranslation ? 'إخفاء الترجمة' : 'عرض الترجمة' }}
             </button>
@@ -6506,7 +6512,7 @@ const chartsCleanup = ref(false);
                 // AI Motivation methods
                 // عدّل اسم الدالة في قسم الـ methods
 // إضافة هذه الثوابت في بداية الـ setup
-const GROQ_API_KEY = "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";
+const GROQ_API_KEY = process.env.GROQ_API_KEY || import.meta.env.VITE_GROQ_API_KEY;
 const motivationCategories = [
     "التعلم والنمو",
     "النجاح والتقدم",
