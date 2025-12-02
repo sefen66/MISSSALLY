@@ -12,6 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+    
  
     
     <!-- Chart.js for beautiful charts -->
@@ -5931,7 +5932,7 @@ input:focus {
                 <div class="ai-motivation-icon">
                     <i class="fas fa-brain"></i>
                 </div>
-                Motivational sentence
+                جملة تحفيزية
             </div>
             <button @click="showMotivationModal = false" class="text-gray-500 hover:text-gray-700 text-xl">
                 <i class="fas fa-times"></i>
@@ -5941,7 +5942,7 @@ input:focus {
         <div class="ai-motivation-content">
             <div v-if="motivationLoading" class="ai-motivation-loading">
                 <div class="ai-loading-spinner"></div>
-                <p class="text-gray-600"> يتم تجهيز جملة تحفيزية بواسطة AI...</p>
+                <p class="text-gray-600">جيميني يجهل لك دفعة تحفيزية...</p>
             </div>
             
             <div v-else-if="motivationError" class="ai-motivation-error">
@@ -6078,6 +6079,7 @@ input:focus {
                 throw error;
             }
         };
+        
        // دالة لتحديد لون آخر دخول
 const getLastLoginColor = (lastLogin) => {
     if (!lastLogin) return 'bg-gray-100 text-gray-800';
@@ -6161,6 +6163,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const currentUser = ref({});
                 const currentStudent = ref({});
                 const showTeacherLogin = ref(false);
+                
 // في دالة setup، أضف هذه المتغيرات:
 const showMotivationModal = ref(false);
 const motivationLoading = ref(false);
@@ -6510,6 +6513,7 @@ const chartsCleanup = ref(false);
                     if (!quiz) return 100;
                     return quiz.maxGrade || quiz.totalMarks || quiz.fullMark || 100;
                 };
+                
                 // AI Motivation methods
                 // عدّل اسم الدالة في قسم الـ methods
 // إضافة هذه الثوابت في بداية الـ setup
@@ -6533,6 +6537,8 @@ const openMotivationModal = () => {
         generateMotivation();
     }
 };
+// دالة مساعدة للحصول على عنوان الاختبار من ID
+
 
 // دالة توليد الجملة التحفيزية
 const generateMotivation = async () => {
@@ -8019,6 +8025,12 @@ const handleStudentLogin = async () => {
         default: return 'bg-gray-100 text-gray-800';
     }
 };
+
+const getQuizTitle = (quizId) => {
+    const quiz = availableQuizzes.value.find(q => q.id === quizId);
+    return quiz ? quiz.title : "اختبار";
+};
+
                 
 const saveGrade = async (student) => {
     try {
@@ -8026,6 +8038,7 @@ const saveGrade = async (student) => {
             alert('الرجاء اختيار اختبار');
             return;
         }
+        
         
         const gradeData = {
             studentId: student.id,
@@ -8056,8 +8069,8 @@ const saveGrade = async (student) => {
         console.error('Error saving grade:', error);
         alert('حدث خطأ أثناء حفظ الدرجة');
     }
-};
-                
+};      
+   
                 const updateStudentAverageGrade = async (studentId) => {
                     try {
                         const snapshot = await db.collection('grades')
@@ -8685,6 +8698,7 @@ onMounted(() => {
     motivationLoading,
     motivationError,
     showTranslation,
+    
     
     // ... الـ computed properties
     
