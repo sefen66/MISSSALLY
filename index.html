@@ -29,6 +29,74 @@
             background-color: #f8fafc;
             transition: all 0.3s ease;
         }
+        /* منع التحميل للفيديو */
+.no-download-video {
+    pointer-events: auto;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.no-download-video::-webkit-media-controls-download-button {
+    display: none !important;
+}
+
+.no-download-video::-webkit-media-controls-enclosure {
+    overflow: hidden;
+}
+
+.no-download-video::-webkit-media-controls-panel {
+    width: calc(100% + 30px);
+}
+
+/* إخفاء القائمة السياقية */
+.video-player-container {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* منع التحميل في جميع المتصفحات */
+video[controlsList="nodownload"] {
+    &::-webkit-media-controls {
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    
+    &::-webkit-media-controls-download-button {
+        display: none;
+    }
+}
+
+/* iOS خاص */
+@supports (-webkit-touch-callout: none) {
+    .no-download-video {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+    }
+}
+
+/* إخفاء زر التحميل في المتصفحات الحديثة */
+.no-download-video {
+    &::-internal-media-controls-download-button {
+        display: none;
+    }
+    
+    &::-webkit-media-controls-download-button {
+        display: none;
+    }
+    
+    &::-moz-media-controls-download-button {
+        display: none;
+    }
+    
+    &::-ms-media-controls-download-button {
+        display: none;
+    }
+}
         .video-player-container {
     position: relative;
     background: #000;
@@ -5682,7 +5750,7 @@ input:focus {
         <!-- Video Modal -->
         <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
             <div class="bg-white rounded-lg w-full max-w-4xl mx-4" style="max-height: 90vh; overflow-y: auto;">
-                <!-- أضف هذا الجزء - Header مع زر الإغلاق -->
+                <!-- Header مع زر الإغلاق -->
                 <div class="p-4 flex justify-between items-center border-b border-gray-200">
                     <h3 class="text-lg font-medium">{{ currentVideo.title || 'مشاهدة الفيديو التعليمي' }}</h3>
                     <button @click="closeVideo()" class="text-gray-500 hover:text-gray-700 text-xl">
@@ -5696,14 +5764,33 @@ input:focus {
                             <iframe 
                                 width="100%" 
                                 height="500" 
-                                :src="'https://www.youtube.com/embed/' + extractYouTubeId(currentVideo.url)" 
+                                :src="'https://www.youtube.com/embed/' + extractYouTubeId(currentVideo.url) + '?modestbranding=1&rel=0&controls=1&disablekb=1'" 
                                 frameborder="0" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                 allowfullscreen>
                             </iframe>
                         </div>
-                        <div v-else class="w-full bg-black" style="height: 500px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-play text-white text-5xl"></i>
+                        <div v-else class="w-full">
+                            <!-- فيديو مباشر بدون تحميل -->
+                            <div class="video-player-container" @contextmenu.prevent @touchstart.prevent>
+                                <video 
+                                    v-if="currentVideo.fileUrl"
+                                    :src="currentVideo.fileUrl"
+                                    controls
+                                    controlsList="nodownload noplaybackrate nofullscreen"
+                                    disablePictureInPicture
+                                    disableRemotePlayback
+                                    style="width: 100%; height: 500px;"
+                                    class="no-download-video"
+                                    @contextmenu.prevent
+                                    @touchstart.prevent
+                                >
+                                    متصفحك لا يدعم تشغيل الفيديو.
+                                </video>
+                                <div v-else class="w-full bg-black" style="height: 500px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-play text-white text-5xl"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="mt-4">
@@ -6699,6 +6786,49 @@ document.addEventListener('DOMContentLoaded', function() {
     if (logo) {
         logo.classList.add('floating');
     }
+});
+// منع القائمة السياقية للفيديو
+document.addEventListener('DOMContentLoaded', function() {
+    // مستمع لمنع القائمة السياقية
+    const preventVideoContextMenu = function(e) {
+        if (e.target.tagName === 'VIDEO') {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    };
+    
+    // مستمع لمنع الضغط الطويل على الهواتف
+    const preventVideoLongPress = function(e) {
+        if (e.target.tagName === 'VIDEO') {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    };
+    
+    // إضافة المستمعات
+    document.addEventListener('contextmenu', preventVideoContextMenu);
+    document.addEventListener('touchstart', preventVideoLongPress);
+    document.addEventListener('touchend', preventVideoLongPress);
+    document.addEventListener('touchcancel', preventVideoLongPress);
+    
+    // إضافة attributes للفيديو لمنع التحميل
+    const addVideoAttributes = function() {
+        document.querySelectorAll('video').forEach(video => {
+            video.setAttribute('controlsList', 'nodownload noplaybackrate nofullscreen');
+            video.setAttribute('disablePictureInPicture', 'true');
+            video.setAttribute('disableRemotePlayback', 'true');
+        });
+    };
+    
+    // تنفيذ فوري ومتكرر
+    addVideoAttributes();
+    setInterval(addVideoAttributes, 1000);
+    
+    // مراقبة DOM للفيديوهات الجديدة
+    const videoObserver = new MutationObserver(addVideoAttributes);
+    videoObserver.observe(document.body, { childList: true, subtree: true });
 });
         
         createApp({
