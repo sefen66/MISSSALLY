@@ -29,6 +29,106 @@
             background-color: #f8fafc;
             transition: all 0.3s ease;
         }
+        /* أنماط التدوير */
+.rotatable-video {
+    transition: all 0.3s ease;
+    transform-origin: center center;
+}
+
+.video-player-container {
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* عندما يكون الفيديو مائل */
+.video-player-container.rotated {
+    width: 100%;
+    height: 500px;
+}
+
+/* زر التدوير */
+.rotate-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    transition: all 0.3s ease;
+}
+
+.rotate-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: rotate(90deg);
+}
+
+/* ضبط الحجم للفيديو المائل */
+.rotatable-video.rotated-90,
+.rotatable-video.rotated-270 {
+    width: auto !important;
+    height: 100% !important;
+    max-height: 400px !important;
+}
+
+/* تلميح للتدوير */
+.rotate-hint {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.video-player-container:hover .rotate-hint {
+    opacity: 1;
+}
+
+/* تحسين العرض للأجهزة المحمولة */
+@media (max-width: 768px) {
+    .video-player-container {
+        height: 300px;
+    }
+    
+    .rotatable-video {
+        max-height: 300px !important;
+    }
+    
+    .rotatable-video.rotated-90,
+    .rotatable-video.rotated-270 {
+        max-height: 250px !important;
+    }
+}
+
+/* تحسين fullscreen مع التدوير */
+.rotatable-video:fullscreen {
+    object-fit: contain;
+}
+
+.rotatable-video.rotated-90:fullscreen,
+.rotatable-video.rotated-270:fullscreen {
+    object-fit: contain;
+    width: 100vh !important;
+    height: 100vw !important;
+}
         /* تحسين fullscreen للفيديو */
 .video-with-fullscreen {
     border-radius: 8px;
@@ -5856,13 +5956,19 @@ input:focus {
                 <!-- Header مع زر الإغلاق -->
                 <div class="p-4 flex justify-between items-center border-b border-gray-200">
                     <h3 class="text-lg font-medium">{{ currentVideo.title || 'مشاهدة الفيديو التعليمي' }}</h3>
-                    <button @click="closeVideo()" class="text-gray-500 hover:text-gray-700 text-xl">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <div class="flex space-x-2 space-x-reverse">
+                        <!-- زر التدوير -->
+                        <button @click="rotateVideo()" class="text-gray-500 hover:text-gray-700 text-xl">
+                            <i class="fas fa-redo-alt"></i>
+                        </button>
+                        <button @click="closeVideo()" class="text-gray-500 hover:text-gray-700 text-xl">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="p-4">
-                    <div class="aspect-w-16 aspect-h-9">
+                    <div class="aspect-w-16 aspect-h-9 relative">
                         <div v-if="currentVideo.type === 'youtube'" class="w-full">
                             <iframe 
                                 width="100%" 
@@ -5874,8 +5980,8 @@ input:focus {
                             </iframe>
                         </div>
                         <div v-else class="w-full">
-                            <!-- فيديو مباشر مع fullscreen لكن بدون تحميل -->
-                            <div class="video-player-container">
+                            <!-- فيديو مع إمكانية التدوير -->
+                            <div class="video-player-container" :style="{ transform: `rotate(${videoRotation}deg)` }">
                                 <video 
                                     v-if="currentVideo.fileUrl"
                                     :src="currentVideo.fileUrl"
@@ -5884,7 +5990,7 @@ input:focus {
                                     disablePictureInPicture
                                     disableRemotePlayback
                                     style="width: 100%; height: 500px;"
-                                    class="video-with-fullscreen"
+                                    class="rotatable-video"
                                     playsinline
                                     webkit-playsinline
                                 >
@@ -5901,6 +6007,9 @@ input:focus {
                         <p class="text-gray-600 mt-2">{{ currentVideo.description }}</p>
                         <div class="flex items-center mt-4 space-x-4 text-sm text-gray-500">
                             <span><i class="fas fa-calendar-alt mr-1"></i> {{ currentVideo.date || '15/03/2023' }}</span>
+                            <span v-if="videoRotation !== 0">
+                                <i class="fas fa-redo-alt mr-1"></i> تم التدوير: {{ videoRotation }}°
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -7004,24 +7113,63 @@ function closeVideo() {
         
         createApp({
             methods: {
-        // دالة فتح صورة المحتوى في نافذة كبيرة
-        openContentImage(content) {
-            const contentData = {
-                title: content.title,
-                description: content.description || 'لا يوجد وصف',
-                class: content.class || 'غير محدد',
-                fileUrl: content.fileUrl || content.imageUrl || 'https://cdn-icons-png.flaticon.com/128/17446/17446833.png',
-                date: content.date || 'غير محدد'
-            };
-            
-            // استدعاء الدالة العامة لفتح الصورة
-            if (typeof openContentImageViewer === 'function') {
-                openContentImageViewer(contentData);
+    // دالة فتح صورة المحتوى في نافذة كبيرة
+    openContentImage(content) {
+        const contentData = {
+            title: content.title,
+            description: content.description || 'لا يوجد وصف',
+            class: content.class || 'غير محدد',
+            fileUrl: content.fileUrl || content.imageUrl || 'https://cdn-icons-png.flaticon.com/128/17446/17446833.png',
+            date: content.date || 'غير محدد'
+        };
+        
+        // استدعاء الدالة العامة لفتح الصورة
+        if (typeof openContentImageViewer === 'function') {
+            openContentImageViewer(contentData);
+        } else {
+            console.error('openContentImageViewer function not found');
+        }
+    },
+    
+    // دالة تدوير الفيديو
+    rotateVideo() {
+        // زيادة زاوية التدوير بمقدار 90 درجة
+        this.videoRotation = (this.videoRotation + 90) % 360;
+        
+        // تحديث عنصر الفيديو مباشرةً
+        const videoContainer = document.querySelector('.video-player-container');
+        const videoElement = document.querySelector('.rotatable-video');
+        
+        if (videoContainer) {
+            videoContainer.style.transform = `rotate(${this.videoRotation}deg)`;
+            videoContainer.style.transition = 'transform 0.3s ease';
+        }
+        
+        if (videoElement) {
+            // تغيير حجم الفيديو ليتناسب مع الاتجاه الجديد
+            if (this.videoRotation % 180 !== 0) {
+                // إذا كان 90 أو 270 درجة
+                videoElement.style.maxHeight = '400px';
+                videoElement.style.width = 'auto';
+                videoElement.style.margin = '0 auto';
+                videoElement.style.display = 'block';
             } else {
-                console.error('openContentImageViewer function not found');
+                // إذا كان 0 أو 180 درجة
+                videoElement.style.maxHeight = '500px';
+                videoElement.style.width = '100%';
             }
         }
     },
+    
+    // دالة إغلاق الفيديو مع إعادة التدوير
+    closeVideo() {
+        // إعادة تعيين التدوير عند الإغلاق
+        this.videoRotation = 0;
+        
+        // إغلاق النافذة
+        document.getElementById('videoModal').classList.add('hidden');
+    }
+},
             setup() {
                 // Authentication state
                 const isLoggedIn = ref(false);
@@ -7713,6 +7861,65 @@ const toggleNotifications = () => {
         }, 100);
     }
 };
+// التحكم في التدوير باستخدام لوحة المفاتيح
+document.addEventListener('keydown', function(e) {
+    const videoModal = document.getElementById('videoModal');
+    if (!videoModal.classList.contains('hidden')) {
+        // R لتدوير الفيديو
+        if (e.key === 'r' || e.key === 'R') {
+            const rotateButton = document.querySelector('[onclick="rotateVideo()"]');
+            if (rotateButton) {
+                rotateButton.click();
+            }
+        }
+        
+        // ESC للخروج من التدوير
+        if (e.key === 'Escape' && window.videoRotation !== 0) {
+            window.videoRotation = 0;
+            const videoContainer = document.querySelector('.video-player-container');
+            if (videoContainer) {
+                videoContainer.style.transform = 'rotate(0deg)';
+            }
+        }
+    }
+});
+
+// حفظ حالة التدوير
+window.videoRotation = 0;
+
+// دالة التدوير العامة
+window.rotateVideo = function() {
+    window.videoRotation = (window.videoRotation + 90) % 360;
+    
+    const videoContainer = document.querySelector('.video-player-container');
+    const videoElement = document.querySelector('.rotatable-video');
+    
+    if (videoContainer && videoElement) {
+        // تطبيق التدوير
+        videoContainer.style.transform = `rotate(${window.videoRotation}deg)`;
+        videoElement.style.transform = `rotate(${window.videoRotation}deg)`;
+        
+        // إضافة كلاس للزاوية الحالية
+        videoElement.className = 'rotatable-video';
+        videoElement.classList.add(`rotated-${window.videoRotation}`);
+        
+        // إظهار تلميح
+        showRotationHint(window.videoRotation);
+    }
+};
+
+// دالة عرض تلميح التدوير
+function showRotationHint(degrees) {
+    const hints = {
+        0: 'الاتجاه الطبيعي',
+        90: 'تدوير 90 درجة',
+        180: 'تدوير 180 درجة (رأساً على عقب)',
+        270: 'تدوير 270 درجة'
+    };
+    
+    // يمكنك إضافة تلميح مرئي هنا
+    console.log(hints[degrees]);
+}
 // دالة فتح عرض الصور في المحتوى التعليمي
 const openContentImageViewer = (content) => {
     // التحقق إذا كانت هناك نافذة مفتوحة بالفعل
