@@ -29,6 +29,8 @@
             background-color: #f8fafc;
             transition: all 0.3s ease;
         }
+        /* حماية الاختبارات على الهواتف */
+
         /* أنماط التدوير */
 .rotatable-video {
     transition: all 0.3s ease;
@@ -5953,102 +5955,154 @@ input:focus {
         <!-- Video Modal -->
         <div id="videoModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
             <div class="bg-white rounded-lg w-full max-w-4xl mx-4" style="max-height: 90vh; overflow-y: auto;">
-                <!-- Header مع زر التدوير والإغلاق -->
+                <!-- أضف هذا الجزء - Header مع زر الإغلاق -->
                 <div class="p-4 flex justify-between items-center border-b border-gray-200">
-                    <h3 class="text-lg font-medium video-title">مشاهدة الفيديو التعليمي</h3>
-                    <div class="flex items-center space-x-3">
-                        <!-- زر التدوير -->
-                        <button onclick="rotateVideo()" class="text-blue-600 hover:text-blue-800 transition-colors duration-200" title="تدوير الفيديو">
-                            <i class="fas fa-redo-alt text-xl"></i>
-                        </button>
-                        <!-- زر الإغلاق -->
-                        <button onclick="closeVideoModal()" class="text-gray-500 hover:text-gray-700 text-xl">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
+                    <h3 class="text-lg font-medium">{{ currentVideo.title || 'مشاهدة الفيديو التعليمي' }}</h3>
+                    <button @click="closeVideo()" class="text-gray-500 hover:text-gray-700 text-xl">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
                 
                 <div class="p-4">
-                    <div class="relative">
-                        <div class="w-full">
-                            <!-- حاوية الفيديو مع إمكانية التدوير -->
-                            <div class="video-rotation-container flex justify-center items-center">
-                                <video 
-                                    id="mainVideoPlayer"
-                                    controls
-                                    controlsList="nodownload noplaybackrate"
-                                    disablePictureInPicture
-                                    disableRemotePlayback
-                                    class="video-rotatable-element w-full max-w-full"
-                                    style="max-height: 500px;"
-                                    playsinline
-                                    webkit-playsinline
-                                >
-                                    متصفحك لا يدعم تشغيل الفيديو.
-                                </video>
+
+                    <!-- Video Wrapper -->
+                    <div class="rounded-xl overflow-hidden shadow-lg bg-gray-900">
+                        <div class="aspect-w-16 aspect-h-9">
+                
+                            <!-- YouTube -->
+                            <div v-if="currentVideo.type === 'youtube'" class="w-full">
+                                <iframe 
+                                    width="100%" 
+                                    height="500" 
+                                    :src="'https://www.youtube.com/embed/' + extractYouTubeId(currentVideo.url)" 
+                                    class="rounded-xl"
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                                </iframe>
                             </div>
-                        </div>
-                        
-                        <!-- مؤشر زاوية التدوير -->
-                        <div id="rotationIndicator" class="mt-2 text-center text-sm text-gray-600" style="display: none;">
-                            <i class="fas fa-redo-alt mr-1"></i>
-                            <span id="rotationText">تم التدوير: 0°</span>
-                            <button onclick="resetVideoRotation()" class="text-blue-600 hover:text-blue-800 mr-2 text-xs">
-                                (إعادة التعيين)
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <h4 class="font-bold video-title-display"></h4>
-                        <p class="text-gray-600 mt-2 video-description"></p>
-                        <div class="flex items-center mt-4 space-x-4 text-sm text-gray-500">
-                            <span><i class="fas fa-calendar-alt mr-1"></i> <span class="video-date">غير محدد</span></span>
+                
+                            <!-- Non-YouTube -->
+                            <div 
+                                v-else 
+                                class="w-full bg-black flex items-center justify-center" 
+                                style="height: 500px;"
+                            >
+                                <i class="fas fa-play text-white text-6xl opacity-70"></i>
+                            </div>
+                
                         </div>
                     </div>
+                
+                    <!-- Video Details -->
+                    <div class="mt-5">
+                
+                        <h4 class="font-bold text-gray-900 text-xl">
+                            {{ currentVideo.title }}
+                        </h4>
+                
+                        <p class="text-gray-700 mt-2 leading-relaxed">
+                            {{ currentVideo.description }}
+                        </p>
+                
+                        <div 
+                            class="flex items-center mt-4 text-sm text-gray-600 bg-gray-100 px-3 py-2 rounded-md border border-gray-300"
+                        >
+                            <i class="fas fa-calendar-alt mr-2 text-gray-500"></i>
+                            <span>{{ currentVideo.date || '15/03/2023' }}</span>
+                        </div>
+                
+                    </div>
+                
                 </div>
+                
             </div>
         </div>
         
         <!-- File Viewer Modal -->
-        <div id="fileViewerModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-            <div class="bg-white rounded-lg w-full max-w-4xl mx-4">
-                <div class="p-4 flex justify-between items-center border-b border-gray-200">
-                    <h3 class="text-lg font-medium">{{ currentFile.title || 'عرض الملف' }}</h3>
-                    <button @click="closeFileViewer()" class="text-gray-500 hover:text-gray-700">
-                        <i class="fas fa-times"></i>
-                    </button>
+        <div 
+        id="fileViewerModal" 
+        class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-md flex items-center justify-center z-50 hidden transition-all duration-300"
+        :class="openFileViewer ? 'opacity-100 scale-100' : 'opacity-0 scale-95'"
+    >
+        <div 
+            class="rounded-2xl w-full max-w-4xl mx-4 shadow-2xl border border-white/20 bg-white/10 backdrop-blur-xl transition-all duration-300"
+            style="max-height: 90vh; overflow-y: auto;"
+        >
+            <!-- Header -->
+            <div class="p-4 flex justify-between items-center border-b border-white/20 bg-white/10 backdrop-blur-xl">
+                <h3 class="text-lg font-semibold text-white drop-shadow">
+                    {{ currentFile.title || 'عرض الملف' }}
+                </h3>
+    
+                <button 
+                    @click="closeFileViewer()" 
+                    class="text-white hover:text-red-400 text-2xl transition duration-200"
+                >
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+    
+            <!-- Content -->
+            <div class="p-4 text-white">
+                <div class="file-viewer-content rounded-xl overflow-hidden shadow-lg bg-white/5 border border-white/10 backdrop-blur-lg"
+                    style="max-height: 70vh; overflow: auto;">
+    
+                    <!-- PDF -->
+                    <div v-if="currentFile.type === 'pdf' && currentFile.fileUrl" class="w-full h-full">
+                        <iframe 
+                            :src="currentFile.fileUrl" 
+                            width="100%" 
+                            height="600" 
+                            class="rounded-xl"
+                            frameborder="0">
+                        </iframe>
+                    </div>
+    
+                    <!-- Image -->
+                    <div v-else-if="currentFile.type === 'image' && currentFile.fileUrl" class="w-full h-full flex justify-center p-4">
+                        <img 
+                            :src="currentFile.fileUrl" 
+                            :alt="currentFile.title" 
+                            class="max-w-full max-h-full rounded-xl shadow-lg transition duration-300 hover:scale-[1.02]">
+                    </div>
+    
+                    <!-- Video -->
+                    <div v-else-if="currentFile.type === 'video' && currentFile.fileUrl" class="w-full h-full">
+                        <video 
+                            controls 
+                            class="w-full rounded-xl shadow-lg"
+                            style="max-height: 600px;">
+                            <source :src="currentFile.fileUrl" type="video/mp4">
+                            متصفحك لا يدعم تشغيل الفيديو.
+                        </video>
+                    </div>
+    
+                    <!-- Unsupported -->
+                    <div v-else class="w-full h-full flex items-center justify-center text-gray-200" style="height: 400px;">
+                        <p>لا يمكن عرض هذا النوع من الملفات</p>
+                    </div>
                 </div>
-                <div class="p-4">
-                    <div class="file-viewer-content" style="max-height: 70vh; overflow: auto;">
-                        <div v-if="currentFile.type === 'pdf' && currentFile.fileUrl" class="w-full h-full">
-                            <iframe :src="currentFile.fileUrl" width="100%" height="600" frameborder="0"></iframe>
-                        </div>
-                        <div v-else-if="currentFile.type === 'image' && currentFile.fileUrl" class="w-full h-full flex justify-center">
-                            <img :src="currentFile.fileUrl" :alt="currentFile.title" class="max-w-full max-h-full">
-                        </div>
-                        <div v-else-if="currentFile.type === 'video' && currentFile.fileUrl" class="w-full h-full">
-                            <video controls class="w-full" style="max-height: 600px;">
-                                <source :src="currentFile.fileUrl" type="video/mp4">
-                                متصفحك لا يدعم تشغيل الفيديو.
-                            </video>
-                        </div>
-                        <div v-else class="w-full h-full flex items-center justify-center" style="height: 400px;">
-                            <p class="text-gray-500">لا يمكن عرض هذا النوع من الملفات</p>
-                        </div>
+    
+                <!-- Details + Download Button -->
+                <div class="mt-4 flex justify-between items-center">
+                    <div>
+                        <h4 class="font-bold text-xl drop-shadow">{{ currentFile.title }}</h4>
+                        <p class="text-gray-300 mt-2">{{ currentFile.description }}</p>
                     </div>
-                    <div class="mt-4 flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold">{{ currentFile.title }}</h4>
-                            <p class="text-gray-600 mt-2">{{ currentFile.description }}</p>
-                        </div>
-                        <button v-if="currentFile.fileUrl" @click="downloadFile(currentFile.fileUrl, currentFile.title)" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors duration-200">
-                            <i class="fas fa-download mr-1"></i> تحميل الملف
-                        </button>
-                    </div>
+    
+                    <button 
+                        v-if="currentFile.fileUrl" 
+                        @click="downloadFile(currentFile.fileUrl, currentFile.title)" 
+                        class="bg-purple-600 text-white px-5 py-2 rounded-lg shadow-md hover:bg-purple-700 transition duration-200 flex items-center gap-1"
+                    >
+                        <i class="fas fa-download"></i> تحميل
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
+    
         
         <!-- Add Content Modal -->
         <div id="addContentModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" v-show="showAddContentModal">
