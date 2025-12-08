@@ -32,6 +32,34 @@
         /* حماية الاختبارات على الهواتف */
 
         /* أنماط التدوير */
+        video {
+    pointer-events: auto !important;
+}
+@media (max-width: 768px) {
+    .video-controls {
+        opacity: 1 !important;
+    }
+}
+
+.video-controls,
+.video-progress-bar,
+.video-progress {
+    pointer-events: auto !important;
+}
+
+.video-player-container * {
+    pointer-events: none;
+}
+
+.video-player-container video,
+.video-controls,
+.video-progress-bar {
+    pointer-events: auto !important;
+}
+.video-thumbnail-overlay {
+    pointer-events: none !important;
+}
+
 .rotatable-video {
     transition: all 0.3s ease;
     transform-origin: center center;
