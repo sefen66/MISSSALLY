@@ -6939,33 +6939,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // دالة تدوير الفيديو
     rotateVideo() {
-    // زيادة زاوية التدوير بمقدار 90 درجة
     this.videoRotation = (this.videoRotation + 90) % 360;
-    
-    // تحديث عنصر الفيديو مباشرةً
-    const videoContainer = document.querySelector('.video-player-container');
     const videoElement = document.querySelector('.rotatable-video');
     
-    if (videoContainer) {
-        videoContainer.style.transform = `rotate(${this.videoRotation}deg)`;
-        videoContainer.style.transition = 'transform 0.3s ease';
-    }
-    
     if (videoElement) {
-        // تغيير حجم الفيديو ليتناسب مع الاتجاه الجديد
-        if (this.videoRotation % 180 !== 0) {
-            // إذا كان 90 أو 270 درجة
-            videoElement.style.maxHeight = '400px';
-            videoElement.style.width = 'auto';
-            videoElement.style.margin = '0 auto';
-            videoElement.style.display = 'block';
+        // إذا الفيديو في Fullscreen، فقط غير transform
+        if (document.fullscreenElement === videoElement) {
+            videoElement.style.transform = `rotate(${this.videoRotation}deg)`;
         } else {
-            // إذا كان 0 أو 180 درجة
-            videoElement.style.maxHeight = '500px';
-            videoElement.style.width = '100%';
+            // للفيديو العادي خارج Fullscreen
+            const videoContainer = document.querySelector('.video-player-container');
+            videoContainer.style.transform = `rotate(${this.videoRotation}deg)`;
+            videoElement.style.width = this.videoRotation % 180 === 0 ? '100%' : 'auto';
+            videoElement.style.maxHeight = this.videoRotation % 180 === 0 ? '500px' : '400px';
         }
     }
 },
+
 
 // إضافة دالة جديدة للاستجابة للدوران التلقائي للهاتف
 initDeviceOrientation() {
@@ -7022,13 +7012,12 @@ handleScreenOrientation() {
                     break;
             }
             
-            const videoContainer = document.querySelector('.video-player-container');
-            if (videoContainer) {
-                videoContainer.style.transform = `rotate(${this.videoRotation}deg)`;
-            }
+            // التدوير مباشرة على الفيديو
+            videoElement.style.transform = `rotate(${this.videoRotation}deg)`;
         }
     }
 },
+
 
 // دالة لتشغيل الفيديو في وضع fullscreen مع إخفاء عناصر التحكم
 toggleFullscreen(videoElement) {
