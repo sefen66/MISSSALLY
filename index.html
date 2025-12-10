@@ -5958,9 +5958,7 @@ input:focus {
                     <h3 class="text-lg font-medium">{{ currentVideo.title || 'مشاهدة الفيديو التعليمي' }}</h3>
                     <div class="flex space-x-2 space-x-reverse">
                         <!-- زر التدوير -->
-                        <button @click="rotateVideo()" class="text-gray-500 hover:text-gray-700 text-xl">
-                            <i class="fas fa-redo-alt"></i>
-                        </button>
+
                         <button @click="closeVideo()" class="text-gray-500 hover:text-gray-700 text-xl">
                             <i class="fas fa-times"></i>
                         </button>
@@ -5968,51 +5966,58 @@ input:focus {
                 </div>
                 
                 <div class="p-4">
-                    <div class="aspect-w-16 aspect-h-9 relative">
-                        <div v-if="currentVideo.type === 'youtube'" class="w-full">
-                            <iframe 
-                                width="100%" 
-                                height="500" 
-                                :src="'https://www.youtube.com/embed/' + extractYouTubeId(currentVideo.url) + '?modestbranding=1&rel=0&controls=1&disablekb=1'" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
-                        <div v-else class="w-full">
-                            <!-- فيديو مع إمكانية التدوير -->
-                            <div class="video-player-container" :style="{ transform: `rotate(${videoRotation}deg)` }">
-                                <video 
-                                    v-if="currentVideo.fileUrl"
-                                    :src="currentVideo.fileUrl"
-                                    controls
-                                    controlsList="nodownload noplaybackrate"
-                                    disablePictureInPicture
-                                    disableRemotePlayback
-                                    style="width: 100%; height: 500px;"
-                                    class="rotatable-video"
-                                    playsinline
-                                    webkit-playsinline
-                                >
-                                    متصفحك لا يدعم تشغيل الفيديو.
-                                </video>
-                                <div v-else class="w-full bg-black" style="height: 500px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-play text-white text-5xl"></i>
-                                </div>
+
+                    <!-- Video Wrapper -->
+                    <div class="rounded-xl overflow-hidden shadow-lg bg-gray-900">
+                        <div class="aspect-w-16 aspect-h-9">
+                
+                            <!-- YouTube -->
+                            <div v-if="currentVideo.type === 'youtube'" class="w-full">
+                                <iframe 
+                                    width="100%" 
+                                    height="500" 
+                                    :src="'https://www.youtube.com/embed/' + extractYouTubeId(currentVideo.url)" 
+                                    class="rounded-xl"
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                                </iframe>
                             </div>
+                
+                            <!-- Non-YouTube -->
+                            <div 
+                                v-else 
+                                class="w-full bg-black flex items-center justify-center" 
+                                style="height: 500px;"
+                            >
+                                <i class="fas fa-play text-white text-6xl opacity-70"></i>
+                            </div>
+                
                         </div>
                     </div>
-                    <div class="mt-4">
-                        <h4 class="font-bold">{{ currentVideo.title }}</h4>
-                        <p class="text-gray-600 mt-2">{{ currentVideo.description }}</p>
-                        <div class="flex items-center mt-4 space-x-4 text-sm text-gray-500">
-                            <span><i class="fas fa-calendar-alt mr-1"></i> {{ currentVideo.date || '15/03/2023' }}</span>
-                            <span v-if="videoRotation !== 0">
-                                <i class="fas fa-redo-alt mr-1"></i> تم التدوير: {{ videoRotation }}°
-                            </span>
+                
+                    <!-- Video Details -->
+                    <div class="mt-5">
+                
+                        <h4 class="font-bold text-gray-900 text-xl">
+                            {{ currentVideo.title }}
+                        </h4>
+                
+                        <p class="text-gray-700 mt-2 leading-relaxed">
+                            {{ currentVideo.description }}
+                        </p>
+                
+                        <div 
+                            class="flex items-center mt-4 text-sm text-gray-600 bg-gray-100 px-3 py-2 rounded-md border border-gray-300"
+                        >
+                            <i class="fas fa-calendar-alt mr-2 text-gray-500"></i>
+                            <span>{{ currentVideo.date || '' }}</span>
                         </div>
+                
                     </div>
+                
                 </div>
+                
             </div>
         </div>
         
