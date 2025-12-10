@@ -6740,148 +6740,278 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     // دالة toggle fullscreen محسنة
     const toggleFullscreen = (videoElement) => {
-        if (!videoElement) return;
-        
-        if (!document.fullscreenElement) {
-            // دخول وضع fullscreen
-            if (videoElement.requestFullscreen) {
-                videoElement.requestFullscreen();
-            } else if (videoElement.webkitRequestFullscreen) {
-                videoElement.webkitRequestFullscreen();
-            } else if (videoElement.mozRequestFullScreen) {
-                videoElement.mozRequestFullScreen();
-            } else if (videoElement.msRequestFullscreen) {
-                videoElement.msRequestFullscreen();
-            }
-        } else {
-            // الخروج من وضع fullscreen
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
+    if (!videoElement) return;
+    
+    if (!document.fullscreenElement) {
+        // دخول وضع fullscreen
+        const promise = videoElement.requestFullscreen();
+        if (promise && promise.catch) {
+            promise.catch(err => {
+                console.log('Fullscreen request failed:', err);
+            });
+        }
+    } else {
+        // الخروج من وضع fullscreen
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
+};
+
+// إضافة زر fullscreen مخصص إذا لزم الأمر
+const addCustomFullscreenButton = () => {
+    document.querySelectorAll('.video-player-container').forEach(container => {
+        const video = container.querySelector('video');
+        if (video && !container.querySelector('.custom-fullscreen-btn')) {
+            const fullscreenBtn = document.createElement('button');
+            fullscreenBtn.className = 'custom-fullscreen-btn';
+            fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+            fullscreenBtn.setAttribute('aria-label', 'ملء الشاشة');
+            fullscreenBtn.setAttribute('title', 'ملء الشاشة');
+            
+            // إضافة event listener
+            fullscreenBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleFullscreen(video);
+            });
+            
+            container.appendChild(fullscreenBtn);
+            
+            // إضافة event listener للنقر المزدوج على الفيديو
+            if (!video.hasAttribute('data-double-click-added')) {
+                video.addEventListener('dblclick', function(e) {
+                    e.preventDefault();
+                    toggleFullscreen(this);
+                });
+                video.setAttribute('data-double-click-added', 'true');
             }
         }
-    };
-    
-    // إضافة زر fullscreen مخصص إذا لزم الأمر
-    const addCustomFullscreenButton = () => {
-        document.querySelectorAll('.video-player-container').forEach(container => {
-            const video = container.querySelector('video');
-            if (video && !container.querySelector('.custom-fullscreen-btn')) {
-                const fullscreenBtn = document.createElement('button');
-                fullscreenBtn.className = 'custom-fullscreen-btn';
-                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
-                fullscreenBtn.setAttribute('aria-label', 'ملء الشاشة');
-                fullscreenBtn.setAttribute('title', 'ملء الشاشة');
-                
-                // إضافة event listener
-                fullscreenBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    toggleFullscreen(video);
-                });
-                
-                container.appendChild(fullscreenBtn);
-                
-                // إضافة event listener للنقر المزدوج على الفيديو
-                if (!video.hasAttribute('data-double-click-added')) {
-                    video.addEventListener('dblclick', function(e) {
-                        e.preventDefault();
-                        toggleFullscreen(this);
-                    });
-                    video.setAttribute('data-double-click-added', 'true');
+    });
+};
+
+// إضافة CSS للتحكم في الوضع الأفقي
+const addFullscreenCSS = () => {
+    if (!document.getElementById('fullscreen-css')) {
+        const style = document.createElement('style');
+        style.id = 'fullscreen-css';
+        style.textContent = `
+            /* منع خروج الفيديو عند تدوير الشاشة */
+            @media screen and (orientation: landscape) {
+                video:-webkit-full-screen {
+                    width: 100% !important;
+                    height: 100% !important;
+                }
+                video:-moz-full-screen {
+                    width: 100% !important;
+                    height: 100% !important;
+                }
+                video:-ms-fullscreen {
+                    width: 100% !important;
+                    height: 100% !important;
+                }
+                video:fullscreen {
+                    width: 100% !important;
+                    height: 100% !important;
                 }
             }
-        });
-    };
+            
+            /* تثبيت الفيديو في وضع fullscreen */
+            .video-player-container:-webkit-full-screen {
+                background: black;
+                width: 100vw !important;
+                height: 100vh !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+            }
+            
+            .video-player-container:fullscreen {
+                background: black;
+                width: 100vw !important;
+                height: 100vh !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+            }
+            
+            /* التأكد من بقاء الفيديو في المركز */
+            .video-player-container:fullscreen video {
+                max-width: 100% !important;
+                max-height: 100% !important;
+                object-fit: contain !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+};
+
+// معالجة أحداث تدوير الشاشة
+let isFullscreen = false;
+let fullscreenOrientation = null;
+
+const handleOrientationChange = () => {
+    if (document.fullscreenElement) {
+        // إذا كنا في وضع fullscreen وتغير اتجاه الشاشة
+        const currentOrientation = window.matchMedia("(orientation: portrait)").matches ? 'portrait' : 'landscape';
+        
+        // إذا كانت هذه هي المرة الأولى للدخول إلى fullscreen، احفظ الاتجاه
+        if (!fullscreenOrientation) {
+            fullscreenOrientation = currentOrientation;
+        }
+        
+        // إذا تغير الاتجاه، تأكد من بقاء الفيديو في fullscreen
+        if (fullscreenOrientation !== currentOrientation) {
+            fullscreenOrientation = currentOrientation;
+            
+            // إعادة تطبيق fullscreen إذا خرج
+            if (!document.fullscreenElement) {
+                const video = document.querySelector('.video-player-container:fullscreen video') || 
+                              document.querySelector('video');
+                if (video && isFullscreen) {
+                    setTimeout(() => {
+                        toggleFullscreen(video);
+                    }, 100);
+                }
+            }
+        }
+    }
+};
+
+// تشغيل الفيديو عند دخول fullscreen
+document.addEventListener('fullscreenchange', function() {
+    const videos = document.querySelectorAll('video');
     
-    // تشغيل الفيديو عند دخول fullscreen
-    document.addEventListener('fullscreenchange', function() {
-        const videos = document.querySelectorAll('video');
+    if (document.fullscreenElement) {
+        isFullscreen = true;
+        const video = document.fullscreenElement.tagName === 'VIDEO' ? 
+                      document.fullscreenElement : 
+                      document.fullscreenElement.querySelector('video');
+        
+        if (video) {
+            // تشغيل الفيديو تلقائياً في وضع fullscreen
+            video.play().catch(e => {
+                console.log('Auto-play prevented, waiting for user interaction');
+            });
+            
+            // حفظ اتجاه الشاشة الحالي
+            fullscreenOrientation = window.matchMedia("(orientation: portrait)").matches ? 'portrait' : 'landscape';
+            
+            // إضافة event listener لتدوير الشاشة
+            window.addEventListener('orientationchange', handleOrientationChange);
+            window.addEventListener('resize', handleOrientationChange);
+        }
+    } else {
+        isFullscreen = false;
+        fullscreenOrientation = null;
+        
+        // إزالة event listeners لتدوير الشاشة
+        window.removeEventListener('orientationchange', handleOrientationChange);
+        window.removeEventListener('resize', handleOrientationChange);
+        
+        // إيقاف جميع الفيديوهات إذا خرجنا من fullscreen
         videos.forEach(video => {
-            if (document.fullscreenElement === video) {
-                // تشغيل الفيديو تلقائياً في وضع fullscreen
-                video.play().catch(e => {
-                    // في حالة فشل التشغيل التلقائي، ننتظر تفاعل المستخدم
-                    console.log('Auto-play prevented, waiting for user interaction');
-                });
-                
-                // إضافة event listener للخروج من fullscreen
-                const handleExitFullscreen = () => {
-                    if (!document.fullscreenElement) {
-                        video.pause();
-                        document.removeEventListener('fullscreenchange', handleExitFullscreen);
-                    }
-                };
-                
-                document.addEventListener('fullscreenchange', handleExitFullscreen);
+            if (!video.paused) {
+                video.pause();
             }
         });
-    });
-    
-    // إضافة الزر المخصص
+    }
+});
+
+// إضافة CSS للمعالجة
+addFullscreenCSS();
+
+// إضافة الزر المخصص
+addCustomFullscreenButton();
+
+// تحديث عند تغيير DOM
+const observer = new MutationObserver(function() {
     addCustomFullscreenButton();
+    protectAllVideos();
+});
+observer.observe(document.body, { 
+    childList: true, 
+    subtree: true 
+});
+
+// دالة closeVideo محسنة
+window.closeVideo = function() {
+    // إزالة event listeners لتدوير الشاشة
+    window.removeEventListener('orientationchange', handleOrientationChange);
+    window.removeEventListener('resize', handleOrientationChange);
     
-    // تحديث عند تغيير DOM
-    const observer = new MutationObserver(addCustomFullscreenButton);
-    observer.observe(document.body, { 
-        childList: true, 
-        subtree: true 
-    });
-    
-    // دالة closeVideo محسنة
-    window.closeVideo = function() {
-        // الخروج من fullscreen أولاً إذا كنا فيه
-        if (document.fullscreenElement) {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            }
-            // انتظار الخروج من fullscreen قبل إغلاق المودال
+    // الخروج من fullscreen أولاً إذا كنا فيه
+    if (document.fullscreenElement) {
+        document.exitFullscreen().then(() => {
+            // تأخير بسيط قبل إغلاق المودال
             setTimeout(() => {
                 const modal = document.getElementById('videoModal');
                 if (modal) {
                     modal.classList.add('hidden');
                 }
-            }, 100);
-        } else {
+                // إعادة تعليمات
+                isFullscreen = false;
+                fullscreenOrientation = null;
+            }, 50);
+        }).catch(err => {
+            console.log('Error exiting fullscreen:', err);
             const modal = document.getElementById('videoModal');
             if (modal) {
                 modal.classList.add('hidden');
             }
+        });
+    } else {
+        const modal = document.getElementById('videoModal');
+        if (modal) {
+            modal.classList.add('hidden');
         }
-        
-        // إيقاف جميع الفيديوهات
-        document.querySelectorAll('video').forEach(video => {
-            video.pause();
-            video.currentTime = 0;
-        });
-    };
-    
-    // دالة إضافية لحماية الفيديوهات من التحميل
-    function protectAllVideos() {
-        document.querySelectorAll('video').forEach(video => {
-            // منع فتح الفيديو في نافذة جديدة
-            video.addEventListener('play', function(e) {
-                // التحقق من أن الفيديو مشغل في نفس النافذة
-                if (!document.body.contains(this) && !this.isConnected) {
-                    e.preventDefault();
-                    this.pause();
-                }
-            });
-            
-            // منع الإجراءات التي قد تؤدي إلى التحميل
-            video.addEventListener('contextmenu', function(e) {
-                // السماح بفتح القائمة ولكن منع خيارات التحميل
-                // من خلال CSS و JavaScript
-                return true;
-            });
-        });
     }
     
-    // استدعاء حماية الفيديوهات
+    // إيقاف جميع الفيديوهات
+    document.querySelectorAll('video').forEach(video => {
+        video.pause();
+        video.currentTime = 0;
+    });
+};
+
+// دالة إضافية لحماية الفيديوهات من التحميل
+function protectAllVideos() {
+    document.querySelectorAll('video').forEach(video => {
+        // إضافة سمات لمنع التحميل
+        video.setAttribute('controlsList', 'nodownload');
+        video.setAttribute('disablePictureInPicture', 'true');
+        
+        // منع فتح الفيديو في نافذة جديدة
+        video.addEventListener('play', function(e) {
+            if (!document.body.contains(this) && !this.isConnected) {
+                e.preventDefault();
+                this.pause();
+            }
+        });
+        
+        // منع الإجراءات التي قد تؤدي إلى التحميل
+        video.addEventListener('contextmenu', function(e) {
+            // السماح بفتح القائمة ولكن منع خيارات التحميل
+            return true;
+        });
+        
+        // منع سحب الفيديو
+        video.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+    });
+}
+
+// استدعاء حماية الفيديوهات
+protectAllVideos();
+
+// تهيئة عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    addFullscreenCSS();
+    addCustomFullscreenButton();
     protectAllVideos();
+});
 });
         
         createApp({
