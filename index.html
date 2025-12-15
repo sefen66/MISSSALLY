@@ -4034,6 +4034,7 @@ input:focus {
         }
     </style>
 </head>
+
 <body class="dark:bg-gray-900 dark:text-white">
     
     <!-- Main Container --><body class="dark:bg-gray-900 dark:text-white">
@@ -6441,7 +6442,7 @@ input:focus {
                 <div class="ai-motivation-icon">
                     <i class="fas fa-brain"></i>
                 </div>
-                Motivational phrase
+                جملة تحفيزية
             </div>
             <button @click="showMotivationModal = false" class="text-gray-500 hover:text-gray-700 text-xl">
                 <i class="fas fa-times"></i>
@@ -10300,6 +10301,46 @@ onMounted(() => {
         }).mount('#app');
         
     </script>
-
+<script>
+    /* ===== FIX: prevent going back to dashboard on orientation change ===== */
+    
+    // عدّل الاسم لو المتغير عندك مختلف
+    let isVideoOpen = false;
+    
+    // احفظ التاب الحالي
+    function lockStudentTab() {
+        isVideoOpen = true;
+    }
+    
+    // افتح التنقل مرة أخرى
+    function unlockStudentTab() {
+        isVideoOpen = false;
+    }
+    
+    // اعترض أي تغيير تاب
+    const originalSetTab = window.setStudentTab || function(tab){
+        window.studentActiveTab = tab;
+    };
+    
+    // غلف دالة تغيير التاب
+    window.setStudentTab = function(tab) {
+        if (isVideoOpen) {
+            return; // امنع الرجوع للداش بورد
+        }
+        originalSetTab(tab);
+    };
+    
+    // تجاهل تغيير الاتجاه تمامًا
+    window.addEventListener('orientationchange', function () {
+        // لا شيء هنا intentionally
+    });
+    
+    // حماية إضافية عند resize
+    window.addEventListener('resize', function () {
+        if (isVideoOpen) return;
+    });
+    
+    </script>
+    
 </body>
 </html>
