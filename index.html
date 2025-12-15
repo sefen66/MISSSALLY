@@ -35,6 +35,81 @@
    =============================== */
 
 /* تحسينات عامة للفيديو */
+/* وضع الفيديو النشط - إخفاء dashboard */
+body.video-mode-active .dashboard,
+body.video-mode-active .nav-tabs,
+body.video-mode-active .tab-pane:not(.active) {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Fullscreen mode */
+body.fullscreen-mode {
+    background: #000 !important;
+    overflow: hidden !important;
+}
+
+/* تأكد أن body يأخذ المساحة الكاملة */
+html, body {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* تحسين عرض الفيديو */
+.rotatable-video {
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+/* تدوير الفيديو */
+.rotatable-video.rotated-90 {
+    transform: rotate(90deg);
+    max-height: 90vh;
+}
+
+.rotatable-video.rotated-270 {
+    transform: rotate(270deg);
+    max-height: 90vh;
+}
+
+/* Fullscreen styles */
+:fullscreen .rotatable-video,
+:-webkit-full-screen .rotatable-video {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    object-fit: contain !important;
+}
+
+/* إخفاء عناصر غير ضرورية في fullscreen */
+:fullscreen .dashboard,
+:-webkit-full-screen .dashboard {
+    display: none !important;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .video-player-container {
+        position: relative;
+        min-height: 300px;
+    }
+    
+    .rotatable-video.rotated-90,
+    .rotatable-video.rotated-270 {
+        max-width: 95vw;
+        max-height: 80vh;
+    }
+}
 .rotatable-video {
     transition: transform 0.3s ease;
     transform-origin: center center;
@@ -10211,71 +10286,240 @@ onMounted(() => {
         
     </script>
 <script>
-    /* ===== FIX: prevent going back to dashboard on orientation change ===== */
+    /* ===== حل متكامل لمنع ظهور dashboard أثناء دوران الشاشة ===== */
     
-    // عدّل الاسم لو المتغير عندك مختلف
-    let isVideoOpen = false;
+    // 1. متغيرات الحالة
+    let videoState = {
+        isVideoOpen: false,
+        isFullscreen: false,
+        lastOrientation: 0
+    };
     
-    // احفظ التاب الحالي
+    // 2. حفظ حالة الفيديو مفتوح
     function lockStudentTab() {
-        isVideoOpen = true;
+        videoState.isVideoOpen = true;
+        // إضافة class للbody لتحديد وضع الفيديو
+        document.body.classList.add('video-mode-active');
+        // حفظ في localStorage للاستمرارية
+        localStorage.setItem('videoMode', 'active');
     }
     
-    // افتح التنقل مرة أخرى
+    // 3. إعادة فتح التنقل
     function unlockStudentTab() {
-        isVideoOpen = false;
+        videoState.isVideoOpen = false;
+        document.body.classList.remove('video-mode-active');
+        localStorage.removeItem('videoMode');
     }
     
-    // اعترض أي تغيير تاب
-    const originalSetTab = window.setStudentTab || function(tab){
-        window.studentActiveTab = tab;
-    };
-    
-    // غلف دالة تغيير التاب
-    window.setStudentTab = function(tab) {
-        if (isVideoOpen) {
-            return; // امنع الرجوع للداش بورد
+    // 4. التحقق من حالة الفيديو عند التحميل
+    document.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.getItem('videoMode') === 'active') {
+            lockStudentTab();
         }
-        originalSetTab(tab);
-    };
-    
-    // تجاهل تغيير الاتجاه تمامًا
-    window.addEventListener('orientationchange', function () {
-        // لا شيء هنا intentionally
     });
     
-    // حماية إضافية عند resize
-    window.addEventListener('resize', function () {
-        if (isVideoOpen) return;
+    // 5. اعتراض دالة تغيير التبويب (منع dashboard)
+    if (typeof window.setStudentTab === 'function') {
+        const originalSetTab = window.setStudentTab;
+        window.setStudentTab = function(tab) {
+            if (videoState.isVideoOpen) {
+                console.log('تم منع التبديل للdashboard - وضع الفيديو نشط');
+                return false;
+            }
+            return originalSetTab(tab);
+        };
+    }
+    
+    // 6. إذا لم تكن الدالة موجودة، أنشئ نسخة أساسية
+    if (!window.setStudentTab) {
+        window.setStudentTab = function(tab) {
+            window.studentActiveTab = tab;
+        };
+    }
+    
+    // 7. دورة دوران الفيديو
+    const video = document.querySelector('.rotatable-video');
+    
+    function applyRotationByOrientation() {
+        if (!video) return;
+        
+        // إذا كان الفيديو في وضع fullscreen، لا تدور
+        if (videoState.isFullscreen) {
+            return;
+        }
+        
+        const orientation = screen.orientation?.type || window.orientation || 0;
+        
+        // إزالة جميع كلاسات الدوران
+        video.classList.remove('rotated-90', 'rotated-270', 'rotated-180');
+        
+        // تطبيق الدوران المناسب
+        if (orientation === 90 || orientation === -90 || 
+            orientation.includes('landscape-primary')) {
+            video.classList.add('rotated-90');
+        } else if (orientation.includes('landscape-secondary')) {
+            video.classList.add('rotated-270');
+        }
+        
+        // حفظ آخر اتجاه
+        videoState.lastOrientation = orientation;
+    }
+    
+    // 8. إدارة وضع Fullscreen
+    function handleFullscreenChange() {
+        videoState.isFullscreen = !!(
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement
+        );
+        
+        if (videoState.isFullscreen) {
+            lockStudentTab();
+            // إضافة class للfullscreen
+            document.body.classList.add('fullscreen-mode');
+            
+            // إذا كان في fullscreen، توقف عن الدوران التلقائي
+            video.classList.remove('rotated-90', 'rotated-270');
+        } else {
+            unlockStudentTab();
+            document.body.classList.remove('fullscreen-mode');
+            
+            // استعادة الدوران إذا لزم
+            applyRotationByOrientation();
+        }
+    }
+    
+    // 9. إدارة أحداث الشاشة
+    function handleOrientationChange() {
+        // إذا كان الفيديو مفتوحاً، تجاهل تماماً أي تأثير على التبويبات
+        if (videoState.isVideoOpen) {
+            console.log('تجاهل تغيير الاتجاه - الفيديو نشط');
+            // فقط قم بتدوير الفيديو دون التأثير على التبويبات
+            applyRotationByOrientation();
+            return;
+        }
+        
+        // إذا لم يكن الفيديو مفتوحاً، اسمح بالسلوك العادي
+        applyRotationByOrientation();
+    }
+    
+    // 10. إضافة Event Listeners
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    
+    // استمع لتغيير الاتجاه بدون منعه تماماً
+    window.addEventListener('orientationchange', handleOrientationChange);
+    
+    // استمع لتغيير حجم النافذة
+    window.addEventListener('resize', function() {
+        setTimeout(applyRotationByOrientation, 100);
     });
+    
+    // 11. إضافة أزرار التحكم للفيديو
+    function addVideoControls() {
+        const container = document.querySelector('.video-player-container');
+        if (!container) return;
+        
+        // زر Fullscreen
+        const fsBtn = document.createElement('button');
+        fsBtn.className = 'custom-fullscreen-btn';
+        fsBtn.innerHTML = '⛶';
+        fsBtn.title = 'ملء الشاشة';
+        fsBtn.style.cssText = `
+            position: absolute;
+            bottom: 10px;
+            right: 60px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+        `;
+        
+        fsBtn.addEventListener('click', function() {
+            if (!video) return;
+            
+            if (!videoState.isFullscreen) {
+                lockStudentTab();
+                if (video.requestFullscreen) {
+                    video.requestFullscreen();
+                } else if (video.webkitRequestFullscreen) {
+                    video.webkitRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            }
+        });
+        
+        container.appendChild(fsBtn);
+        
+        // زر التدوير اليدوي
+        const rotateBtn = document.createElement('button');
+        rotateBtn.className = 'rotate-btn';
+        rotateBtn.innerHTML = '↻';
+        rotateBtn.title = 'تدوير الفيديو';
+        rotateBtn.style.cssText = `
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+        `;
+        
+        rotateBtn.addEventListener('click', function() {
+            if (!video) return;
+            
+            if (video.classList.contains('rotated-90')) {
+                video.classList.remove('rotated-90');
+                video.classList.add('rotated-270');
+            } else if (video.classList.contains('rotated-270')) {
+                video.classList.remove('rotated-270');
+            } else {
+                video.classList.add('rotated-90');
+            }
+        });
+        
+        container.appendChild(rotateBtn);
+    }
+    
+    // 12. تهيئة عند تحميل الصفحة
+    setTimeout(function() {
+        // تطبيق الدوران الأولي
+        applyRotationByOrientation();
+        
+        // إضافة أزرار التحكم
+        addVideoControls();
+        
+        // تأكد من أن الفيديو في وضع النشاط
+        if (video) {
+            lockStudentTab();
+            
+            // استمع لأحداث الفيديو
+            video.addEventListener('play', lockStudentTab);
+            video.addEventListener('pause', unlockStudentTab);
+            video.addEventListener('ended', unlockStudentTab);
+        }
+    }, 500);
+    
+    // 13. تنظيف عند مغادرة الصفحة
+    window.addEventListener('beforeunload', unlockStudentTab);
+    window.addEventListener('pagehide', unlockStudentTab);
     
     </script>
-    <script>
-        const video = document.querySelector('.rotatable-video');
-        
-        function applyRotationByOrientation() {
-            if (!video) return;
-        
-            const orientation = screen.orientation?.type || '';
-        
-            video.classList.remove('rotated-90', 'rotated-270');
-        
-            if (orientation.includes('landscape-primary')) {
-                video.classList.add('rotated-90');
-            } else if (orientation.includes('landscape-secondary')) {
-                video.classList.add('rotated-270');
-            }
-        }
-        
-        // عند تغيير اتجاه الهاتف
-        screen.orientation?.addEventListener('change', applyRotationByOrientation);
-        
-        // fallback للأجهزة القديمة
-        window.addEventListener('orientationchange', applyRotationByOrientation);
-        
-        // تشغيل أول مرة
-        applyRotationByOrientation();
-        </script>
         
     
 </body>
