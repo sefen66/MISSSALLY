@@ -6843,35 +6843,38 @@ input:focus {
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.min.js"></script>
     <script>
         const { createApp, ref, computed, onMounted, watch, nextTick } = Vue;
-        
-        // Firebase configuration - replace with your actual config
-        const firebaseConfig = {
-            apiKey: "AIzaSyC4a0usruEbqsfzkpB_8ihoTLH1nJYSBS4",
-            authDomain: "e-learning-platform-1e2b6.firebaseapp.com",
-            projectId: "e-learning-platform-1e2b6",
-            storageBucket: "e-learning-platform-1e2b6.firebasestorage.app",
-            messagingSenderId: "946189994092",
-            appId: "1:946189994092:web:1ee1f4283ea736010b3049",
-            measurementId: "G-D7KQR78BTY"
-        };
-        
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        const storage = firebase.storage();
-        
-        // Supabase Configuration
-        const supabaseConfig = {
-            supabaseUrl: 'https://fqabrgxxjmdxuwoosgmj.supabase.co',
-            supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxYWJyZ3h4am1keHV3b29zZ21qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM3NjY3MzQsImV4cCI6MjA3OTM0MjczNH0.KYs82IMfM4DhE0tVvzQ27szYuEy-JM0CBg4qK814xOo'
-        };
-        
-        // Initialize Supabase
-        const supabase = window.supabase.createClient(
-            supabaseConfig.supabaseUrl, 
-            supabaseConfig.supabaseKey
-        );
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyC4a0usruEbqsfzkpB_8ihoTLH1nJYSBS4",
+    authDomain: "e-learning-platform-1e2b6.firebaseapp.com",
+    projectId: "e-learning-platform-1e2b6",
+    storageBucket: "e-learning-platform-1e2b6.firebasestorage.app",
+    messagingSenderId: "946189994092",
+    appId: "1:946189994092:web:1ee1f4283ea736010b3049",
+    measurementId: "G-D7KQR78BTY"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+// Supabase Configuration
+const supabaseConfig = {
+    supabaseUrl: 'https://fqabrgxxjmdxuwoosgmj.supabase.co',
+    supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxYWJyZ3h4am1keHV3b29zZ21qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM3NjY3MzQsImV4cCI6MjA3OTM0MjczNH0.KYs82IMfM4DhE0tVvzQ27szYuEy-JM0CBg4qK814xOo'
+};
+
+// ✅ استخدم `supabase` مباشرة بدلاً من `window.supabase`
+// Supabase يتم إنشاؤه كمتغير عالمي تلقائياً
+const supabase = window.supabase.createClient(
+    supabaseConfig.supabaseUrl, 
+    supabaseConfig.supabaseKey
+);
+
+
         
         // دالة محسنة لرفع الملفات إلى Supabase Storage
         const uploadToSupabase = async (file, bucketName = 'content', folder = '') => {
