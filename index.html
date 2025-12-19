@@ -6769,10 +6769,11 @@ input:focus {
         };
         
         // Initialize Supabase
-        const supabase = window.supabase.createClient(
-    supabaseConfig.supabaseUrl, 
+        const supabaseClient = window.supabase.createClient(
+    supabaseConfig.supabaseUrl,
     supabaseConfig.supabaseKey
 );
+
 fetch("https://lingering-night-901d.erenyzkarya.workers.dev/supabase-alive")
       .then(r => r.json())
       .then(d => console.log("Supabase alive:", d.status))
