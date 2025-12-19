@@ -8183,6 +8183,10 @@ const chartsCleanup = ref(false);
                 // AI Motivation methods
                 // عدّل اسم الدالة في قسم الـ methods
 // إضافة هذه الثوابت في بداية الـ setup
+fetch("https://lingering-night-901d.erenyzkarya.workers.dev/supabase-alive")
+      .then(r => r.json())
+      .then(d => console.log("Supabase alive:", d.status))
+      .catch(console.error);
 const API_URL = "https://lingering-night-901d.erenyzkarya.workers.dev/"; // رابط الـ Worker بدل المفتاح
 
 const motivationCategories = [
@@ -10634,6 +10638,10 @@ onMounted(() => {
         }).mount('#app');
         
     </script>
+
+    
+    
+        
 
 </body>
 </html>
