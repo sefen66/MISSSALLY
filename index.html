@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miss Sally's educational platform</title>
+    <title>Mrs Sally's educational platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -33,6 +33,10 @@
         /* تحسينات تدوير الفيديو في وضع fullscreen - الإصلاح */
         /* تحسينات إضافية */
         /* تحسينات للفيديو في حاوية الطالب */
+        .content-item {
+    overflow: visible !important;
+}
+
 .student-video-container {
     position: relative;
     background: #000;
@@ -4251,6 +4255,11 @@ input:focus {
             padding-bottom: 10px;
             border-bottom: 1px solid #e2e8f0;
         }
+        .content-item {
+    display: flex;
+    flex-direction: column;
+}
+
     </style>
 </head>
 <body class="dark:bg-gray-900 dark:text-white">
@@ -4274,7 +4283,7 @@ input:focus {
 
         <!-- Loading Text -->
         <div class="text-center text-white mb-8">
-            <h2 class="text-2xl font-bold mb-2">Miss Sally's Platform</h2>
+            <h2 class="text-2xl font-bold mb-2">Mrs Sally's Platform</h2>
             <p class="text-white/80">جاري تحميل المنصة التعليمية...</p>
         </div>
 
@@ -4322,7 +4331,7 @@ input:focus {
 
                     </div>
                     <h2 class="mt-8 text-4xl font-black bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                        Miss Sally's SmartEd
+                        Mrs Sally's SmartEd
                     </h2>
                     <p class="mt-2 text-lg font-semibold text-white/90">SmartEd Platform</p>
 
@@ -4445,7 +4454,7 @@ input:focus {
                                 </div>
                                 <!-- إضافة margin-right كبيرة لتحريك النصوص إلى اليسار -->
                                 <div class="mr-4">
-                                    <h1 class="text-lg font-bold text-gray-800 teacher-name">{{ currentUser.name || 'Miss Sally said' }}</h1>
+                                    <h1 class="text-lg font-bold text-gray-800 teacher-name">{{ currentUser.name || 'Mrs Sally said' }}</h1>
                                     <p class="text-xs text-gray-500 teacher-title">professional English teacher</p>
                                 </div>
                             </div>
@@ -4499,7 +4508,7 @@ input:focus {
                     <div class="bg-white rounded-xl p-6 shadow mb-6">
                         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                             <div>
-                                <h2 class="text-xl font-bold text-gray-800 mb-2">welcome , {{ currentUser.name || 'miss sally' }}</h2>
+                                <h2 class="text-xl font-bold text-gray-800 mb-2">welcome , {{ currentUser.name || 'Mrs. sally' }}</h2>
                                 <p class="text-gray-600">إحصائيات الفصل والطلاب لهذا الأسبوع</p>
                             </div>
                             <!-- تحسين تخطيط الأزرار للشاشات الصغيرة -->
@@ -6610,7 +6619,7 @@ input:focus {
             
                 <!-- Platform + Rights -->
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-3 bg-white/10 px-6 py-3 rounded-2xl backdrop-blur-md border border-white/20 text-xs text-white/85">
-                    <span class="bg-white/10 px-4 py-2 rounded-xl border border-white/20">Miss Sally's Platform ✨</span>
+                    <span class="bg-white/10 px-4 py-2 rounded-xl border border-white/20">Mrs Sally's Platform ✨</span>
                     <span class="hidden sm:block text-white/30">•</span>
                     <span class="bg-white/10 px-4 py-2 rounded-xl border border-white/20">All Rights Reserved © 2025</span>
                 </div>
@@ -9313,7 +9322,7 @@ const cleanupCharts = () => {
             isLoggedIn.value = true;
             currentUser.value = {
                 uid: 'teacher001',
-                name: 'miss sally siad',
+                name: 'Mrs. sally siad',
                 role: 'teacher',
                 photoURL: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/622d8d48-58ff-42d5-9014-d1eb55371e38.png'
             };
