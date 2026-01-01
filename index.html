@@ -7607,6 +7607,89 @@ window.addEventListener('resize', function() {
             console.error('openContentImageViewer function not found');
         }
     },
+    showNotification(type, message) {
+    // إنشاء عنصر الإشعار
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-[9999] animate__animated animate__fadeIn ${
+        type === 'success' 
+            ? 'bg-green-100 text-green-800 border-l-4 border-green-500' 
+            : 'bg-red-100 text-red-800 border-l-4 border-red-500'
+    }`;
+    
+    notification.innerHTML = `
+        <div class="flex items-center">
+            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} mr-2"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    // إضافة إلى الجسم
+    document.body.appendChild(notification);
+    
+    // إزالة بعد 3 ثواني
+    setTimeout(() => {
+        notification.classList.add('animate__fadeOut');
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 500);
+    }, 3000);
+},
+toggleMCQVisibility(quiz) {
+    const newVisibility = !quiz.mcqVisible;
+    
+    // تحديث في Firebase/Firestore - تصحيح اسم المجموعة
+    firebase.firestore().collection('mcq-quizzes').doc(quiz.id).update({
+        mcqVisible: newVisibility,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+        // تحديث القيمة محلياً
+        quiz.mcqVisible = newVisibility;
+        
+        // تحديث القائمة المحلية
+        const index = this.mcqQuizzes.findIndex(q => q.id === quiz.id);
+        if (index !== -1) {
+            this.mcqQuizzes[index].mcqVisible = newVisibility;
+        }
+        
+        // إشعار للمعلم
+        const message = newVisibility 
+            ? `تم تفعيل ظهور الاختبار "${quiz.title}" للطلاب` 
+            : `تم إخفاء الاختبار "${quiz.title}" عن الطلاب`;
+        
+        this.showNotification('success', message);
+    })
+    .catch((error) => {
+        console.error('خطأ في تحديث حالة ظهور MCQ:', error);
+        this.showNotification('error', 'حدث خطأ أثناء تحديث حالة الاختبار');
+    });
+},
+// دالة للتحقق من إخفاء MCQ للطلاب
+isMCQHiddenForStudent(studentClass) {
+    return this.mcqQuizzes.some(quiz => 
+        quiz.class === studentClass && quiz.isHidden === true
+    );
+},
+async updateQuizInFirestore(quizId, isVisible) {
+    try {
+      const db = firebase.firestore();
+
+      await db
+        .collection("quizzes")
+        .doc(quizId)
+        .update({
+          mcqVisible: isVisible,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+      console.log("MCQ visibility updated:", isVisible);
+
+    } catch (error) {
+      console.error("Failed to update MCQ visibility:", error);
+    }
+  },
     
     // دالة تدوير الفيديو
     enterFullscreen(videoElement, container) {
@@ -7698,26 +7781,7 @@ window.addEventListener('resize', function() {
         }
     },
     // إضافة دالة toggleMCQVisibility في قسم teacherDashboard
-toggleMCQVisibility(quiz) {
-    quiz.isHidden = !quiz.isHidden;
-    
-    // تحديث في قاعدة البيانات
-    this.updateQuizInFirestore(quiz.id, { isHidden: quiz.isHidden });
-    
-    // إشعار للمعلم
-    const message = quiz.isHidden 
-        ? `تم إخفاء الاختبار "${quiz.title}" عن الطلاب` 
-        : `تم إظهار الاختبار "${quiz.title}" للطلاب`;
-    
-    this.showNotification('success', message);
-},
 
-// دالة للتحقق من إخفاء MCQ للطلاب
-isMCQHiddenForStudent(studentClass) {
-    return this.mcqQuizzes.some(quiz => 
-        quiz.class === studentClass && quiz.isHidden === true
-    );
-},
     // تطبيق التدوير في وضع fullscreen
     applyFullscreenRotation(videoElement, rotationClass) {
         // إعادة تعيين التحويلات
@@ -10324,47 +10388,65 @@ const saveGrade = async (student) => {
                 };
                 
                 const loadStudentContent = async () => {
-                    try {
-                        // تحميل المحتوى العادي
-                        const snapshot = await db.collection('content')
-                            .where('class', '==', currentStudent.value.class)
-                            .get();
-                            
-                        const contentData = snapshot.docs.map(doc => ({
-                            id: doc.id,
-                            ...doc.data()
-                        }));
-                        
-                        // تحميل الاختبارات التفاعلية
-                        const mcqSnapshot = await db.collection('mcq-quizzes')
-                            .where('class', '==', currentStudent.value.class)
-                            .get();
-                            
-                        const mcqData = mcqSnapshot.docs.map(doc => {
-                            const quizData = doc.data();
-                            return {
-                                id: doc.id,
-                                ...quizData,
-                                type: 'mcqQuiz' // إضافة نوع خاص للاختبارات التفاعلية
-                            };
-                        });
-                        
-                        // تصفية الاختبارات المكتملة (التي استنفذ الطالب محاولاتها)
-                        const filteredMCQData = [];
-                        for (const quiz of mcqData) {
-                            const attempts = await getStudentAttempts(quiz.id);
-                            if (attempts < (quiz.maxAttempts || 1)) {
-                                filteredMCQData.push(quiz);
-                            }
-                        }
-                        
-                        // دمج البيانات
-                        studentContent.value = [...contentData, ...filteredMCQData];
-                    } catch (error) {
-                        console.error('Error loading student content:', error);
-                        studentContent.value = [];
-                    }
-                };
+    try {
+        const studentClass = currentStudent.value.class;
+        
+        // تحميل المحتوى العادي
+        const snapshot = await db.collection('content')
+            .where('class', '==', studentClass)
+            .get();
+            
+        const contentData = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+        
+        // تحميل الاختبارات التفاعلية
+        const mcqSnapshot = await db.collection('mcq-quizzes')
+            .where('class', '==', studentClass)
+            .get();
+            
+        const mcqData = mcqSnapshot.docs.map(doc => {
+            const quizData = doc.data();
+            return {
+                id: doc.id,
+                ...quizData,
+                type: 'mcqQuiz', // إضافة نوع خاص للاختبارات التفاعلية
+                mcqVisible: quizData.mcqVisible !== undefined ? quizData.mcqVisible : true // التعامل مع القيم غير المحددة
+            };
+        });
+        
+        console.log('جميع الاختبارات المحملة من Firebase:', mcqData.map(q => ({ title: q.title, mcqVisible: q.mcqVisible })));
+        
+        // تصفية الاختبارات
+        const filteredMCQData = [];
+        for (const quiz of mcqData) {
+            // 1. التحقق من رؤية الاختبار
+            if (quiz.mcqVisible === false) {
+                console.log(`تم إخفاء الاختبار: ${quiz.title} (mcqVisible = false)`);
+                continue; // تخطي الاختبار المخفي
+            }
+            
+            // 2. التحقق من المحاولات المتبقية
+            const attempts = await getStudentAttempts(quiz.id);
+            if (attempts >= (quiz.maxAttempts || 1)) {
+                console.log(`الطالب استنفذ محاولات الاختبار: ${quiz.title}`);
+                continue; // تخطي الاختبارات المكتملة
+            }
+            
+            filteredMCQData.push(quiz);
+        }
+        
+        console.log('الاختبارات المتاحة بعد الفلترة:', filteredMCQData.length);
+        
+        // دمج البيانات
+        studentContent.value = [...contentData, ...filteredMCQData];
+        
+    } catch (error) {
+        console.error('Error loading student content:', error);
+        studentContent.value = [];
+    }
+};
                 
                 const loadStudentGrades = async () => {
     try {
