@@ -39,6 +39,237 @@
         .content-item {
     overflow: visible !important;
 }
+/* تحسينات إضافية لتجربة المستخدم */
+.content-category {
+    margin-bottom: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.category-header {
+    background-color: #f9fafb;
+    padding: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.2s;
+}
+
+.category-header:hover {
+    background-color: #f3f4f6;
+}
+
+.category-title {
+    font-weight: 600;
+    color: #374151;
+    display: flex;
+    align-items: center;
+}
+
+.category-count {
+    background-color: #e5e7eb;
+    color: #374151;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.toggle-arrow {
+    transition: transform 0.3s ease;
+}
+
+.toggle-arrow.open {
+    transform: rotate(180deg);
+}
+
+.content-scroll-container {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db #f9fafb;
+}
+
+.content-scroll-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.content-scroll-container::-webkit-scrollbar-track {
+    background: #f9fafb;
+    border-radius: 4px;
+}
+
+.content-scroll-container::-webkit-scrollbar-thumb {
+    background-color: #d1d5db;
+    border-radius: 4px;
+}
+
+.content-scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: #9ca3af;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.content-item {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.content-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.content-info {
+    padding: 1rem;
+}
+
+.content-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.content-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.content-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.content-type-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.youtube-badge { background-color: #fee2e2; color: #dc2626; }
+.video-badge { background-color: #dbeafe; color: #2563eb; }
+.audio-badge { background-color: #dcfce7; color: #16a34a; }
+.image-badge { background-color: #fef3c7; color: #d97706; }
+.pdf-badge { background-color: #fee2e2; color: #dc2626; }
+.quiz-badge { background-color: #f3e8ff; color: #7c3aed; }
+
+/* تحسينات للملفات */
+.file-preview {
+    height: 180px;
+    background-color: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* تحسينات للفيديو */
+.video-player-container video {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+/* استجابة للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .content-scroll-container {
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 640px) {
+    .content-item {
+        margin-bottom: 1rem;
+    }
+    
+    .category-header {
+        padding: 0.75rem;
+    }
+    
+    .category-title {
+        font-size: 0.9rem;
+    }
+}
+.content-scroll-container {
+    max-height: 500px; /* يمكنك تغيير الارتفاع حسب الحاجة */
+    overflow-y: auto;
+    padding: 10px;
+    margin-top: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 #f7fafc;
+}
+
+.content-scroll-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.content-scroll-container::-webkit-scrollbar-track {
+    background: #f7fafc;
+    border-radius: 4px;
+}
+
+.content-scroll-container::-webkit-scrollbar-thumb {
+    background-color: #cbd5e0;
+    border-radius: 4px;
+}
+
+.content-scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: #a0aec0;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 5px;
+}
+
+/* تحسينات إضافية للمظهر */
+.category-content {
+    transition: all 0.3s ease;
+}
+
+.category-content.collapsed {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.category-content.expanded {
+    max-height: 600px; /* ارتفاع مناسب مع التمرير */
+    overflow: visible;
+}
 
 .student-video-container {
     position: relative;
@@ -4359,7 +4590,7 @@ input:focus {
                 <div class="text-center">
                     <div class="relative inline-block">
                         <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full blur-lg opacity-75 animate-pulse"></div>
-                        <img src="https://scontent-hbe1-1.xx.fbcdn.net/v/t1.6435-9/42614823_1848860731858211_5493962967785406464_n.jpg?_nc_cat=102&cb2=99be929b-bd9a46d7&ccb=1-7&_nc_sid=2285d6&_nc_eui2=AeH2KZjjhRJqgpQ8CaM5Jw9g0Xxhr_MpVejRfGGv8ylV6F4rROzEvRx1i2m6c4E8Oq4AxcYnwKl1Q0bohjeHA9EB&_nc_ohc=DSA5iy45s-EQ7kNvwEzgUJ3&_nc_oc=Adl3M6uL6aUb0zD1RKkLGPJN31kybG-cl5rwjJxWtJNrp86MLIEmsfD-faH2eio7ypY&_nc_zt=23&_nc_ht=scontent-hbe1-1.xx&_nc_gid=AlkTwj63kgNGhVXTv23JjA&oh=00_AfhIM04xydPpPT7IKbxOyAXEr5vBQOpfC02-lWnWofPRQA&oe=6948585A" 
+                        <img src="https://github.com/sefen66/MISSSALLY/blob/main/42614823_1848860731858211_5493962967785406464_n.jpg?raw=true" 
                              alt="شعار المدرسة" 
                              class="relative mx-auto h-28 w-28 rounded-full border-4 border-white/50 shadow-2xl z-10">
 
@@ -4792,7 +5023,7 @@ input:focus {
                                 <div class="spinner"></div>
                             </div>
                             <div v-else>
-                                <!-- عرض المحتوى حسب النوع -->
+                                <!-- قسم فيديوهات يوتيوب -->
                                 <div v-if="organizedContent.youtube && organizedContent.youtube.length > 0" class="content-category">
                                     <div class="category-header" @click="toggleCategory('youtube')">
                                         <h4 class="category-title">
@@ -4805,30 +5036,33 @@ input:focus {
                                         </div>
                                     </div>
                                     <div class="category-content" :class="expandedCategories.youtube ? 'expanded' : 'collapsed'">
-                                        <div class="content-grid">
-                                            <div v-for="content in organizedContent.youtube" :key="content.id" class="content-item">
-                                                <div class="relative">
-                                                    <img :src="content.thumbnail || getYouTubeThumbnail(content.url)" :alt="content.title" class="youtube-thumbnail" @click="openVideo(content)">
-                                                    <div class="thumbnail-overlay" @click="openVideo(content)">
-                                                        <div class="play-icon">
-                                                            <i class="fab fa-youtube"></i>
+                                        <!-- إضافة div للتمرير -->
+                                        <div class="content-scroll-container" v-if="expandedCategories.youtube">
+                                            <div class="content-grid">
+                                                <div v-for="content in organizedContent.youtube" :key="content.id" class="content-item">
+                                                    <div class="relative">
+                                                        <img :src="content.thumbnail || getYouTubeThumbnail(content.url)" :alt="content.title" class="youtube-thumbnail" @click="openVideo(content)">
+                                                        <div class="thumbnail-overlay" @click="openVideo(content)">
+                                                            <div class="play-icon">
+                                                                <i class="fab fa-youtube"></i>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="content-info">
-                                                    <h3 class="content-title">{{ content.title }}</h3>
-                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                    <div class="content-meta">
-                                                        <span>{{ content.class }}</span>
-                                                        <span class="content-type-badge youtube-badge">يوتيوب</span>
-                                                    </div>
-                                                    <div class="mt-3 flex justify-end space-x-2">
-                                                        <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                        <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
+                                                    <div class="content-info">
+                                                        <h3 class="content-title">{{ content.title }}</h3>
+                                                        <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                        <div class="content-meta">
+                                                            <span>{{ content.class }}</span>
+                                                            <span class="content-type-badge youtube-badge">يوتيوب</span>
+                                                        </div>
+                                                        <div class="mt-3 flex justify-end space-x-2">
+                                                            <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                            <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -4836,7 +5070,7 @@ input:focus {
                                     </div>
                                 </div>
                                 
-                                <!-- في قسم ملفات الفيديو - تحديث كود العرض -->
+                                <!-- قسم ملفات الفيديو -->
                                 <div v-if="organizedContent.video && organizedContent.video.length > 0" class="content-category">
                                     <div class="category-header" @click="toggleCategory('video')">
                                         <h4 class="category-title">
@@ -4849,35 +5083,37 @@ input:focus {
                                         </div>
                                     </div>
                                     <div class="category-content" :class="expandedCategories.video ? 'expanded' : 'collapsed'">
-                                        <div class="content-grid">
-                                            <div v-for="content in organizedContent.video" :key="content.id" class="content-item">
-                                                <!-- عرض الفيديو مباشرة بدون زر عرض -->
-                                                <div class="video-player-container">
-                                                    <video controls class="w-full h-48 object-cover rounded-t-lg" v-if="content.fileUrl">
-                                                        <source :src="content.fileUrl" type="video/mp4">
-                                                        متصفحك لا يدعم تشغيل الفيديو.
-                                                    </video>
-                                                    <div v-else class="file-preview h-48">
-                                                        <div class="w-full h-full flex flex-col items-center justify-center">
-                                                            <i class="fas fa-video text-5xl text-blue-500 mb-2"></i>
-                                                            <span class="text-sm text-gray-600">ملف فيديو</span>
+                                        <!-- إضافة div للتمرير -->
+                                        <div class="content-scroll-container" v-if="expandedCategories.video">
+                                            <div class="content-grid">
+                                                <div v-for="content in organizedContent.video" :key="content.id" class="content-item">
+                                                    <div class="video-player-container">
+                                                        <video controls class="w-full h-48 object-cover rounded-t-lg" v-if="content.fileUrl">
+                                                            <source :src="content.fileUrl" type="video/mp4">
+                                                            متصفحك لا يدعم تشغيل الفيديو.
+                                                        </video>
+                                                        <div v-else class="file-preview h-48">
+                                                            <div class="w-full h-full flex flex-col items-center justify-center">
+                                                                <i class="fas fa-video text-5xl text-blue-500 mb-2"></i>
+                                                                <span class="text-sm text-gray-600">ملف فيديو</span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="content-info">
-                                                    <h3 class="content-title">{{ content.title }}</h3>
-                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                    <div class="content-meta">
-                                                        <span>{{ content.class }}</span>
-                                                        <span class="content-type-badge video-badge">فيديو</span>
-                                                    </div>
-                                                    <div class="mt-3 flex justify-end space-x-2">
-                                                        <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                        <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
+                                                    <div class="content-info">
+                                                        <h3 class="content-title">{{ content.title }}</h3>
+                                                        <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                        <div class="content-meta">
+                                                            <span>{{ content.class }}</span>
+                                                            <span class="content-type-badge video-badge">فيديو</span>
+                                                        </div>
+                                                        <div class="mt-3 flex justify-end space-x-2">
+                                                            <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                            <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -4885,6 +5121,7 @@ input:focus {
                                     </div>
                                 </div>
                                 
+                                <!-- قسم الملفات الصوتية -->
                                 <div v-if="organizedContent.audio && organizedContent.audio.length > 0" class="content-category">
                                     <div class="category-header" @click="toggleCategory('audio')">
                                         <h4 class="category-title">
@@ -4897,34 +5134,37 @@ input:focus {
                                         </div>
                                     </div>
                                     <div class="category-content" :class="expandedCategories.audio ? 'expanded' : 'collapsed'">
-                                        <div class="content-grid">
-                                            <div v-for="content in organizedContent.audio" :key="content.id" class="content-item">
-                                                <div class="file-preview">
-                                                    <div class="w-full h-full flex flex-col items-center justify-center">
-                                                        <i class="fas fa-music text-5xl text-green-500 mb-2"></i>
-                                                        <span class="text-sm text-gray-600">ملف صوتي</span>
+                                        <!-- إضافة div للتمرير -->
+                                        <div class="content-scroll-container" v-if="expandedCategories.audio">
+                                            <div class="content-grid">
+                                                <div v-for="content in organizedContent.audio" :key="content.id" class="content-item">
+                                                    <div class="file-preview">
+                                                        <div class="w-full h-full flex flex-col items-center justify-center">
+                                                            <i class="fas fa-music text-5xl text-green-500 mb-2"></i>
+                                                            <span class="text-sm text-gray-600">ملف صوتي</span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="content-info">
-                                                    <h3 class="content-title">{{ content.title }}</h3>
-                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                    <div class="content-meta">
-                                                        <span>{{ content.class }}</span>
-                                                        <span class="content-type-badge audio-badge">صوت</span>
-                                                    </div>
-                                                    <div class="mt-3">
-                                                        <audio controls class="w-full">
-                                                            <source :src="content.audioUrl" type="audio/mpeg">
-                                                            متصفحك لا يدعم تشغيل الملفات الصوتية.
-                                                        </audio>
-                                                    </div>
-                                                    <div class="mt-3 flex justify-end space-x-2">
-                                                        <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                        <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
+                                                    <div class="content-info">
+                                                        <h3 class="content-title">{{ content.title }}</h3>
+                                                        <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                        <div class="content-meta">
+                                                            <span>{{ content.class }}</span>
+                                                            <span class="content-type-badge audio-badge">صوت</span>
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <audio controls class="w-full">
+                                                                <source :src="content.audioUrl" type="audio/mpeg">
+                                                                متصفحك لا يدعم تشغيل الملفات الصوتية.
+                                                            </audio>
+                                                        </div>
+                                                        <div class="mt-3 flex justify-end space-x-2">
+                                                            <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                            <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -4932,6 +5172,7 @@ input:focus {
                                     </div>
                                 </div>
                                 
+                                <!-- قسم الصور -->
                                 <div v-if="organizedContent.image && organizedContent.image.length > 0" class="content-category">
                                     <div class="category-header" @click="toggleCategory('image')">
                                         <h4 class="category-title">
@@ -4944,33 +5185,36 @@ input:focus {
                                         </div>
                                     </div>
                                     <div class="category-content" :class="expandedCategories.image ? 'expanded' : 'collapsed'">
-                                        <div class="content-grid">
-                                            <div v-for="content in organizedContent.image" :key="content.id" class="content-item">
-                                                <div class="file-preview">
-                                                    <img v-if="content.fileUrl" :src="content.fileUrl" :alt="content.title" class="content-thumbnail">
-                                                    <div v-else class="w-full h-full flex flex-col items-center justify-center">
-                                                        <i class="fas fa-image text-5xl text-yellow-500 mb-2"></i>
-                                                        <span class="text-sm text-gray-600">صورة</span>
+                                        <!-- إضافة div للتمرير -->
+                                        <div class="content-scroll-container" v-if="expandedCategories.image">
+                                            <div class="content-grid">
+                                                <div v-for="content in organizedContent.image" :key="content.id" class="content-item">
+                                                    <div class="file-preview">
+                                                        <img v-if="content.fileUrl" :src="content.fileUrl" :alt="content.title" class="content-thumbnail">
+                                                        <div v-else class="w-full h-full flex flex-col items-center justify-center">
+                                                            <i class="fas fa-image text-5xl text-yellow-500 mb-2"></i>
+                                                            <span class="text-sm text-gray-600">صورة</span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="content-info">
-                                                    <h3 class="content-title">{{ content.title }}</h3>
-                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                    <div class="content-meta">
-                                                        <span>{{ content.class }}</span>
-                                                        <span class="content-type-badge image-badge">صورة</span>
-                                                    </div>
-                                                    <div class="mt-3 flex justify-between items-center">
-                                                        <button @click="openFileViewer(content)" class="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition-colors duration-200">
-                                                            <i class="fas fa-eye mr-1"></i> عرض
-                                                        </button>
-                                                        <div class="flex space-x-2">
-                                                            <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
-                                                                <i class="fas fa-edit"></i>
+                                                    <div class="content-info">
+                                                        <h3 class="content-title">{{ content.title }}</h3>
+                                                        <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                        <div class="content-meta">
+                                                            <span>{{ content.class }}</span>
+                                                            <span class="content-type-badge image-badge">صورة</span>
+                                                        </div>
+                                                        <div class="mt-3 flex justify-between items-center">
+                                                            <button @click="openFileViewer(content)" class="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition-colors duration-200">
+                                                                <i class="fas fa-eye mr-1"></i> عرض
                                                             </button>
-                                                            <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
+                                                            <div class="flex space-x-2">
+                                                                <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </button>
+                                                                <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4979,6 +5223,7 @@ input:focus {
                                     </div>
                                 </div>
                                 
+                                <!-- قسم ملفات PDF -->
                                 <div v-if="organizedContent.pdf && organizedContent.pdf.length > 0" class="content-category">
                                     <div class="category-header" @click="toggleCategory('pdf')">
                                         <h4 class="category-title">
@@ -4991,31 +5236,34 @@ input:focus {
                                         </div>
                                     </div>
                                     <div class="category-content" :class="expandedCategories.pdf ? 'expanded' : 'collapsed'">
-                                        <div class="content-grid">
-                                            <div v-for="content in organizedContent.pdf" :key="content.id" class="content-item">
-                                                <div class="file-preview">
-                                                    <div class="pdf-cover">
-                                                        <i class="fas fa-file-pdf text-4xl"></i>
+                                        <!-- إضافة div للتمرير -->
+                                        <div class="content-scroll-container" v-if="expandedCategories.pdf">
+                                            <div class="content-grid">
+                                                <div v-for="content in organizedContent.pdf" :key="content.id" class="content-item">
+                                                    <div class="file-preview">
+                                                        <div class="pdf-cover">
+                                                            <i class="fas fa-file-pdf text-4xl"></i>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="content-info">
-                                                    <h3 class="content-title">{{ content.title }}</h3>
-                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                    <div class="content-meta">
-                                                        <span>{{ content.class }}</span>
-                                                        <span class="content-type-badge pdf-badge">PDF</span>
-                                                    </div>
-                                                    <div class="mt-3 flex justify-between items-center">
-                                                        <button @click="openFileViewer(content)" class="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition-colors duration-200">
-                                                            <i class="fas fa-eye mr-1"></i> عرض
-                                                        </button>
-                                                        <div class="flex space-x-2">
-                                                            <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
-                                                                <i class="fas fa-edit"></i>
+                                                    <div class="content-info">
+                                                        <h3 class="content-title">{{ content.title }}</h3>
+                                                        <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                        <div class="content-meta">
+                                                            <span>{{ content.class }}</span>
+                                                            <span class="content-type-badge pdf-badge">PDF</span>
+                                                        </div>
+                                                        <div class="mt-3 flex justify-between items-center">
+                                                            <button @click="openFileViewer(content)" class="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition-colors duration-200">
+                                                                <i class="fas fa-eye mr-1"></i> عرض
                                                             </button>
-                                                            <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
+                                                            <div class="flex space-x-2">
+                                                                <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </button>
+                                                                <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -5024,6 +5272,7 @@ input:focus {
                                     </div>
                                 </div>
                                 
+                                <!-- قسم الاختبارات -->
                                 <div v-if="organizedContent.quiz && organizedContent.quiz.length > 0" class="content-category">
                                     <div class="category-header" @click="toggleCategory('quiz')">
                                         <h4 class="category-title">
@@ -5036,28 +5285,31 @@ input:focus {
                                         </div>
                                     </div>
                                     <div class="category-content" :class="expandedCategories.quiz ? 'expanded' : 'collapsed'">
-                                        <div class="content-grid">
-                                            <div v-for="content in organizedContent.quiz" :key="content.id" class="content-item">
-                                                <div class="file-preview">
-                                                    <div class="w-full h-full flex flex-col items-center justify-center">
-                                                        <i class="fas fa-question-circle text-5xl text-purple-500 mb-2"></i>
-                                                        <span class="text-sm text-gray-600">اختبار</span>
+                                        <!-- إضافة div للتمرير -->
+                                        <div class="content-scroll-container" v-if="expandedCategories.quiz">
+                                            <div class="content-grid">
+                                                <div v-for="content in organizedContent.quiz" :key="content.id" class="content-item">
+                                                    <div class="file-preview">
+                                                        <div class="w-full h-full flex flex-col items-center justify-center">
+                                                            <i class="fas fa-question-circle text-5xl text-purple-500 mb-2"></i>
+                                                            <span class="text-sm text-gray-600">اختبار</span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="content-info">
-                                                    <h3 class="content-title">{{ content.title }}</h3>
-                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                    <div class="content-meta">
-                                                        <span>{{ content.class }}</span>
-                                                        <span class="content-type-badge quiz-badge">اختبار</span>
-                                                    </div>
-                                                    <div class="mt-3 flex justify-end space-x-2">
-                                                        <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                        <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
+                                                    <div class="content-info">
+                                                        <h3 class="content-title">{{ content.title }}</h3>
+                                                        <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                        <div class="content-meta">
+                                                            <span>{{ content.class }}</span>
+                                                            <span class="content-type-badge quiz-badge">اختبار</span>
+                                                        </div>
+                                                        <div class="mt-3 flex justify-end space-x-2">
+                                                            <button @click="editContent(content)" class="text-blue-500 hover:text-blue-700">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                            <button @click="deleteContent(content.id)" class="text-red-500 hover:text-red-700">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -5584,6 +5836,7 @@ input:focus {
                             <h3 class="text-lg font-medium text-gray-900">المحتوى التعليمي المتاح</h3>
                         </div>
                         <div class="p-6">
+                            <!-- قسم فيديوهات يوتيوب -->
                             <div v-if="organizedStudentContent.youtube && organizedStudentContent.youtube.length > 0" class="content-category">
                                 <div class="category-header" @click="toggleStudentCategory('youtube')">
                                     <h4 class="category-title">
@@ -5596,22 +5849,25 @@ input:focus {
                                     </div>
                                 </div>
                                 <div class="category-content" :class="expandedStudentCategories.youtube ? 'expanded' : 'collapsed'">
-                                    <div class="content-grid">
-                                        <div v-for="content in organizedStudentContent.youtube" :key="content.id" class="content-item">
-                                            <div class="relative">
-                                                <img :src="content.thumbnail || getYouTubeThumbnail(content.url)" :alt="content.title" class="youtube-thumbnail" @click="openVideo(content)">
-                                                <div class="thumbnail-overlay" @click="openVideo(content)">
-                                                    <div class="play-icon">
-                                                        <i class="fab fa-youtube"></i>
+                                    <!-- إضافة div للتمرير -->
+                                    <div class="content-scroll-container" v-if="expandedStudentCategories.youtube">
+                                        <div class="content-grid">
+                                            <div v-for="content in organizedStudentContent.youtube" :key="content.id" class="content-item">
+                                                <div class="relative">
+                                                    <img :src="content.thumbnail || getYouTubeThumbnail(content.url)" :alt="content.title" class="youtube-thumbnail" @click="openVideo(content)">
+                                                    <div class="thumbnail-overlay" @click="openVideo(content)">
+                                                        <div class="play-icon">
+                                                            <i class="fab fa-youtube"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="content-info">
-                                                <h3 class="content-title">{{ content.title }}</h3>
-                                                <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                <div class="content-meta">
-                                                    <span>{{ content.class }}</span>
-                                                    <span class="content-type-badge youtube-badge">يوتيوب</span>
+                                                <div class="content-info">
+                                                    <h3 class="content-title">{{ content.title }}</h3>
+                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                    <div class="content-meta">
+                                                        <span>{{ content.class }}</span>
+                                                        <span class="content-type-badge youtube-badge">يوتيوب</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -5619,7 +5875,7 @@ input:focus {
                                 </div>
                             </div>
                             
-                            <!-- في قسم ملفات الفيديو للطالب -->
+                            <!-- قسم ملفات الفيديو -->
                             <div v-if="organizedStudentContent.video && organizedStudentContent.video.length > 0" class="content-category">
                                 <div class="category-header" @click="toggleStudentCategory('video')">
                                     <h4 class="category-title">
@@ -5632,50 +5888,48 @@ input:focus {
                                     </div>
                                 </div>
                                 <div class="category-content" :class="expandedStudentCategories.video ? 'expanded' : 'collapsed'">
-                                    <div class="content-grid">
-                                        <div v-for="content in organizedStudentContent.video" :key="content.id" class="content-item">
-                                            <!-- عرض الفيديو مباشرة للطالب بدون قص -->
-                                            <div class="video-player-container bg-black flex items-center justify-center relative">
-                                                <video 
-                                                    controls 
-                                                    class="rotatable-video w-full max-h-64" 
-                                                    v-if="content.fileUrl"
-                                                    style="object-fit: contain; min-height: 200px;"
-                                                    :ref="'video-' + content.id">
-                                                    <source :src="content.fileUrl" type="video/mp4">
-                                                    متصفحك لا يدعم تشغيل الفيديو.
-                                                </video>
-                                                <div v-else class="file-preview h-48 w-full flex items-center justify-center">
-                                                    <div class="flex flex-col items-center justify-center">
-                                                        <i class="fas fa-video text-5xl text-blue-500 mb-2"></i>
-                                                        <span class="text-sm text-gray-600">ملف فيديو</span>
+                                    <!-- إضافة div للتمرير -->
+                                    <div class="content-scroll-container" v-if="expandedStudentCategories.video">
+                                        <div class="content-grid">
+                                            <div v-for="content in organizedStudentContent.video" :key="content.id" class="content-item">
+                                                <div class="video-player-container bg-black flex items-center justify-center relative">
+                                                    <video 
+                                                        controls 
+                                                        class="rotatable-video w-full max-h-64" 
+                                                        v-if="content.fileUrl"
+                                                        style="object-fit: contain; min-height: 200px;"
+                                                        :ref="'video-' + content.id">
+                                                        <source :src="content.fileUrl" type="video/mp4">
+                                                        متصفحك لا يدعم تشغيل الفيديو.
+                                                    </video>
+                                                    <div v-else class="file-preview h-48 w-full flex items-center justify-center">
+                                                        <div class="flex flex-col items-center justify-center">
+                                                            <i class="fas fa-video text-5xl text-blue-500 mb-2"></i>
+                                                            <span class="text-sm text-gray-600">ملف فيديو</span>
+                                                        </div>
                                                     </div>
+                                                    
+                                                    <button 
+                                                        v-if="content.fileUrl"
+                                                        class="rotate-btn absolute top-2 right-12"
+                                                        @click="rotateVideo($refs['video-' + content.id][0])">
+                                                        <i class="fas fa-redo"></i>
+                                                    </button>
+                                                    
+                                                    <button 
+                                                        v-if="content.fileUrl"
+                                                        class="fullscreen-btn absolute top-2 right-2"
+                                                        @click="enterFullscreen($refs['video-' + content.id][0])">
+                                                        <i class="fas fa-expand"></i>
+                                                    </button>
                                                 </div>
-                                                
-                                                <!-- أزرار التحكم -->
-                                                <button 
-                                                    v-if="content.fileUrl"
-                                                    class="rotate-btn absolute top-2 right-12"
-                                                    @click="rotateVideo($refs['video-' + content.id][0])">
-                                                    <i class="fas fa-redo"></i>
-                                                </button>
-                                                
-                                                <button 
-                                                    v-if="content.fileUrl"
-                                                    class="fullscreen-btn absolute top-2 right-2"
-                                                    @click="enterFullscreen($refs['video-' + content.id][0])">
-                                                    <i class="fas fa-expand"></i>
-                                                </button>
-                                            </div>
-                                            <div class="content-info">
-                                                <h3 class="content-title">{{ content.title }}</h3>
-                                                <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                <div class="content-meta">
-                                                    <span>{{ content.class }}</span>
-                                                    <span class="content-type-badge video-badge">فيديو</span>
-                                                </div>
-                                                <div class="mt-3 flex justify-center">
-
+                                                <div class="content-info">
+                                                    <h3 class="content-title">{{ content.title }}</h3>
+                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                    <div class="content-meta">
+                                                        <span>{{ content.class }}</span>
+                                                        <span class="content-type-badge video-badge">فيديو</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -5683,6 +5937,7 @@ input:focus {
                                 </div>
                             </div>
                             
+                            <!-- قسم الملفات الصوتية -->
                             <div v-if="organizedStudentContent.audio && organizedStudentContent.audio.length > 0" class="content-category">
                                 <div class="category-header" @click="toggleStudentCategory('audio')">
                                     <h4 class="category-title">
@@ -5695,31 +5950,34 @@ input:focus {
                                     </div>
                                 </div>
                                 <div class="category-content" :class="expandedStudentCategories.audio ? 'expanded' : 'collapsed'">
-                                    <div class="content-grid">
-                                        <div v-for="content in organizedStudentContent.audio" :key="content.id" class="content-item">
-                                            <div class="file-preview">
-                                                <div class="w-full h-full flex flex-col items-center justify-center">
-                                                    <i class="fas fa-music text-5xl text-green-500 mb-2"></i>
-                                                    <span class="text-sm text-gray-600">ملف صوتي</span>
+                                    <!-- إضافة div للتمرير -->
+                                    <div class="content-scroll-container" v-if="expandedStudentCategories.audio">
+                                        <div class="content-grid">
+                                            <div v-for="content in organizedStudentContent.audio" :key="content.id" class="content-item">
+                                                <div class="file-preview">
+                                                    <div class="w-full h-full flex flex-col items-center justify-center">
+                                                        <i class="fas fa-music text-5xl text-green-500 mb-2"></i>
+                                                        <span class="text-sm text-gray-600">ملف صوتي</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="content-info">
-                                                <h3 class="content-title">{{ content.title }}</h3>
-                                                <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                <div class="content-meta">
-                                                    <span>{{ content.class }}</span>
-                                                    <span class="content-type-badge audio-badge">صوت</span>
-                                                </div>
-                                                <div class="mt-3">
-                                                    <audio controls class="w-full">
-                                                        <source :src="content.audioUrl" type="audio/mpeg">
-                                                        متصفحك لا يدعم تشغيل الملفات الصوتية.
-                                                    </audio>
-                                                </div>
-                                                <div class="mt-3 flex justify-center">
-                                                    <button @click="downloadFile(content.audioUrl, content.title)" class="bg-purple-600 text-white px-3 py-1 rounded-md text-sm hover:bg-purple-700 transition-colors duration-200">
-                                                        <i class="fas fa-download mr-1"></i> تحميل الملف
-                                                    </button>
+                                                <div class="content-info">
+                                                    <h3 class="content-title">{{ content.title }}</h3>
+                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                    <div class="content-meta">
+                                                        <span>{{ content.class }}</span>
+                                                        <span class="content-type-badge audio-badge">صوت</span>
+                                                    </div>
+                                                    <div class="mt-3">
+                                                        <audio controls class="w-full">
+                                                            <source :src="content.audioUrl" type="audio/mpeg">
+                                                            متصفحك لا يدعم تشغيل الملفات الصوتية.
+                                                        </audio>
+                                                    </div>
+                                                    <div class="mt-3 flex justify-center">
+                                                        <button @click="downloadFile(content.audioUrl, content.title)" class="bg-purple-600 text-white px-3 py-1 rounded-md text-sm hover:bg-purple-700 transition-colors duration-200">
+                                                            <i class="fas fa-download mr-1"></i> تحميل الملف
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -5727,6 +5985,7 @@ input:focus {
                                 </div>
                             </div>
                             
+                            <!-- قسم الصور -->
                             <div v-if="organizedStudentContent.image && organizedStudentContent.image.length > 0" class="content-category">
                                 <div class="category-header" @click="toggleStudentCategory('image')">
                                     <h4 class="category-title">
@@ -5739,29 +5998,32 @@ input:focus {
                                     </div>
                                 </div>
                                 <div class="category-content" :class="expandedStudentCategories.image ? 'expanded' : 'collapsed'">
-                                    <div class="content-grid">
-                                        <div v-for="content in organizedStudentContent.image" :key="content.id" class="content-item">
-                                            <div class="file-preview">
-                                                <img v-if="content.fileUrl" :src="content.fileUrl" :alt="content.title" class="content-thumbnail">
-                                                <div v-else class="w-full h-full flex flex-col items-center justify-center">
-                                                    <i class="fas fa-image text-5xl text-yellow-500 mb-2"></i>
-                                                    <span class="text-sm text-gray-600">صورة</span>
+                                    <!-- إضافة div للتمرير -->
+                                    <div class="content-scroll-container" v-if="expandedStudentCategories.image">
+                                        <div class="content-grid">
+                                            <div v-for="content in organizedStudentContent.image" :key="content.id" class="content-item">
+                                                <div class="file-preview">
+                                                    <img v-if="content.fileUrl" :src="content.fileUrl" :alt="content.title" class="content-thumbnail">
+                                                    <div v-else class="w-full h-full flex flex-col items-center justify-center">
+                                                        <i class="fas fa-image text-5xl text-yellow-500 mb-2"></i>
+                                                        <span class="text-sm text-gray-600">صورة</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="content-info">
-                                                <h3 class="content-title">{{ content.title }}</h3>
-                                                <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                <div class="content-meta">
-                                                    <span>{{ content.class }}</span>
-                                                    <span class="content-type-badge image-badge">صورة</span>
-                                                </div>
-                                                <div class="mt-3 flex justify-between items-center">
-                                                    <button @click="openFileViewer(content)" class="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition-colors duration-200">
-                                                        <i class="fas fa-eye mr-1"></i> عرض
-                                                    </button>
-                                                    <button @click="downloadFile(content.fileUrl, content.title)" class="bg-purple-600 text-white px-3 py-1 rounded-md text-sm hover:bg-purple-700 transition-colors duration-200">
-                                                        <i class="fas fa-download mr-1"></i> تحميل
-                                                    </button>
+                                                <div class="content-info">
+                                                    <h3 class="content-title">{{ content.title }}</h3>
+                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                    <div class="content-meta">
+                                                        <span>{{ content.class }}</span>
+                                                        <span class="content-type-badge image-badge">صورة</span>
+                                                    </div>
+                                                    <div class="mt-3 flex justify-between items-center">
+                                                        <button @click="openFileViewer(content)" class="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition-colors duration-200">
+                                                            <i class="fas fa-eye mr-1"></i> عرض
+                                                        </button>
+                                                        <button @click="downloadFile(content.fileUrl, content.title)" class="bg-purple-600 text-white px-3 py-1 rounded-md text-sm hover:bg-purple-700 transition-colors duration-200">
+                                                            <i class="fas fa-download mr-1"></i> تحميل
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -5769,6 +6031,7 @@ input:focus {
                                 </div>
                             </div>
                             
+                            <!-- قسم ملفات PDF -->
                             <div v-if="organizedStudentContent.pdf && organizedStudentContent.pdf.length > 0" class="content-category">
                                 <div class="category-header" @click="toggleStudentCategory('pdf')">
                                     <h4 class="category-title">
@@ -5781,27 +6044,30 @@ input:focus {
                                     </div>
                                 </div>
                                 <div class="category-content" :class="expandedStudentCategories.pdf ? 'expanded' : 'collapsed'">
-                                    <div class="content-grid">
-                                        <div v-for="content in organizedStudentContent.pdf" :key="content.id" class="content-item">
-                                            <div class="file-preview">
-                                                <div class="pdf-cover">
-                                                    <i class="fas fa-file-pdf text-4xl"></i>
+                                    <!-- إضافة div للتمرير -->
+                                    <div class="content-scroll-container" v-if="expandedStudentCategories.pdf">
+                                        <div class="content-grid">
+                                            <div v-for="content in organizedStudentContent.pdf" :key="content.id" class="content-item">
+                                                <div class="file-preview">
+                                                    <div class="pdf-cover">
+                                                        <i class="fas fa-file-pdf text-4xl"></i>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="content-info">
-                                                <h3 class="content-title">{{ content.title }}</h3>
-                                                <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                <div class="content-meta">
-                                                    <span>{{ content.class }}</span>
-                                                    <span class="content-type-badge pdf-badge">PDF</span>
-                                                </div>
-                                                <div class="mt-3 flex justify-between items-center">
-                                                    <button @click="openFileViewer(content)" class="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition-colors duration-200">
-                                                        <i class="fas fa-eye mr-1"></i> عرض
-                                                    </button>
-                                                    <button @click="downloadFile(content.fileUrl, content.title)" class="bg-purple-600 text-white px-3 py-1 rounded-md text-sm hover:bg-purple-700 transition-colors duration-200">
-                                                        <i class="fas fa-download mr-1"></i> تحميل
-                                                    </button>
+                                                <div class="content-info">
+                                                    <h3 class="content-title">{{ content.title }}</h3>
+                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                    <div class="content-meta">
+                                                        <span>{{ content.class }}</span>
+                                                        <span class="content-type-badge pdf-badge">PDF</span>
+                                                    </div>
+                                                    <div class="mt-3 flex justify-between items-center">
+                                                        <button @click="openFileViewer(content)" class="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition-colors duration-200">
+                                                            <i class="fas fa-eye mr-1"></i> عرض
+                                                        </button>
+                                                        <button @click="downloadFile(content.fileUrl, content.title)" class="bg-purple-600 text-white px-3 py-1 rounded-md text-sm hover:bg-purple-700 transition-colors duration-200">
+                                                            <i class="fas fa-download mr-1"></i> تحميل
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -5809,6 +6075,7 @@ input:focus {
                                 </div>
                             </div>
                             
+                            <!-- قسم الاختبارات -->
                             <div v-if="organizedStudentContent.quiz && organizedStudentContent.quiz.length > 0" class="content-category">
                                 <div class="category-header" @click="toggleStudentCategory('quiz')">
                                     <h4 class="category-title">
@@ -5821,20 +6088,23 @@ input:focus {
                                     </div>
                                 </div>
                                 <div class="category-content" :class="expandedStudentCategories.quiz ? 'expanded' : 'collapsed'">
-                                    <div class="content-grid">
-                                        <div v-for="content in organizedStudentContent.quiz" :key="content.id" class="content-item">
-                                            <div class="file-preview">
-                                                <div class="w-full h-full flex flex-col items-center justify-center">
-                                                    <i class="fas fa-question-circle text-5xl text-purple-500 mb-2"></i>
-                                                    <span class="text-sm text-gray-600">اختبار</span>
+                                    <!-- إضافة div للتمرير -->
+                                    <div class="content-scroll-container" v-if="expandedStudentCategories.quiz">
+                                        <div class="content-grid">
+                                            <div v-for="content in organizedStudentContent.quiz" :key="content.id" class="content-item">
+                                                <div class="file-preview">
+                                                    <div class="w-full h-full flex flex-col items-center justify-center">
+                                                        <i class="fas fa-question-circle text-5xl text-purple-500 mb-2"></i>
+                                                        <span class="text-sm text-gray-600">اختبار</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="content-info">
-                                                <h3 class="content-title">{{ content.title }}</h3>
-                                                <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                <div class="content-meta">
-                                                    <span>{{ content.class }}</span>
-                                                    <span class="content-type-badge quiz-badge">اختبار</span>
+                                                <div class="content-info">
+                                                    <h3 class="content-title">{{ content.title }}</h3>
+                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                    <div class="content-meta">
+                                                        <span>{{ content.class }}</span>
+                                                        <span class="content-type-badge quiz-badge">اختبار</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -5842,7 +6112,7 @@ input:focus {
                                 </div>
                             </div>
                             
-                            <!-- قسم جديد للاختبارات التفاعلية للطالب -->
+                            <!-- قسم الاختبارات التفاعلية -->
                             <div v-if="organizedStudentContent.mcqQuiz && organizedStudentContent.mcqQuiz.length > 0" class="content-category">
                                 <div class="category-header" @click="toggleStudentCategory('mcqQuiz')">
                                     <h4 class="category-title">
@@ -5855,36 +6125,39 @@ input:focus {
                                     </div>
                                 </div>
                                 <div class="category-content" :class="expandedStudentCategories.mcqQuiz ? 'expanded' : 'collapsed'">
-                                    <div class="content-grid">
-                                        <div v-for="content in organizedStudentContent.mcqQuiz" :key="content.id" class="content-item">
-                                            <div class="file-preview">
-                                                <div class="w-full h-full flex flex-col items-center justify-center">
-                                                    <i class="fas fa-question-circle text-5xl text-indigo-500 mb-2"></i>
-                                                    <span class="text-sm text-gray-600">اختبار تفاعلي</span>
-                                                </div>
-                                            </div>
-                                            <div class="content-info">
-                                                <h3 class="content-title">{{ content.title }}</h3>
-                                                <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
-                                                <div class="content-meta">
-                                                    <span>{{ content.class }}</span>
-                                                    <span class="content-type-badge mcq-quiz-badge">اختبار تفاعلي</span>
-                                                </div>
-                                                <div class="mt-3 flex justify-between items-center">
-                                                    <div class="flex items-center text-sm text-gray-500">
-                                                        <i class="fas fa-clock mr-1"></i>
-                                                        <span>{{ content.duration }} دقيقة</span>
+                                    <!-- إضافة div للتمرير -->
+                                    <div class="content-scroll-container" v-if="expandedStudentCategories.mcqQuiz">
+                                        <div class="content-grid">
+                                            <div v-for="content in organizedStudentContent.mcqQuiz" :key="content.id" class="content-item">
+                                                <div class="file-preview">
+                                                    <div class="w-full h-full flex flex-col items-center justify-center">
+                                                        <i class="fas fa-question-circle text-5xl text-indigo-500 mb-2"></i>
+                                                        <span class="text-sm text-gray-600">اختبار تفاعلي</span>
                                                     </div>
-                                                    <div class="attempts-badge" v-if="content.maxAttempts > 1">
-                                                        {{ getStudentAttempts(content.id) }}/{{ content.maxAttempts }} محاولات
+                                                </div>
+                                                <div class="content-info">
+                                                    <h3 class="content-title">{{ content.title }}</h3>
+                                                    <p class="content-description">{{ content.description || 'لا يوجد وصف' }}</p>
+                                                    <div class="content-meta">
+                                                        <span>{{ content.class }}</span>
+                                                        <span class="content-type-badge mcq-quiz-badge">اختبار تفاعلي</span>
                                                     </div>
-                                                    <button @click="startMCQQuiz(content)" 
-                                                            :disabled="getStudentAttempts(content.id) >= content.maxAttempts"
-                                                            class="bg-indigo-600 text-white px-3 py-1 rounded-md text-sm hover:bg-indigo-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
-                                                        <i class="fas fa-play mr-1"></i> 
-                                                        <span v-if="getStudentAttempts(content.id) >= content.maxAttempts">تم الانتهاء</span>
-                                                        <span v-else>بدء الاختبار</span>
-                                                    </button>
+                                                    <div class="mt-3 flex justify-between items-center">
+                                                        <div class="flex items-center text-sm text-gray-500">
+                                                            <i class="fas fa-clock mr-1"></i>
+                                                            <span>{{ content.duration }} دقيقة</span>
+                                                        </div>
+                                                        <div class="attempts-badge" v-if="content.maxAttempts > 1">
+                                                            {{ getStudentAttempts(content.id) }}/{{ content.maxAttempts }} محاولات
+                                                        </div>
+                                                        <button @click="startMCQQuiz(content)" 
+                                                                :disabled="getStudentAttempts(content.id) >= content.maxAttempts"
+                                                                class="bg-indigo-600 text-white px-3 py-1 rounded-md text-sm hover:bg-indigo-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                                                            <i class="fas fa-play mr-1"></i> 
+                                                            <span v-if="getStudentAttempts(content.id) >= content.maxAttempts">تم الانتهاء</span>
+                                                            <span v-else>بدء الاختبار</span>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
