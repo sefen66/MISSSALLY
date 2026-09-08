@@ -3991,20 +3991,18 @@ input:focus {
 .floating {
     animation: float 3s ease-in-out infinite;
 }
-        /* تحسينات للوضع الداكن */
-        @media (prefers-color-scheme: dark) {
-            .audio-player-container {
-                background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
-                border-color: #047857;
-            }
-            
-            .audio-player-container audio::-webkit-media-controls-panel {
-                background-color: #1f2937;
-            }
-            
-            .audio-player-container h4 {
-                color: #f9fafb !important;
-            }
+        /* تحسينات للوضع الداكن (تُطبّق فقط عند تفعيل الوضع الداكن من الموقع نفسه) */
+        .dark .audio-player-container {
+            background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
+            border-color: #047857;
+        }
+
+        .dark .audio-player-container audio::-webkit-media-controls-panel {
+            background-color: #1f2937;
+        }
+
+        .dark .audio-player-container h4 {
+            color: #f9fafb !important;
         }
 
         .dark .audio-player-container {
@@ -4028,92 +4026,13 @@ input:focus {
             }
         }
 
-        /* تحسين عرض الفيديو في الوضع الداكن */
-        @media (prefers-color-scheme: dark) {
-            .video-player-container {
-                background-color: #1f2937;
-            }
+        /* تحسين عرض الفيديو في الوضع الداكن (يُطبّق فقط مع كلاس dark) */
+        .dark .video-player-container {
+            background-color: #1f2937;
         }
         
-        /* Dark Mode */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #1f2937;
-                color: #f9fafb;
-            }
-            
-            .bg-white {
-                background-color: #374151 !important;
-            }
-            
-            .bg-gray-50 {
-                background-color: #4b5563 !important;
-            }
-            
-            .text-gray-800, .text-gray-900 {
-                color: #f9fafb !important;
-            }
-            
-            .text-gray-600, .text-gray-500 {
-                color: #d1d5db !important;
-            }
-            
-            .border-gray-200, .border-gray-300 {
-                border-color: #4b5563 !important;
-            }
-            
-            .bg-purple-600:hover {
-                background-color: #7c3aed !important;
-            }
-            
-            .bg-blue-600:hover {
-                background-color: #2563eb !important;
-            }
-            
-            .bg-green-600:hover {
-                background-color: #059669 !important;
-            }
-            
-            /* Teacher Dashboard */
-            .teacher-dashboard {
-                background: linear-gradient(135deg, #6b46c1 0%, #553c9a 100%) !important;
-            }
-            
-            /* Cards */
-            .content-card {
-                background-color: #374151;
-                border-color: #4b5563;
-            }
-            
-            .content-card:hover {
-                background-color: #4b5563;
-            }
-            
-            /* Tables */
-            .bg-gray-50 {
-                background-color: #4b5563 !important;
-            }
-            
-            .divide-gray-200 > * + * {
-                border-color: #4b5563;
-            }
-            
-            /* Inputs */
-            input, select, textarea {
-                background-color: #4b5563 !important;
-                border-color: #6b7280 !important;
-                color: #f9fafb !important;
-            }
-            
-            input::placeholder, textarea::placeholder {
-                color: #9ca3af !important;
-            }
-            
-            /* Modals */
-            .bg-white.rounded-lg {
-                background-color: #374151 !important;
-            }
-        }
+        /* ملاحظة: قواعد الوضع الداكن الفعلية موجودة ومربوطة بكلاس .dark فقط
+           (انظر أعلى الملف) حتى لا تتعارض مع تفضيل نظام التشغيل نفسه */
         
         .dark .bg-white {
             background-color: #374151 !important;
@@ -5217,6 +5136,161 @@ input:focus {
     .wa-send-btn:hover { filter: brightness(1.08); }
     .wa-send-btn.sent { background: #d1fae5; color: #059669; box-shadow: none; }
 
+    /* ===== فلاتر التاريخ/البحث/الفصل ===== */
+    .wa-filters-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 14px;
+        align-items: center;
+    }
+    .wa-filters-row input[type="date"],
+    .wa-filters-row input[type="text"],
+    .wa-filters-row select {
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-size: 13px;
+        color: #334155;
+        background: white;
+    }
+    .wa-filters-row .wa-search-input { flex: 1; min-width: 160px; }
+    .wa-range-presets {
+        display: flex;
+        gap: 6px;
+        background: #f1f5f9;
+        padding: 4px;
+        border-radius: 10px;
+    }
+    .wa-range-presets button {
+        border: none;
+        background: transparent;
+        color: #64748b;
+        font-size: 12.5px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    .wa-range-presets button.active {
+        background: white;
+        color: #128c7e;
+        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+    }
+    .wa-delay-setting {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12.5px;
+        color: #64748b;
+        margin-inline-start: auto;
+    }
+    .wa-delay-setting input {
+        width: 55px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 5px 8px;
+        text-align: center;
+    }
+
+    /* ===== تقسيم حسب اسم الامتحان ===== */
+    .wa-exam-group {
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        margin-bottom: 14px;
+        overflow: hidden;
+        background: white;
+    }
+    .wa-exam-group-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        background: #f8fafc;
+        cursor: pointer;
+        flex-wrap: wrap;
+    }
+    .wa-exam-group-header:hover { background: #f1f5f9; }
+    .wa-exam-group-title-wrap { display: flex; align-items: center; gap: 8px; min-width: 0; }
+    .wa-exam-group-chevron { color: #94a3b8; transition: transform 0.2s ease; flex-shrink: 0; }
+    .wa-exam-group-chevron.open { transform: rotate(90deg); }
+    .wa-exam-group-title { font-weight: 700; font-size: 14.5px; color: #1e293b; }
+    .wa-exam-group-meta { font-size: 11.5px; color: #94a3b8; margin-top: 2px; }
+    .wa-exam-group-stats {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .wa-exam-progress-track {
+        width: 90px;
+        height: 6px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .wa-exam-progress-fill {
+        height: 100%;
+        background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+        border-radius: 10px;
+        transition: width 0.3s ease;
+    }
+    .wa-exam-progress-text { font-size: 11.5px; color: #64748b; font-weight: 600; white-space: nowrap; }
+    .wa-exam-avg-badge {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 9px;
+        border-radius: 20px;
+        background: #fef3c7;
+        color: #92400e;
+        white-space: nowrap;
+    }
+    .wa-exam-nophone-badge {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 9px;
+        border-radius: 20px;
+        background: #fee2e2;
+        color: #b91c1c;
+        white-space: nowrap;
+    }
+    .wa-exam-send-group-btn {
+        background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+        color: white;
+        padding: 7px 14px;
+        border-radius: 9px;
+        font-size: 12px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    .wa-exam-send-group-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .wa-exam-group-body {
+        padding: 14px 16px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 12px;
+    }
+
+    /* ===== شريط تقدم الإرسال الجماعي ===== */
+    .wa-bulk-progress {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        margin-bottom: 16px;
+        font-size: 13px;
+        color: #065f46;
+        font-weight: 600;
+    }
+    .wa-bulk-progress .wa-exam-progress-track { flex: 1; width: auto; height: 8px; }
+
     /* ===== بطاقة الاتصال بواتساب (QR) ===== */
     .wa-connect-card {
         background: #f8faf9;
@@ -5321,6 +5395,20 @@ input:focus {
         font-family: 'Tajawal', sans-serif;
     }
     .wa-template-hint { font-size: 11.5px; color: #94a3b8; margin: 8px 0; }
+    /* ضمان وضوح لون الخط داخل الحقول في الوضع العادي (غير الداكن)
+       بغض النظر عن تفضيلات نظام التشغيل */
+    html:not(.dark) input,
+    html:not(.dark) select,
+    html:not(.dark) textarea {
+        color: #1f2937;
+        background-color: #f3f4f6;
+        color-scheme: light;
+    }
+    html:not(.dark) input:focus,
+    html:not(.dark) select:focus,
+    html:not(.dark) textarea:focus {
+        background-color: #ffffff;
+    }
     </style>
 </head>
 <body class="dark:bg-gray-900 dark:text-white">
@@ -6619,8 +6707,35 @@ input:focus {
                                 </div>
                             </details>
 
-                            <!-- ==================== فلتر المصدر ==================== -->
-                            <div class="lecture-tabs" style="margin-top: 20px;">
+                            <!-- ==================== فلاتر: نطاق التاريخ + المصدر + الفصل + البحث ==================== -->
+                            <div class="wa-filters-row" style="margin-top: 20px;">
+                                <div class="wa-range-presets">
+                                    <button type="button" :class="{ active: sendGradesRangePreset === 'today' }" @click="applyDateRangePreset('today')">اليوم</button>
+                                    <button type="button" :class="{ active: sendGradesRangePreset === 'week' }" @click="applyDateRangePreset('week')">آخر أسبوع</button>
+                                    <button type="button" :class="{ active: sendGradesRangePreset === 'month' }" @click="applyDateRangePreset('month')">آخر شهر</button>
+                                    <button type="button" :class="{ active: sendGradesRangePreset === 'custom' }" @click="applyDateRangePreset('custom')">تحديد يدوي</button>
+                                </div>
+                                <template v-if="sendGradesRangePreset === 'custom'">
+                                    <input type="date" v-model="sendGradesFromDate" @change="loadTodaysGradesForSending">
+                                    <span style="color:#94a3b8; font-size:12px;">إلى</span>
+                                    <input type="date" v-model="sendGradesToDate" @change="loadTodaysGradesForSending">
+                                </template>
+                                <select v-model="gradeClassFilter">
+                                    <option value="all">كل الصفوف</option>
+                                    <option value="الصف الأول">الصف الأول</option>
+                                    <option value="الصف الثاني">الصف الثاني</option>
+                                    <option value="الصف الثالث">الصف الثالث</option>
+                                </select>
+                                <input type="text" v-model="gradeSearchQuery" class="wa-search-input" placeholder="بحث باسم الطالب...">
+                                <div class="wa-delay-setting">
+                                    <i class="fas fa-clock"></i>
+                                    <span>الفاصل بين الرسائل</span>
+                                    <input type="number" min="1" max="30" v-model.number="sendDelaySeconds">
+                                    <span>ث</span>
+                                </div>
+                            </div>
+
+                            <div class="lecture-tabs">
                                 <div class="lecture-tab" :class="{ active: gradeSourceFilter === 'all' }" @click="gradeSourceFilter = 'all'">
                                     <i class="fas fa-layer-group"></i> الكل
                                 </div>
@@ -6636,35 +6751,70 @@ input:focus {
                                 <button @click="loadTodaysGradesForSending" class="wa-refresh-btn">
                                     <i class="fas fa-rotate mr-1"></i> تحديث القائمة
                                 </button>
-                                <button @click="sendAllTodaysGradesToWhatsApp" :disabled="unsentTodaysGrades.length === 0" class="wa-send-all-btn">
+                                <button @click="sendAllTodaysGradesToWhatsApp" :disabled="unsentTodaysGrades.length === 0 || bulkSending" class="wa-send-all-btn">
                                     <i class="fab fa-whatsapp mr-1"></i> إرسال الكل ({{ unsentTodaysGrades.length }})
                                 </button>
+                            </div>
+
+                            <!-- ==================== شريط تقدم الإرسال الجماعي ==================== -->
+                            <div v-if="bulkSending" class="wa-bulk-progress">
+                                <i class="fas fa-circle-notch fa-spin"></i>
+                                <span>جاري الإرسال... ({{ bulkSendProgress.done }} / {{ bulkSendProgress.total }})</span>
+                                <div class="wa-exam-progress-track">
+                                    <div class="wa-exam-progress-fill" :style="{ width: (bulkSendProgress.total ? (bulkSendProgress.done / bulkSendProgress.total * 100) : 0) + '%' }"></div>
+                                </div>
                             </div>
 
                             <div v-if="loadingTodaysGrades" class="loading"><div class="spinner"></div></div>
 
                             <div v-else-if="filteredTodaysGrades.length === 0" class="text-center py-10 text-gray-400">
                                 <i class="fas fa-clipboard-list text-4xl mb-3"></i>
-                                <p>لا توجد درجات مسجلة اليوم في هذا القسم حتى الآن</p>
+                                <p>لا توجد درجات مسجلة في هذا اليوم لهذا القسم</p>
                             </div>
 
-                            <div v-else class="wa-grades-list">
-                                <div v-for="g in filteredTodaysGrades" :key="g.id" class="wa-grade-card" :class="{ sent: g.sentToParentAt }">
-                                    <div class="wa-grade-info">
-                                        <div class="wa-grade-student">
-                                            <i class="fas fa-user-graduate mr-1"></i> {{ g.studentName }}
-                                            <span class="wa-source-badge" :class="g.source">{{ g.source === 'mcq' ? 'كويز المنصة' : 'امتحان / كويز السنتر' }}</span>
+                            <!-- ==================== عرض مُقسّم حسب اسم الامتحان ==================== -->
+                            <div v-else>
+                                <div v-for="group in groupedTodaysGrades" :key="group.key" class="wa-exam-group">
+                                    <div class="wa-exam-group-header" @click="toggleExamGroup(group.key)">
+                                        <div class="wa-exam-group-title-wrap">
+                                            <i class="fas fa-chevron-left wa-exam-group-chevron" :class="{ open: !isGroupCollapsed(group.key) }"></i>
+                                            <div>
+                                                <div class="wa-exam-group-title">
+                                                    {{ group.quizTitle }}
+                                                    <span class="wa-source-badge" :class="group.source">{{ group.source === 'mcq' ? 'كويز المنصة' : 'امتحان / كويز السنتر' }}</span>
+                                                </div>
+                                                <div class="wa-exam-group-meta">{{ formatExamDate(group.examDate) }} · {{ group.total }} طالب/ة</div>
+                                            </div>
                                         </div>
-                                        <div class="wa-grade-quiz">{{ g.quizTitle }}</div>
-                                        <div class="wa-grade-score">{{ g.score }} / {{ g.totalScore }}</div>
-                                        <div v-if="!g.parentPhone" class="wa-no-phone">
-                                            <i class="fas fa-triangle-exclamation mr-1"></i> لا يوجد رقم واتساب لولي الأمر
+                                        <div class="wa-exam-group-stats">
+                                            <span v-if="group.avgPercentage !== null" class="wa-exam-avg-badge">متوسط {{ group.avgPercentage }}%</span>
+                                            <span v-if="group.noPhoneCount > 0" class="wa-exam-nophone-badge">{{ group.noPhoneCount }} بدون رقم</span>
+                                            <div class="wa-exam-progress-track">
+                                                <div class="wa-exam-progress-fill" :style="{ width: (group.total ? (group.sentCount / group.total * 100) : 0) + '%' }"></div>
+                                            </div>
+                                            <span class="wa-exam-progress-text">{{ group.sentCount }} / {{ group.total }} اتبعت</span>
+                                            <button @click.stop="sendAllForExamGroup(group)" :disabled="group.unsentWithPhone.length === 0 || bulkSending" class="wa-exam-send-group-btn">
+                                                <i class="fab fa-whatsapp mr-1"></i> إرسال الامتحان ({{ group.unsentWithPhone.length }})
+                                            </button>
                                         </div>
                                     </div>
-                                    <button v-if="g.parentPhone" @click="sendGradeToWhatsApp(g)" class="wa-send-btn" :class="{ sent: g.sentToParentAt }">
-                                        <i class="fab fa-whatsapp mr-1"></i>
-                                        {{ g.sentToParentAt ? 'تم الإرسال' : 'إرسال' }}
-                                    </button>
+                                    <div v-show="!isGroupCollapsed(group.key)" class="wa-exam-group-body">
+                                        <div v-for="g in group.items" :key="g.id" class="wa-grade-card" :class="{ sent: g.sentToParentAt }">
+                                            <div class="wa-grade-info">
+                                                <div class="wa-grade-student">
+                                                    <i class="fas fa-user-graduate mr-1"></i> {{ g.studentName }}
+                                                </div>
+                                                <div class="wa-grade-score">{{ g.score }} / {{ g.totalScore }}</div>
+                                                <div v-if="!g.parentPhone" class="wa-no-phone">
+                                                    <i class="fas fa-triangle-exclamation mr-1"></i> لا يوجد رقم واتساب لولي الأمر
+                                                </div>
+                                            </div>
+                                            <button v-if="g.parentPhone" @click="sendGradeToWhatsApp(g)" class="wa-send-btn" :class="{ sent: g.sentToParentAt }">
+                                                <i class="fab fa-whatsapp mr-1"></i>
+                                                {{ g.sentToParentAt ? 'تم الإرسال' : 'إرسال' }}
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -9597,6 +9747,35 @@ const newNotification = ref({
                 const todaysGradesForSending = ref([]);
                 const loadingTodaysGrades = ref(false);
                 const gradeSourceFilter = ref('all'); // all | center | mcq
+                const gradeClassFilter = ref('all'); // all | الصف الأول | ...
+                const gradeSearchQuery = ref('');
+                const todayISO = () => new Date().toISOString().split('T')[0];
+                const daysAgoISO = (n) => {
+                    const d = new Date();
+                    d.setDate(d.getDate() - n);
+                    return d.toISOString().split('T')[0];
+                };
+                const sendGradesRangePreset = ref('week'); // today | week | month | custom
+                const sendGradesFromDate = ref(daysAgoISO(6));
+                const sendGradesToDate = ref(todayISO());
+                // تنسيق تاريخ الامتحان بالعربي للعرض جنب اسمه
+                const formatExamDate = (dateStr) => {
+                    if (!dateStr) return '';
+                    try {
+                        return new Date(dateStr).toLocaleDateString('ar-EG', { day: 'numeric', month: 'short', year: 'numeric' });
+                    } catch (e) {
+                        return dateStr;
+                    }
+                };
+                const collapsedExamGroups = ref({}); // key: "اسم الامتحان__المصدر" -> true/false
+                const sendDelaySeconds = ref(parseInt(localStorage.getItem('waSendDelaySeconds')) || 2);
+                const bulkSending = ref(false);
+                const bulkSendProgress = ref({ done: 0, total: 0 });
+                const sendFailedGrades = ref([]);
+                watch(sendDelaySeconds, (val) => {
+                    const safe = Math.min(30, Math.max(1, parseInt(val) || 2));
+                    localStorage.setItem('waSendDelaySeconds', safe);
+                });
 
                 // ================= الاتصال بسيرفر واتساب (Railway) =================
                 const waServerUrl = ref(localStorage.getItem('waServerUrl') || '');
@@ -9918,16 +10097,64 @@ const chartsCleanup = ref(false);
                     return forumQuestions.value;
                 });
 
-                // الدرجات المعروضة بعد تصفية المصدر (امتحان سنتر / أونلاين / الكل)
+                // الدرجات المعروضة بعد تصفية المصدر / الفصل / البحث بالاسم
                 const filteredTodaysGrades = computed(() => {
-                    if (gradeSourceFilter.value === 'all') return todaysGradesForSending.value;
-                    return todaysGradesForSending.value.filter(g => g.source === gradeSourceFilter.value);
+                    let list = todaysGradesForSending.value;
+                    if (gradeSourceFilter.value !== 'all') {
+                        list = list.filter(g => g.source === gradeSourceFilter.value);
+                    }
+                    if (gradeClassFilter.value !== 'all') {
+                        list = list.filter(g => g.studentClass === gradeClassFilter.value);
+                    }
+                    if (gradeSearchQuery.value.trim()) {
+                        const q = gradeSearchQuery.value.trim().toLowerCase();
+                        list = list.filter(g => (g.studentName || '').toLowerCase().includes(q));
+                    }
+                    return list;
                 });
 
-                // الدرجات التي لم تُرسل بعد لولي الأمر (بعد تصفية المصدر)
+                // الدرجات التي لم تُرسل بعد لولي الأمر (بعد كل الفلاتر)
                 const unsentTodaysGrades = computed(() => {
                     return filteredTodaysGrades.value.filter(g => g.parentPhone && !g.sentToParentAt);
                 });
+
+                // تقسيم الدرجات المعروضة إلى مجموعات حسب اسم الامتحان + تاريخه + المصدر،
+                // مع إحصائيات لكل مجموعة (نسبة الإرسال، المتوسط، عدد بدون رقم)
+                const groupedTodaysGrades = computed(() => {
+                    const groups = {};
+                    filteredTodaysGrades.value.forEach(g => {
+                        const key = `${g.quizTitle || 'بدون اسم امتحان'}__${g.source}__${g.examDate || ''}`;
+                        if (!groups[key]) {
+                            groups[key] = { key, quizTitle: g.quizTitle || 'بدون اسم امتحان', source: g.source, examDate: g.examDate || '', items: [] };
+                        }
+                        groups[key].items.push(g);
+                    });
+                    return Object.values(groups).map(group => {
+                        const sentCount = group.items.filter(g => g.sentToParentAt).length;
+                        const noPhoneCount = group.items.filter(g => !g.parentPhone).length;
+                        const percentages = group.items
+                            .map(g => (g.totalScore ? (parseFloat(g.score) / parseFloat(g.totalScore)) * 100 : NaN))
+                            .filter(n => !isNaN(n));
+                        const avgPercentage = percentages.length
+                            ? Math.round(percentages.reduce((a, b) => a + b, 0) / percentages.length)
+                            : null;
+                        return {
+                            ...group,
+                            total: group.items.length,
+                            sentCount,
+                            noPhoneCount,
+                            avgPercentage,
+                            unsentWithPhone: group.items.filter(g => g.parentPhone && !g.sentToParentAt)
+                        };
+                    }).sort((a, b) => (b.examDate || '').localeCompare(a.examDate || '') || a.quizTitle.localeCompare(b.quizTitle, 'ar'));
+                });
+
+                // هل المجموعة دي مطوية حاليًا؟ (افتراضيًا: المجموعات المكتملة الإرسال بالكامل بتتطوى تلقائيًا)
+                const isGroupCollapsed = (key) => collapsedExamGroups.value[key] === true;
+
+                const toggleExamGroup = (key) => {
+                    collapsedExamGroups.value[key] = !isGroupCollapsed(key);
+                };
 
                 // Chart data computed properties
                 const hasCentralExamData = computed(() => {
@@ -11495,6 +11722,7 @@ const cleanupCharts = () => {
             await loadQuizzes();
             await loadMCQQuizzes();
             await loadMCQGrades();
+            await loadWaSettingsFromCloud();
             
             // Now load stats after all data is loaded
             await loadTeacherStats();
@@ -11738,7 +11966,28 @@ const handleStudentLogin = async (codeParam) => {
                     if (waPollTimer) { clearInterval(waPollTimer); waPollTimer = null; }
                 };
 
-                // حفظ إعدادات الاتصال (رابط السيرفر + مفتاح API) وبدء المتابعة
+                // تحميل إعدادات سيرفر واتساب (الرابط + المفتاح) من قاعدة البيانات لو مش موجودة محليًا،
+                // عشان متضطرش تكتبيها تاني كل ما تفتحي المنصة من جهاز/متصفح جديد
+                const loadWaSettingsFromCloud = async () => {
+                    try {
+                        const doc = await db.collection('settings').doc('whatsappBridge').get();
+                        if (doc.exists) {
+                            const data = doc.data();
+                            if (data.serverUrl && !waServerUrl.value) {
+                                waServerUrl.value = data.serverUrl;
+                                localStorage.setItem('waServerUrl', data.serverUrl);
+                            }
+                            if (data.apiKey && !waApiKey.value) {
+                                waApiKey.value = data.apiKey;
+                                localStorage.setItem('waApiKey', data.apiKey);
+                            }
+                        }
+                    } catch (error) {
+                        console.error('تعذر تحميل إعدادات سيرفر واتساب من قاعدة البيانات:', error);
+                    }
+                };
+
+                // حفظ إعدادات الاتصال (رابط السيرفر + مفتاح API) محليًا وفي قاعدة البيانات، وبدء المتابعة
                 const saveWaConnectionSettings = async () => {
                     if (!waServerUrl.value) {
                         alert('الرجاء إدخال رابط السيرفر أولاً');
@@ -11748,6 +11997,16 @@ const handleStudentLogin = async (codeParam) => {
                     waServerUrl.value = waServerUrl.value.replace(/\/+$/, '');
                     localStorage.setItem('waServerUrl', waServerUrl.value);
                     localStorage.setItem('waApiKey', waApiKey.value);
+                    // حفظ في قاعدة البيانات كمان عشان تفضل محفوظة حتى لو غيّرتِ الجهاز أو مسحتِ بيانات المتصفح
+                    try {
+                        await db.collection('settings').doc('whatsappBridge').set({
+                            serverUrl: waServerUrl.value,
+                            apiKey: waApiKey.value,
+                            updatedAt: new Date().toISOString()
+                        }, { merge: true });
+                    } catch (error) {
+                        console.error('تعذر حفظ إعدادات سيرفر واتساب في قاعدة البيانات:', error);
+                    }
                     waConnecting.value = true;
                     waConnectionStatus.value = 'checking';
                     await fetchWaStatus();
@@ -11822,15 +12081,16 @@ const handleStudentLogin = async (codeParam) => {
                     }
                 };
 
-                // تحميل درجات اليوم (امتحان/كويز السنتر + كويز المنصة) الجاهزة للإرسال لأولياء الأمور
+                // تحميل درجات نطاق التاريخ المُختار (امتحان/كويز السنتر + كويز المنصة) الجاهزة للإرسال لأولياء الأمور
                 const loadTodaysGradesForSending = async () => {
                     loadingTodaysGrades.value = true;
                     try {
-                        const todayStr = new Date().toISOString().split('T')[0];
+                        const fromDate = sendGradesFromDate.value || todayISO();
+                        const toDate = sendGradesToDate.value || todayISO();
 
                         const [centerSnap, mcqSnap] = await Promise.all([
-                            db.collection('grades').where('date', '==', todayStr).get(),
-                            db.collection('mcq-grades').where('date', '==', todayStr).get()
+                            db.collection('grades').where('date', '>=', fromDate).where('date', '<=', toDate).get(),
+                            db.collection('mcq-grades').where('date', '>=', fromDate).where('date', '<=', toDate).get()
                         ]);
 
                         const findStudent = (studentId) => students.value.find(s => s.id === studentId);
@@ -11843,7 +12103,9 @@ const handleStudentLogin = async (codeParam) => {
                                 source: 'center',
                                 studentId: data.studentId,
                                 studentName: data.studentName,
+                                studentClass: student ? student.class : '',
                                 quizTitle: data.quizTitle,
+                                examDate: data.date || '',
                                 score: data.score,
                                 totalScore: data.totalScore,
                                 parentPhone: student ? student.parentPhone : '',
@@ -11859,7 +12121,9 @@ const handleStudentLogin = async (codeParam) => {
                                 source: 'mcq',
                                 studentId: data.studentId,
                                 studentName: data.studentName,
+                                studentClass: student ? student.class : '',
                                 quizTitle: data.quizTitle,
+                                examDate: data.date || '',
                                 score: data.score,
                                 totalScore: data.totalScore,
                                 parentPhone: student ? student.parentPhone : '',
@@ -11868,8 +12132,22 @@ const handleStudentLogin = async (codeParam) => {
                         });
 
                         todaysGradesForSending.value = [...centerGrades, ...mcqGradesToday];
+
+                        // افتراضيًا: نطوي المجموعات المكتملة الإرسال بالكامل تلقائيًا (أول مرة فقط لكل مجموعة)
+                        const seen = {};
+                        todaysGradesForSending.value.forEach(g => {
+                            const key = `${g.quizTitle || 'بدون اسم امتحان'}__${g.source}__${g.examDate || ''}`;
+                            if (!seen[key]) seen[key] = [];
+                            seen[key].push(g);
+                        });
+                        Object.keys(seen).forEach(key => {
+                            if (!(key in collapsedExamGroups.value)) {
+                                const allDone = seen[key].every(g => g.sentToParentAt || !g.parentPhone);
+                                collapsedExamGroups.value[key] = allDone;
+                            }
+                        });
                     } catch (error) {
-                        console.error('Error loading todays grades for sending:', error);
+                        console.error('Error loading grades for sending:', error);
                         todaysGradesForSending.value = [];
                     } finally {
                         loadingTodaysGrades.value = false;
@@ -11883,29 +12161,78 @@ const handleStudentLogin = async (codeParam) => {
                     }
                 };
 
-                // إرسال درجة طالب واحد إلى ولي الأمر عبر واتساب
-                const sendGradeToWhatsApp = async (g) => {
-                    if (!g.parentPhone) return;
-                    const message = buildGradeWhatsAppMessage(g);
-                    await sendViaBackendOrFallback(g.parentPhone, message);
+                // تطبيق نطاق تاريخ سريع (اليوم / آخر أسبوع / آخر شهر) وإعادة التحميل تلقائيًا،
+                // أو التبديل لوضع "تحديد يدوي" وترك حقول التاريخ للمستخدمة تعدّلهم بنفسها
+                const applyDateRangePreset = (preset) => {
+                    sendGradesRangePreset.value = preset;
+                    if (preset === 'today') {
+                        sendGradesFromDate.value = todayISO();
+                        sendGradesToDate.value = todayISO();
+                    } else if (preset === 'week') {
+                        sendGradesFromDate.value = daysAgoISO(6);
+                        sendGradesToDate.value = todayISO();
+                    } else if (preset === 'month') {
+                        sendGradesFromDate.value = daysAgoISO(29);
+                        sendGradesToDate.value = todayISO();
+                    }
+                    if (preset !== 'custom') loadTodaysGradesForSending();
+                };
 
-                    // تسجيل وقت الإرسال حتى لا تتكرر بالخطأ
-                    g.sentToParentAt = new Date().toISOString();
+                // إرسال درجة طالب واحد إلى ولي الأمر عبر واتساب
+                // بترجع { success: true } أو { success: false, reason } عشان الإرسال الجماعي يقدر يتابع الفشل
+                const sendGradeToWhatsApp = async (g) => {
+                    if (!g.parentPhone) return { success: false, reason: 'no-phone' };
                     try {
-                        const collectionName = g.source === 'mcq' ? 'mcq-grades' : 'grades';
-                        await db.collection(collectionName).doc(g.id).update({ sentToParentAt: g.sentToParentAt });
+                        const message = buildGradeWhatsAppMessage(g);
+                        await sendViaBackendOrFallback(g.parentPhone, message);
+
+                        // تسجيل وقت الإرسال حتى لا تتكرر بالخطأ
+                        g.sentToParentAt = new Date().toISOString();
+                        try {
+                            const collectionName = g.source === 'mcq' ? 'mcq-grades' : 'grades';
+                            await db.collection(collectionName).doc(g.id).update({ sentToParentAt: g.sentToParentAt });
+                        } catch (error) {
+                            console.error('Error marking grade as sent:', error);
+                        }
+                        return { success: true };
                     } catch (error) {
-                        console.error('Error marking grade as sent:', error);
+                        console.error('Error sending grade to WhatsApp:', error);
+                        return { success: false, reason: 'send-error' };
                     }
                 };
 
-                // إرسال كل الدرجات الغير مُرسلة اليوم (بفاصل زمني بسيط بين كل رسالة وأخرى)
-                const sendAllTodaysGradesToWhatsApp = () => {
-                    const list = [...unsentTodaysGrades.value];
-                    list.forEach((g, index) => {
-                        setTimeout(() => sendGradeToWhatsApp(g), index * 1500);
-                    });
+                // الدالة الأساسية للإرسال الجماعي: بترسل بالتتابع (مش كلها مرة واحدة) بفاصل زمني
+                // قابل للتعديل من الواجهة، وبتوقف وتنبّه لو السيرفر مش متصل بدل ما تفتح تابات كتير بالغلط
+                const sendGradesBulk = async (list, label) => {
+                    if (!list || list.length === 0) return;
+                    if (waConnectionStatus.value !== 'ready') {
+                        alert('لازم تكوني متصلة بواتساب عن طريق السيرفر أولاً عشان الإرسال الجماعي يشتغل تلقائيًا (وإلا هيتفتح تاب منفصل لكل رسالة).');
+                        return;
+                    }
+                    if (!confirm(`هيتم إرسال ${list.length} رسالة لـ "${label}"، برسالة كل ${sendDelaySeconds.value} ثانية تقريبًا. تكملي؟`)) return;
+
+                    bulkSending.value = true;
+                    bulkSendProgress.value = { done: 0, total: list.length };
+                    sendFailedGrades.value = [];
+
+                    for (const g of list) {
+                        const result = await sendGradeToWhatsApp(g);
+                        if (!result.success) sendFailedGrades.value.push(g);
+                        bulkSendProgress.value.done++;
+                        await new Promise(resolve => setTimeout(resolve, (sendDelaySeconds.value || 2) * 1000));
+                    }
+
+                    bulkSending.value = false;
+                    if (sendFailedGrades.value.length > 0) {
+                        alert(`تم إرسال ${list.length - sendFailedGrades.value.length} رسالة بنجاح، وفشل إرسال ${sendFailedGrades.value.length}. ممكن تحاولي تبعتيهم يدويًا من زر "إرسال" جنب كل طالب.`);
+                    }
                 };
+
+                // إرسال كل الدرجات الغير مُرسلة (بعد الفلاتر الحالية)
+                const sendAllTodaysGradesToWhatsApp = () => sendGradesBulk([...unsentTodaysGrades.value], 'كل الدرجات المعروضة');
+
+                // إرسال كل الدرجات الغير مُرسلة لمجموعة/امتحان واحد بس
+                const sendAllForExamGroup = (group) => sendGradesBulk([...group.unsentWithPhone], group.quizTitle);
                 
                 const openFileViewer = (file) => {
                     currentFile.value = file;
@@ -13063,7 +13390,21 @@ onMounted(() => {
                     forumFilter,
                     todaysGradesForSending,
                     filteredTodaysGrades,
+                    groupedTodaysGrades,
                     gradeSourceFilter,
+                    gradeClassFilter,
+                    gradeSearchQuery,
+                    sendGradesRangePreset,
+                    sendGradesFromDate,
+                    sendGradesToDate,
+                    applyDateRangePreset,
+                    formatExamDate,
+                    isGroupCollapsed,
+                    toggleExamGroup,
+                    sendDelaySeconds,
+                    bulkSending,
+                    bulkSendProgress,
+                    sendAllForExamGroup,
                     loadingTodaysGrades,
                     waServerUrl,
                     waApiKey,
