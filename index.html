@@ -4525,6 +4525,802 @@ input:focus {
     flex-direction: column;
 }
 
+    /* ============================================================
+       نظام المنتدى (أسئلة الطلبة) ونظام الدردشة (شبيه واتساب)
+       ============================================================ */
+
+    /* لوحة منسدلة مشتركة (تُستخدم للمنتدى وللدردشة) */
+    .qa-panel {
+        position: fixed;
+        top: 80px;
+        left: 10px;
+        right: 10px;
+        width: auto;
+        max-width: 420px;
+        max-height: 78vh;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        z-index: 1100;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+    }
+    .dark .qa-panel {
+        background: #374151;
+        border-color: #4b5563;
+    }
+    .qa-panel-header {
+        padding: 14px 16px;
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+    }
+    .qa-panel-header.wa-theme {
+        background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+    }
+    .qa-panel-body {
+        overflow-y: auto;
+        padding: 10px;
+        flex: 1;
+    }
+    .qa-panel-body::-webkit-scrollbar { width: 6px; }
+    .qa-panel-body::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+
+    /* ===== منتدى الأسئلة ===== */
+    .forum-ask-box {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 10px;
+        margin-bottom: 12px;
+    }
+    .dark .forum-ask-box { background: #4b5563; border-color: #6b7280; }
+    .forum-ask-box textarea {
+        width: 100%;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 8px;
+        font-family: 'Tajawal', sans-serif;
+        resize: vertical;
+        min-height: 60px;
+    }
+    .forum-question-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 12px;
+        margin-bottom: 10px;
+    }
+    .dark .forum-question-card { background: #4b5563; border-color: #6b7280; }
+    .forum-question-card .fq-student {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 13px;
+        color: #6b21a8;
+        margin-bottom: 6px;
+    }
+    .dark .forum-question-card .fq-student { color: #c4b5fd; }
+    .fq-status {
+        margin-right: auto;
+        font-size: 11px;
+        padding: 2px 10px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+    .fq-status.pending { background: #fef3c7; color: #b45309; }
+    .fq-status.answered { background: #dcfce7; color: #15803d; }
+    .fq-image, .fa-answer-image {
+        max-width: 100%;
+        max-height: 220px;
+        border-radius: 10px;
+        margin-top: 8px;
+        cursor: pointer;
+        display: block;
+    }
+    .forum-answer-block {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px dashed #d1d5db;
+    }
+    .dark .forum-answer-block { border-color: #6b7280; }
+    .forum-answer-block .fa-teacher {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 600;
+        font-size: 13px;
+        color: #15803d;
+        margin-bottom: 6px;
+    }
+    .forum-reply-form {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px dashed #d1d5db;
+    }
+    .forum-reply-form textarea {
+        width: 100%;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 8px;
+        font-family: 'Tajawal', sans-serif;
+        resize: vertical;
+        min-height: 50px;
+    }
+    .qa-image-preview-wrap {
+        position: relative;
+        display: inline-block;
+        margin-top: 8px;
+    }
+    .qa-image-preview-wrap img {
+        max-height: 100px;
+        border-radius: 8px;
+    }
+    .qa-image-preview-remove {
+        position: absolute;
+        top: -6px;
+        left: -6px;
+        background: #ef4444;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+    .qa-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 8px;
+    }
+    .qa-attach-btn {
+        color: #6b7280;
+        cursor: pointer;
+        font-size: 18px;
+    }
+    .qa-attach-btn:hover { color: #8b5cf6; }
+
+    /* ===== نظام الدردشة (شكل واتساب) ===== */
+    .chat-conv-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+        border: 1px solid transparent;
+    }
+    .chat-conv-item:hover { background: #f3f4f6; }
+    .dark .chat-conv-item:hover { background: #4b5563; }
+    .chat-conv-avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+        background: #e5e7eb;
+    }
+    .chat-conv-info { flex: 1; min-width: 0; }
+    .chat-conv-name { font-weight: 600; font-size: 14px; }
+    .chat-conv-last {
+        font-size: 12px;
+        color: #6b7280;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 220px;
+    }
+    .chat-conv-badge {
+        background: #25d366;
+        color: white;
+        border-radius: 50%;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+    }
+    .chat-thread-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .chat-back-btn {
+        cursor: pointer;
+        font-size: 18px;
+        color: white;
+    }
+    .chat-thread-body {
+        background: #e5ddd5;
+        background-image: linear-gradient(0deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+        min-height: 300px;
+    }
+    .dark .chat-thread-body { background: #2b3542; }
+    .chat-bubble-row {
+        display: flex;
+        margin-bottom: 8px;
+    }
+    .chat-bubble-row.sent { justify-content: flex-start; }
+    .chat-bubble-row.received { justify-content: flex-end; }
+    .chat-bubble {
+        max-width: 78%;
+        padding: 7px 10px;
+        border-radius: 12px;
+        font-size: 13.5px;
+        line-height: 1.5;
+        position: relative;
+        word-break: break-word;
+        box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    }
+    .chat-bubble.sent { background: #dcf8c6; border-top-left-radius: 2px; }
+    .chat-bubble.received { background: white; border-top-right-radius: 2px; }
+    .dark .chat-bubble.sent { background: #056162; color: white; }
+    .dark .chat-bubble.received { background: #4b5563; color: white; }
+    .chat-bubble img {
+        max-width: 100%;
+        border-radius: 8px;
+        margin-bottom: 4px;
+        cursor: pointer;
+        display: block;
+    }
+    .chat-bubble-meta {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 4px;
+        font-size: 10px;
+        color: #6b7280;
+        margin-top: 3px;
+    }
+    .chat-tick { font-size: 13px; color: #9ca3af; }
+    .chat-tick.read { color: #34b7f1; }
+    .chat-input-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px;
+        background: #f0f0f0;
+        flex-shrink: 0;
+    }
+    .dark .chat-input-bar { background: #374151; }
+    .chat-input-bar input[type="text"] {
+        flex: 1;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 14px;
+        font-family: 'Tajawal', sans-serif;
+        outline: none;
+    }
+    .chat-send-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: #25d366;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        border: none;
+    }
+    .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .chat-empty-state {
+        text-align: center;
+        padding: 30px 10px;
+        color: #9ca3af;
+    }
+    @media (max-width: 480px) {
+        .qa-panel {
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: none;
+            max-height: none;
+            border-radius: 0;
+        }
+    }
+    /* ============================================================
+       معاينة وتكبير الصور (Lightbox)
+       ============================================================ */
+    .image-lightbox-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.88);
+        z-index: 3000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadeInLightbox 0.15s ease;
+        touch-action: pinch-zoom;
+    }
+    @keyframes fadeInLightbox { from { opacity: 0; } to { opacity: 1; } }
+    .image-lightbox-img {
+        max-width: 92vw;
+        max-height: 88vh;
+        border-radius: 8px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        cursor: zoom-in;
+        transition: transform 0.25s ease;
+        touch-action: pinch-zoom;
+        user-select: none;
+    }
+    .image-lightbox-img.zoomed {
+        transform: scale(1.9);
+        cursor: zoom-out;
+    }
+    .image-lightbox-close {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.15);
+        color: white;
+        border: none;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+    }
+    .image-lightbox-close:hover { background: rgba(255,255,255,0.3); }
+    .image-lightbox-download {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.15);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+    }
+    .image-lightbox-download:hover { background: rgba(255,255,255,0.3); }
+    .image-lightbox-hint {
+        position: absolute;
+        bottom: 22px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255,255,255,0.75);
+        font-size: 12.5px;
+        background: rgba(255,255,255,0.1);
+        padding: 6px 14px;
+        border-radius: 20px;
+        backdrop-filter: blur(4px);
+        pointer-events: none;
+    }
+
+    /* ============================================================
+       تحسين تمرير الدردشة والمنتدى
+       ============================================================ */
+    .qa-panel { max-height: 80vh; }
+    .chat-thread-body {
+        min-height: 320px;
+        max-height: 50vh;
+        overflow-y: auto !important;
+        scroll-behavior: smooth;
+    }
+    .qa-panel-body {
+        max-height: 60vh;
+        scroll-behavior: smooth;
+    }
+    .chat-bubble img, .fq-image, .fa-answer-image {
+        transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .chat-bubble img:hover, .fq-image:hover, .fa-answer-image:hover {
+        filter: brightness(0.92);
+    }
+
+    /* ============================================================
+       تصميم عصري لأقسام المحتوى + فلتر المحاضرات
+       ============================================================ */
+    .lecture-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 20px;
+        padding-bottom: 4px;
+    }
+    .lecture-tab {
+        padding: 8px 18px;
+        border-radius: 20px;
+        font-size: 13.5px;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1.5px solid #e2e8f0;
+        background: white;
+        color: #475569;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .lecture-tab:hover { border-color: #a78bfa; color: #7c3aed; }
+    .lecture-tab.active {
+        background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+        border-color: transparent;
+        color: white;
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.35);
+    }
+    .lecture-tab .lecture-tab-count {
+        background: rgba(0,0,0,0.08);
+        border-radius: 10px;
+        padding: 1px 7px;
+        font-size: 11px;
+    }
+    .lecture-tab.active .lecture-tab-count { background: rgba(255,255,255,0.25); }
+
+    .content-category {
+        border: none;
+        border-radius: 14px;
+        box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+        margin-bottom: 1.25rem;
+        overflow: hidden;
+    }
+    .category-header {
+        background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+        padding: 1rem 1.25rem;
+        border-bottom: none;
+    }
+    .category-header:hover { background: linear-gradient(135deg, #f1f5f9 0%, #e0e7ff 100%); }
+    .category-title { color: #312e81; font-size: 1rem; }
+    .category-count {
+        background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+        color: white;
+        font-weight: 600;
+    }
+    .content-item {
+        border-radius: 12px;
+        border-color: #eef0f3;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+    }
+    .content-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+    }
+
+    /* ===== قسم الاختبارات (كويزات) - شكل أجمل ===== */
+    .quiz-badge, .mcq-quiz-badge {
+        background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%) !important;
+        color: white !important;
+        box-shadow: 0 2px 6px rgba(124, 58, 237, 0.35);
+    }
+    #app .content-card:has(.mcq-quiz-badge),
+    .mcq-quiz-card {
+        border: none !important;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .mcq-quiz-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 26px rgba(99, 102, 241, 0.2);
+    }
+    .mcq-quiz-card-header {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 60%, #a855f7 100%);
+        height: 130px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    .mcq-quiz-card-header i { font-size: 2.75rem; opacity: 0.95; }
+    .mcq-quiz-card-header::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle at 20% 120%, rgba(255,255,255,0.25), transparent 55%);
+    }
+    .mcq-schedule-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11.5px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 20px;
+        margin-top: 6px;
+    }
+    .mcq-schedule-badge.scheduled { background: #fef3c7; color: #b45309; }
+    .mcq-schedule-badge.live { background: #dcfce7; color: #15803d; }
+
+    /* ===== منتدى الأسئلة - شكل أجمل ===== */
+    .qa-panel-header {
+        background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+    }
+    .forum-question-card {
+        border: none;
+        border-radius: 14px;
+        box-shadow: 0 2px 10px rgba(15, 23, 42, 0.07);
+        transition: box-shadow 0.2s ease;
+    }
+    .forum-question-card:hover { box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12); }
+    .forum-ask-box {
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 100%);
+    }
+    .fq-status.answered { background: linear-gradient(135deg, #86efac, #22c55e); color: #064e3b; }
+    .fq-status.pending { background: linear-gradient(135deg, #fde68a, #f59e0b); color: #78350f; }
+    /* ============================================================
+       تحديث عام لشكل الموقع - خطوط أوضح وتصميم أعصري
+       ============================================================ */
+    body {
+        font-family: 'Tajawal', sans-serif;
+        letter-spacing: 0.1px;
+        color: #1e293b;
+    }
+    h1, h2, h3, h4, h5 { font-weight: 700; letter-spacing: 0.1px; }
+    p, span, td, th, label, input, textarea, select, button { font-family: 'Tajawal', sans-serif; }
+    ::selection { background: #c4b5fd; color: #312e81; }
+
+    .tab-button {
+        border-radius: 10px 10px 0 0;
+        font-size: 13.5px;
+    }
+    .tab-button.tab-button, button, .btn {
+        transition: all 0.2s ease;
+    }
+    button:not(.wa-send-btn):not(.chat-send-btn):hover { filter: brightness(1.03); }
+
+    .tab-badge {
+        background: #ef4444;
+        color: white;
+        border-radius: 20px;
+        font-size: 10.5px;
+        font-weight: 700;
+        padding: 1px 7px;
+        margin-right: 4px;
+    }
+
+    /* بطاقات ولوحات عامة أعصري */
+    .bg-white.rounded-xl.shadow {
+        border-radius: 16px !important;
+        box-shadow: 0 2px 14px rgba(15, 23, 42, 0.07) !important;
+        border: 1px solid #f1f5f9;
+    }
+
+    /* ============================================================
+       قسم المنتدى المدمج (بدل الزر العائم)
+       ============================================================ */
+    .forum-section-header {
+        background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+        color: white;
+        padding: 20px 24px;
+    }
+    .forum-section-header h3 { font-size: 1.2rem; font-weight: 700; margin: 0 0 4px; }
+    .forum-section-header p { font-size: 12.5px; opacity: 0.85; margin: 0; }
+    .forum-section-body { background: #fafaff; }
+    .forum-filter-tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+    }
+    .forum-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 16px;
+    }
+    #studentForumSection .forum-grid { grid-template-columns: 1fr; }
+
+    /* ============================================================
+       قسم إرسال درجات اليوم عبر واتساب
+       ============================================================ */
+    .whatsapp-section-header {
+        background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+        color: white;
+        padding: 20px 24px;
+    }
+    .whatsapp-section-header h3 { font-size: 1.2rem; font-weight: 700; margin: 0 0 4px; }
+    .whatsapp-section-header p { font-size: 12.5px; opacity: 0.9; margin: 0; }
+    .whatsapp-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .wa-refresh-btn {
+        background: #f1f5f9;
+        color: #475569;
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+    }
+    .wa-refresh-btn:hover { background: #e2e8f0; }
+    .wa-send-all-btn {
+        background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+        color: white;
+        padding: 8px 18px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 3px 10px rgba(37, 211, 102, 0.35);
+    }
+    .wa-send-all-btn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+    .wa-grades-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 14px;
+    }
+    .wa-grade-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 14px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        background: white;
+        transition: box-shadow 0.2s ease;
+    }
+    .wa-grade-card:hover { box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08); }
+    .wa-grade-card.sent { background: #f0fdf4; border-color: #bbf7d0; }
+    .wa-grade-info { flex: 1; min-width: 0; }
+    .wa-grade-student { font-weight: 700; font-size: 14px; color: #1e293b; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .wa-source-badge {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 9px;
+        border-radius: 20px;
+    }
+    .wa-source-badge.center { background: #ede9fe; color: #6d28d9; }
+    .wa-source-badge.mcq { background: #e0e7ff; color: #4338ca; }
+    .wa-grade-quiz { font-size: 12.5px; color: #64748b; margin-top: 2px; }
+    .wa-grade-score { font-size: 15px; font-weight: 700; color: #059669; margin-top: 4px; }
+    .wa-no-phone { font-size: 11.5px; color: #dc2626; margin-top: 6px; }
+    .wa-send-btn {
+        background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+        color: white;
+        padding: 9px 16px;
+        border-radius: 10px;
+        font-size: 12.5px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    .wa-send-btn:hover { filter: brightness(1.08); }
+    .wa-send-btn.sent { background: #d1fae5; color: #059669; box-shadow: none; }
+
+    /* ===== بطاقة الاتصال بواتساب (QR) ===== */
+    .wa-connect-card {
+        background: #f8faf9;
+        border: 1px solid #d1fae5;
+        border-radius: 14px;
+        padding: 18px;
+        margin-bottom: 18px;
+    }
+    .wa-connect-status-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .wa-status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-weight: 700;
+        font-size: 13px;
+        padding: 6px 14px;
+        border-radius: 20px;
+        background: #f1f5f9;
+        color: #64748b;
+    }
+    .wa-status-dot {
+        width: 9px; height: 9px; border-radius: 50%;
+        background: #94a3b8;
+    }
+    .wa-status-badge.ready { background: #dcfce7; color: #15803d; }
+    .wa-status-badge.ready .wa-status-dot { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,0.25); }
+    .wa-status-badge.qr, .wa-status-badge.authenticated, .wa-status-badge.checking { background: #fef3c7; color: #b45309; }
+    .wa-status-badge.qr .wa-status-dot, .wa-status-badge.authenticated .wa-status-dot, .wa-status-badge.checking .wa-status-dot { background: #f59e0b; }
+    .wa-status-badge.unreachable { background: #fee2e2; color: #b91c1c; }
+    .wa-status-badge.unreachable .wa-status-dot { background: #ef4444; }
+    .wa-disconnect-btn {
+        background: #fee2e2; color: #b91c1c; border: none;
+        padding: 7px 14px; border-radius: 10px; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    }
+    .wa-connect-inputs {
+        display: grid;
+        grid-template-columns: 2fr 1fr auto;
+        gap: 10px;
+        align-items: end;
+    }
+    .wa-connect-inputs label { display: block; font-size: 12px; color: #64748b; margin-bottom: 4px; font-weight: 600; }
+    .wa-connect-inputs input {
+        width: 100%; padding: 9px 12px; border: 1px solid #d1d5db; border-radius: 10px; font-size: 13px;
+    }
+    .wa-connect-btn {
+        background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+        color: white; border: none; padding: 10px 20px; border-radius: 10px;
+        font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap;
+    }
+    .wa-connect-btn:disabled { opacity: 0.5; }
+    .wa-qr-box {
+        text-align: center;
+        margin-top: 16px;
+        padding: 16px;
+        background: white;
+        border-radius: 12px;
+        border: 1px dashed #bbf7d0;
+    }
+    .wa-qr-box img { width: 200px; height: 200px; margin: 0 auto; }
+    .wa-qr-box p { font-size: 12.5px; color: #64748b; margin-top: 10px; }
+
+    /* ===== رسالة مخصصة ===== */
+    .wa-custom-toggle { margin-bottom: 12px; }
+    .wa-custom-toggle-btn {
+        background: #ede9fe; color: #6d28d9; border: none;
+        padding: 8px 16px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer;
+    }
+    .wa-custom-box {
+        background: #fafaff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 16px;
+        margin-bottom: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .wa-custom-box select, .wa-custom-box textarea {
+        width: 100%; padding: 9px 12px; border: 1px solid #d1d5db; border-radius: 10px; font-size: 13px;
+        font-family: 'Tajawal', sans-serif;
+    }
+    .wa-custom-box textarea { min-height: 80px; resize: vertical; }
+
+    /* ===== قالب الرسالة ===== */
+    .wa-template-box {
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 14px 16px;
+        margin-bottom: 8px;
+    }
+    .wa-template-box summary { cursor: pointer; font-weight: 700; font-size: 13.5px; color: #334155; }
+    .wa-template-box textarea {
+        width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 10px; font-size: 13px;
+        font-family: 'Tajawal', sans-serif;
+    }
+    .wa-template-hint { font-size: 11.5px; color: #94a3b8; margin: 8px 0; }
     </style>
 </head>
 <body class="dark:bg-gray-900 dark:text-white">
@@ -4724,6 +5520,19 @@ input:focus {
                                 </div>
                             </div>
                             <div class="flex items-center space-x-4">
+
+                                <button @click="teacherActiveTab = 'forum'" class="notifications-toggle relative" title="منتدى الأسئلة">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span v-if="forumUnansweredCount > 0" class="notification-badge absolute -top-1 -right-1">
+                                        {{ forumUnansweredCount }}
+                                    </span>
+                                </button>
+                                <button @click="toggleChatPanel" class="notifications-toggle relative" title="الدردشة مع الطلاب">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <span v-if="chatUnreadTotal > 0" class="notification-badge absolute -top-1 -right-1">
+                                        {{ chatUnreadTotal }}
+                                    </span>
+                                </button>
 
                                 <!-- زر BB-8 لتبديل الوضع الداكن -->
                                 <label class="bb8-toggle">
@@ -4935,6 +5744,25 @@ input:focus {
                                         class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
                                     درجات الاختبارات التفاعلية
                                 </button>
+                                <!-- تبويب المنتدى -->
+                                <button @click="teacherActiveTab = 'forum'" 
+                                        :class="{ 
+                                            'border-purple-600 text-purple-700 bg-purple-50 font-bold': teacherActiveTab === 'forum', 
+                                            'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'forum' 
+                                        }" 
+                                        class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
+                                    <i class="fas fa-comments mr-1"></i> منتدى الأسئلة
+                                    <span v-if="forumUnansweredCount > 0" class="tab-badge">{{ forumUnansweredCount }}</span>
+                                </button>
+                                <!-- تبويب إرسال الدرجات لأولياء الأمور -->
+                                <button @click="teacherActiveTab = 'send-grades'; loadTodaysGradesForSending()" 
+                                        :class="{ 
+                                            'border-emerald-600 text-emerald-700 bg-emerald-50 font-bold': teacherActiveTab === 'send-grades', 
+                                            'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'send-grades' 
+                                        }" 
+                                        class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
+                                    <i class="fab fa-whatsapp mr-1"></i> إرسال درجات اليوم
+                                </button>
                             </nav>
                         </div>
                     </div>
@@ -5023,6 +5851,16 @@ input:focus {
                                 <div class="spinner"></div>
                             </div>
                             <div v-else>
+                                <!-- فلتر المحاضرات -->
+                                <div class="lecture-tabs" v-if="teacherLectures.length > 1">
+                                    <div class="lecture-tab" :class="{ active: selectedLectureFilter === 'all' }" @click="selectedLectureFilter = 'all'">
+                                        <i class="fas fa-layer-group"></i> كل المحاضرات
+                                        <span class="lecture-tab-count">{{ teacherContent.length }}</span>
+                                    </div>
+                                    <div v-for="lec in teacherLectures" :key="lec" class="lecture-tab" :class="{ active: selectedLectureFilter === lec }" @click="selectedLectureFilter = lec">
+                                        <i class="fas fa-book-open"></i> {{ lec }}
+                                    </div>
+                                </div>
                                 <!-- قسم فيديوهات يوتيوب -->
                                 <div v-if="organizedContent.youtube && organizedContent.youtube.length > 0" class="content-category">
                                     <div class="category-header" @click="toggleCategory('youtube')">
@@ -5465,9 +6303,9 @@ input:focus {
                         </div>
                         <div class="p-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                <div v-for="quiz in mcqQuizzes" :key="quiz.id" class="border border-gray-200 rounded-lg overflow-hidden content-card">
-                                    <div class="bg-gray-100 h-48 flex items-center justify-center">
-                                        <i class="fas fa-question-circle text-5xl text-indigo-500"></i>
+                                <div v-for="quiz in mcqQuizzes" :key="quiz.id" class="mcq-quiz-card overflow-hidden">
+                                    <div class="mcq-quiz-card-header">
+                                        <i class="fas fa-question-circle"></i>
                                     </div>
                                     <div class="p-4">
                                         <div class="flex justify-between items-start">
@@ -5476,6 +6314,11 @@ input:focus {
                                                 <p class="text-sm text-gray-500">{{ quiz.class }}</p>
                                             </div>
                                             <span class="mcq-quiz-badge">اختبار تفاعلي</span>
+                                        </div>
+                                        <div v-if="quiz.scheduledAt" class="mcq-schedule-badge" :class="isQuizScheduledFuture(quiz) ? 'scheduled' : 'live'">
+                                            <i class="fas" :class="isQuizScheduledFuture(quiz) ? 'fa-clock' : 'fa-circle-check'"></i>
+                                            <span v-if="isQuizScheduledFuture(quiz)">سيُنشر تلقائيًا: {{ formatScheduleDate(quiz.scheduledAt) }}</span>
+                                            <span v-else>منشور منذ: {{ formatScheduleDate(quiz.scheduledAt) }}</span>
                                         </div>
                                         <div class="mt-2">
                                             <p class="text-sm text-gray-600">{{ quiz.description }}</p>
@@ -5613,6 +6456,219 @@ input:focus {
                             </table>
                         </div>
                     </div>
+
+                    <!-- تبويب منتدى الأسئلة (المعلمة) -->
+                    <div class="bg-white rounded-xl shadow overflow-hidden mb-8 forum-section" v-show="teacherActiveTab === 'forum'">
+                        <div class="forum-section-header">
+                            <h3><i class="fas fa-comments mr-2"></i> منتدى أسئلة الطلاب</h3>
+                            <p>الرد على استفسارات الطلاب مباشرة من هنا</p>
+                        </div>
+                        <div class="p-6 forum-section-body">
+                            <div class="forum-filter-tabs">
+                                <div class="lecture-tab" :class="{ active: forumFilter === 'pending' }" @click="forumFilter = 'pending'">
+                                    <i class="fas fa-hourglass-half"></i> بانتظار الرد
+                                    <span class="lecture-tab-count">{{ forumQuestions.filter(q => !q.answered).length }}</span>
+                                </div>
+                                <div class="lecture-tab" :class="{ active: forumFilter === 'answered' }" @click="forumFilter = 'answered'">
+                                    <i class="fas fa-check-circle"></i> تم الرد عليها
+                                </div>
+                                <div class="lecture-tab" :class="{ active: forumFilter === 'all' }" @click="forumFilter = 'all'">
+                                    <i class="fas fa-layer-group"></i> الكل
+                                </div>
+                            </div>
+
+                            <div v-if="teacherFilteredForumQuestions.length === 0" class="text-center py-10 text-gray-400">
+                                <i class="fas fa-comments text-4xl mb-3"></i>
+                                <p>لا توجد أسئلة في هذا القسم حاليًا</p>
+                            </div>
+
+                            <div class="forum-grid">
+                                <div v-for="q in teacherFilteredForumQuestions" :key="q.id" class="forum-question-card">
+                                    <div class="fq-student">
+                                        <img :src="q.studentPhoto || 'https://cdn-icons-png.flaticon.com/128/17446/17446833.png'" class="w-6 h-6 rounded-full">
+                                        <span>{{ q.studentName }} <span v-if="q.studentClass" class="text-gray-400">- {{ q.studentClass }}</span></span>
+                                        <span class="fq-status" :class="q.answered ? 'answered' : 'pending'">
+                                            {{ q.answered ? 'تم الرد' : 'بانتظار الرد' }}
+                                        </span>
+                                    </div>
+                                    <p>{{ q.question }}</p>
+                                    <img v-if="q.questionImage" :src="q.questionImage" class="fq-image" @click="openImageLightbox(q.questionImage)">
+                                    <div class="text-left text-xs text-gray-400 mt-1">{{ formatForumDate(q.createdAt) }}</div>
+
+                                    <div v-if="q.answered" class="forum-answer-block">
+                                        <div class="fa-teacher">
+                                            <i class="fas fa-chalkboard-teacher"></i>
+                                            {{ q.answeredByName }}
+                                        </div>
+                                        <p v-if="q.answer">{{ q.answer }}</p>
+                                        <img v-if="q.answerImage" :src="q.answerImage" class="fa-answer-image" @click="openImageLightbox(q.answerImage)">
+                                        <div class="text-left text-xs text-gray-400 mt-1">{{ formatForumDate(q.answeredAt) }}</div>
+                                    </div>
+
+                                    <div v-if="!q.answered">
+                                        <div v-if="replyingToId !== q.id" class="qa-toolbar" style="justify-content: flex-start; gap: 14px;">
+                                            <button @click="openReplyBox(q.id)" class="text-purple-600 text-sm font-semibold">
+                                                <i class="fas fa-reply mr-1"></i> رد على السؤال
+                                            </button>
+                                            <button @click="deleteForumQuestion(q.id)" class="text-red-500 text-sm">
+                                                <i class="fas fa-trash mr-1"></i> حذف
+                                            </button>
+                                        </div>
+                                        <div v-else class="forum-reply-form">
+                                            <textarea v-model="replyText" placeholder="اكتبي ردك هنا..."></textarea>
+                                            <div v-if="replyImagePreview" class="qa-image-preview-wrap">
+                                                <img :src="replyImagePreview" alt="معاينة صورة الرد">
+                                                <div class="qa-image-preview-remove" @click="cancelReplyImage"><i class="fas fa-times"></i></div>
+                                            </div>
+                                            <div class="qa-toolbar">
+                                                <label class="qa-attach-btn">
+                                                    <i class="fas fa-camera"></i>
+                                                    <input type="file" accept="image/*" class="hidden" @change="handleReplyImageUpload">
+                                                </label>
+                                                <div class="flex gap-2">
+                                                    <button @click="cancelReplyBox" class="text-gray-500 text-sm px-3 py-2">إلغاء</button>
+                                                    <button @click="submitAnswer(q)" :disabled="sendingReply"
+                                                            class="bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded-lg">
+                                                        {{ sendingReply ? 'جاري الإرسال...' : 'إرسال الرد' }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-else style="margin-top: 6px;">
+                                        <button @click="deleteForumQuestion(q.id)" class="text-red-500 text-xs">
+                                            <i class="fas fa-trash mr-1"></i> حذف
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- تبويب إرسال درجات اليوم لأولياء الأمور عبر واتساب -->
+                    <div class="bg-white rounded-xl shadow overflow-hidden mb-8 whatsapp-section" v-show="teacherActiveTab === 'send-grades'">
+                        <div class="whatsapp-section-header">
+                            <h3><i class="fab fa-whatsapp mr-2"></i> إرسال درجات اليوم لأولياء الأمور</h3>
+                            <p>يشمل درجات امتحان/كويز السنتر (التصحيح اليدوي) وكويزات المنصة التفاعلية المسجّلة اليوم</p>
+                        </div>
+                        <div class="p-6">
+
+                            <!-- ==================== بطاقة الاتصال بواتساب ==================== -->
+                            <div class="wa-connect-card">
+                                <div class="wa-connect-status-row">
+                                    <div class="wa-status-badge" :class="waConnectionStatus">
+                                        <span class="wa-status-dot"></span>
+                                        <span v-if="waConnectionStatus === 'ready'">متصل بواتساب ✅</span>
+                                        <span v-else-if="waConnectionStatus === 'qr' || waConnectionStatus === 'authenticated'">بانتظار مسح الكود...</span>
+                                        <span v-else-if="waConnectionStatus === 'checking'">جاري الفحص...</span>
+                                        <span v-else-if="waConnectionStatus === 'unreachable'">تعذر الوصول للسيرفر</span>
+                                        <span v-else>غير متصل</span>
+                                    </div>
+                                    <button v-if="waConnectionStatus === 'ready'" @click="disconnectWa" class="wa-disconnect-btn">
+                                        <i class="fas fa-plug-circle-xmark mr-1"></i> فصل الرقم
+                                    </button>
+                                </div>
+
+                                <div class="wa-connect-inputs">
+                                    <div>
+                                        <label>رابط السيرفر (Railway)</label>
+                                        <input type="text" v-model="waServerUrl" placeholder="https://your-app.up.railway.app">
+                                    </div>
+                                    <div>
+                                        <label>مفتاح API (اختياري)</label>
+                                        <input type="text" v-model="waApiKey" placeholder="لو محدد على السيرفر">
+                                    </div>
+                                    <button @click="saveWaConnectionSettings" :disabled="waConnecting" class="wa-connect-btn">
+                                        <i class="fas fa-link mr-1"></i> {{ waConnecting ? 'جاري الاتصال...' : 'حفظ واتصال' }}
+                                    </button>
+                                </div>
+
+                                <div v-if="waConnectionStatus !== 'ready' && waQrImage" class="wa-qr-box">
+                                    <img :src="waQrImage" alt="QR كود ربط واتساب">
+                                    <p><i class="fab fa-whatsapp mr-1"></i> افتحي واتساب على موبايلك ← الأجهزة المرتبطة ← ربط جهاز وامسحي الكود</p>
+                                </div>
+                            </div>
+
+                            <!-- ==================== رسالة مخصصة حرة ==================== -->
+                            <div class="wa-custom-toggle">
+                                <button @click="showCustomMessageBox = !showCustomMessageBox" class="wa-custom-toggle-btn">
+                                    <i class="fas fa-pen mr-1"></i> {{ showCustomMessageBox ? 'إغلاق' : 'إرسال رسالة مخصصة لولي أمر' }}
+                                </button>
+                            </div>
+                            <div v-if="showCustomMessageBox" class="wa-custom-box">
+                                <select v-model="customMessageStudentId">
+                                    <option value="">اختاري الطالب/ة</option>
+                                    <option v-for="s in students" :key="s.id" :value="s.id">{{ s.name }} - {{ s.class }}</option>
+                                </select>
+                                <textarea v-model="customMessageText" placeholder="اكتبي نص الرسالة هنا..."></textarea>
+                                <button @click="sendCustomMessage" :disabled="sendingCustomMessage" class="wa-send-all-btn">
+                                    <i class="fab fa-whatsapp mr-1"></i> {{ sendingCustomMessage ? 'جاري الإرسال...' : 'إرسال الرسالة' }}
+                                </button>
+                            </div>
+
+                            <!-- ==================== قالب رسالة الدرجات ==================== -->
+                            <details class="wa-template-box">
+                                <summary><i class="fas fa-sliders mr-1"></i> تعديل نص رسالة الدرجات</summary>
+                                <div class="mt-3">
+                                    <textarea v-model="gradeMessageTemplate" rows="4"></textarea>
+                                    <p class="wa-template-hint">المتاح: {name} اسم الطالب، {quiz} اسم الاختبار، {score} الدرجة، {total} الدرجة الكلية، {percentage} النسبة المئوية</p>
+                                    <div class="flex gap-2">
+                                        <button @click="saveGradeMessageTemplate" class="wa-refresh-btn">حفظ القالب</button>
+                                        <button @click="resetGradeMessageTemplate" class="wa-refresh-btn">استرجاع الافتراضي</button>
+                                    </div>
+                                </div>
+                            </details>
+
+                            <!-- ==================== فلتر المصدر ==================== -->
+                            <div class="lecture-tabs" style="margin-top: 20px;">
+                                <div class="lecture-tab" :class="{ active: gradeSourceFilter === 'all' }" @click="gradeSourceFilter = 'all'">
+                                    <i class="fas fa-layer-group"></i> الكل
+                                </div>
+                                <div class="lecture-tab" :class="{ active: gradeSourceFilter === 'center' }" @click="gradeSourceFilter = 'center'">
+                                    <i class="fas fa-file-signature"></i> امتحان / كويز سنتر
+                                </div>
+                                <div class="lecture-tab" :class="{ active: gradeSourceFilter === 'mcq' }" @click="gradeSourceFilter = 'mcq'">
+                                    <i class="fas fa-laptop"></i> كويز المنصة (أونلاين)
+                                </div>
+                            </div>
+
+                            <div class="whatsapp-toolbar">
+                                <button @click="loadTodaysGradesForSending" class="wa-refresh-btn">
+                                    <i class="fas fa-rotate mr-1"></i> تحديث القائمة
+                                </button>
+                                <button @click="sendAllTodaysGradesToWhatsApp" :disabled="unsentTodaysGrades.length === 0" class="wa-send-all-btn">
+                                    <i class="fab fa-whatsapp mr-1"></i> إرسال الكل ({{ unsentTodaysGrades.length }})
+                                </button>
+                            </div>
+
+                            <div v-if="loadingTodaysGrades" class="loading"><div class="spinner"></div></div>
+
+                            <div v-else-if="filteredTodaysGrades.length === 0" class="text-center py-10 text-gray-400">
+                                <i class="fas fa-clipboard-list text-4xl mb-3"></i>
+                                <p>لا توجد درجات مسجلة اليوم في هذا القسم حتى الآن</p>
+                            </div>
+
+                            <div v-else class="wa-grades-list">
+                                <div v-for="g in filteredTodaysGrades" :key="g.id" class="wa-grade-card" :class="{ sent: g.sentToParentAt }">
+                                    <div class="wa-grade-info">
+                                        <div class="wa-grade-student">
+                                            <i class="fas fa-user-graduate mr-1"></i> {{ g.studentName }}
+                                            <span class="wa-source-badge" :class="g.source">{{ g.source === 'mcq' ? 'كويز المنصة' : 'امتحان / كويز السنتر' }}</span>
+                                        </div>
+                                        <div class="wa-grade-quiz">{{ g.quizTitle }}</div>
+                                        <div class="wa-grade-score">{{ g.score }} / {{ g.totalScore }}</div>
+                                        <div v-if="!g.parentPhone" class="wa-no-phone">
+                                            <i class="fas fa-triangle-exclamation mr-1"></i> لا يوجد رقم واتساب لولي الأمر
+                                        </div>
+                                    </div>
+                                    <button v-if="g.parentPhone" @click="sendGradeToWhatsApp(g)" class="wa-send-btn" :class="{ sent: g.sentToParentAt }">
+                                        <i class="fab fa-whatsapp mr-1"></i>
+                                        {{ g.sentToParentAt ? 'تم الإرسال' : 'إرسال' }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </main>
             </div>
         </div>
@@ -5646,6 +6702,15 @@ input:focus {
                 </div>
             </div>
             <div class="flex items-center space-x-4 space-x-reverse">
+                <button @click="scrollToStudentForum" class="notifications-toggle relative" title="منتدى الأسئلة">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+                <button @click="toggleChatPanel" class="notifications-toggle relative" title="الدردشة مع المعلمة">
+                    <i class="fab fa-whatsapp"></i>
+                    <span v-if="chatUnreadTotal > 0" class="notification-badge absolute -top-1 -right-1">
+                        {{ chatUnreadTotal }}
+                    </span>
+                </button>
                 <button @click="toggleNotifications" class="notifications-toggle relative">
                     <i class="fas fa-bell"></i>
                     <span v-if="unreadNotificationsCount > 0" class="notification-badge absolute -top-1 -right-1">
@@ -5836,6 +6901,15 @@ input:focus {
                             <h3 class="text-lg font-medium text-gray-900">المحتوى التعليمي المتاح</h3>
                         </div>
                         <div class="p-6">
+                            <!-- فلتر المحاضرات -->
+                            <div class="lecture-tabs" v-if="studentLectures.length > 1">
+                                <div class="lecture-tab" :class="{ active: selectedStudentLectureFilter === 'all' }" @click="selectedStudentLectureFilter = 'all'">
+                                    <i class="fas fa-layer-group"></i> كل المحاضرات
+                                </div>
+                                <div v-for="lec in studentLectures" :key="lec" class="lecture-tab" :class="{ active: selectedStudentLectureFilter === lec }" @click="selectedStudentLectureFilter = lec">
+                                    <i class="fas fa-book-open"></i> {{ lec }}
+                                </div>
+                            </div>
                             <!-- قسم فيديوهات يوتيوب -->
                             <div v-if="organizedStudentContent.youtube && organizedStudentContent.youtube.length > 0" class="content-category">
                                 <div class="category-header" @click="toggleStudentCategory('youtube')">
@@ -6171,6 +7245,64 @@ input:focus {
                             </div>
                         </div>
                     </div>
+
+                    <!-- قسم منتدى الأسئلة (الطالب) -->
+                    <div id="studentForumSection" class="bg-white rounded-xl shadow overflow-hidden mt-8 forum-section">
+                        <div class="forum-section-header">
+                            <h3><i class="fas fa-comments mr-2"></i> أسئلتي للمعلمة</h3>
+                            <p>اسألي معلمتك أي وقت وهتلاقي الرد هنا</p>
+                        </div>
+                        <div class="p-6 forum-section-body">
+                            <div class="forum-ask-box">
+                                <textarea v-model="newQuestionText" placeholder="اكتبي سؤالك هنا..."></textarea>
+                                <div v-if="newQuestionImagePreview" class="qa-image-preview-wrap">
+                                    <img :src="newQuestionImagePreview" alt="معاينة صورة السؤال">
+                                    <div class="qa-image-preview-remove" @click="cancelNewQuestionImage"><i class="fas fa-times"></i></div>
+                                </div>
+                                <div class="qa-toolbar">
+                                    <label class="qa-attach-btn">
+                                        <i class="fas fa-camera"></i>
+                                        <input type="file" accept="image/*" class="hidden" @change="handleQuestionImageUpload">
+                                    </label>
+                                    <button @click="submitQuestion" :disabled="askingQuestion"
+                                            class="bg-purple-600 hover:bg-purple-700 text-white text-sm px-4 py-2 rounded-lg">
+                                        <i class="fas fa-paper-plane mr-1"></i>
+                                        {{ askingQuestion ? 'جاري الإرسال...' : 'إرسال السؤال' }}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div v-if="forumQuestions.length === 0" class="text-center py-8 text-gray-400">
+                                <i class="fas fa-comments text-3xl mb-2"></i>
+                                <p>لا توجد أسئلة حتى الآن</p>
+                            </div>
+
+                            <div class="forum-grid">
+                                <div v-for="q in forumQuestions" :key="q.id" class="forum-question-card">
+                                    <div class="fq-student">
+                                        <img :src="q.studentPhoto || 'https://cdn-icons-png.flaticon.com/128/17446/17446833.png'" class="w-6 h-6 rounded-full">
+                                        <span>{{ q.studentName }}</span>
+                                        <span class="fq-status" :class="q.answered ? 'answered' : 'pending'">
+                                            {{ q.answered ? 'تم الرد' : 'بانتظار الرد' }}
+                                        </span>
+                                    </div>
+                                    <p>{{ q.question }}</p>
+                                    <img v-if="q.questionImage" :src="q.questionImage" class="fq-image" @click="openImageLightbox(q.questionImage)">
+                                    <div class="text-left text-xs text-gray-400 mt-1">{{ formatForumDate(q.createdAt) }}</div>
+
+                                    <div v-if="q.answered" class="forum-answer-block">
+                                        <div class="fa-teacher">
+                                            <i class="fas fa-chalkboard-teacher"></i>
+                                            {{ q.answeredByName }}
+                                        </div>
+                                        <p v-if="q.answer">{{ q.answer }}</p>
+                                        <img v-if="q.answerImage" :src="q.answerImage" class="fa-answer-image" @click="openImageLightbox(q.answerImage)">
+                                        <div class="text-left text-xs text-gray-400 mt-1">{{ formatForumDate(q.answeredAt) }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </main>
             </div>
         </div>
@@ -6328,6 +7460,14 @@ input:focus {
                             <option value="الصف الثاني">الصف الثاني</option>
                             <option value="الصف الثالث">الصف الثالث</option>
                         </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">المحاضرة / الوحدة</label>
+                        <input type="text" v-model="newContent.lecture" list="lecturesList" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" placeholder="مثال: المحاضرة الأولى">
+                        <datalist id="lecturesList">
+                            <option v-for="lec in teacherLectures" :key="lec" :value="lec"></option>
+                        </datalist>
+                        <p class="text-xs text-gray-400 mt-1">اتركيها فارغة إذا كان المحتوى عام وغير مرتبط بمحاضرة معينة</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">الوصف</label>
@@ -6572,6 +7712,14 @@ input:focus {
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">عدد المحاولات المسموحة</label>
                             <input type="number" v-model="newMCQQuiz.maxAttempts" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="عدد المحاولات" min="1" value="1">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                <i class="fas fa-clock-rotate-left text-indigo-500 mr-1"></i>
+                                ميعاد نشر الاختبار (اختياري)
+                            </label>
+                            <input type="datetime-local" v-model="newMCQQuiz.scheduledAt" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <p class="text-xs text-gray-400 mt-1">إذا حددتِ ميعادًا، سيظهر الاختبار للطلاب تلقائيًا في هذا الوقت فقط. اتركيه فارغًا ليكون متاحًا فورًا.</p>
                         </div>
                         <div class="show-answers-toggle">
                             <label class="block text-sm font-medium text-gray-700 mb-1">عرض الإجابات للطلاب بعد الاختبار</label>
@@ -6989,6 +8137,143 @@ input:focus {
         </div>
     </div>
 </div>
+
+<!-- ============================================================ -->
+<!-- لوحة الدردشة (شكل واتساب) -->
+<!-- ============================================================ -->
+<div class="qa-panel" v-if="showChatPanel" style="max-height: 82vh;" @click.stop>
+
+    <!-- حالة الطالب: محادثة مباشرة مع المعلمة -->
+    <template v-if="isStudentLoggedIn">
+        <div class="qa-panel-header wa-theme">
+            <div class="chat-thread-header">
+                <img src="https://raw.githubusercontent.com/sefen66/MISSSALLY/refs/heads/main/475507956_9082054621872083_6722155559152051923_n.jpg" class="chat-conv-avatar" style="width:34px;height:34px;">
+                <h3 class="text-base font-bold">Mrs. sally siad</h3>
+            </div>
+            <button @click="showChatPanel = false" class="text-white/80 hover:text-white">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="chatMessagesBox" class="qa-panel-body chat-thread-body">
+            <div v-if="activeChatMessages.length === 0" class="chat-empty-state">
+                <i class="fab fa-whatsapp text-3xl mb-2"></i>
+                <p>ابدئي المحادثة مع المعلمة</p>
+            </div>
+            <div v-for="m in activeChatMessages" :key="m.id" class="chat-bubble-row" :class="m.senderType === 'student' ? 'sent' : 'received'">
+                <div class="chat-bubble" :class="m.senderType === 'student' ? 'sent' : 'received'">
+                    <img v-if="m.imageUrl" :src="m.imageUrl" @click="openImageLightbox(m.imageUrl)">
+                    <div v-if="m.text">{{ m.text }}</div>
+                    <div class="chat-bubble-meta">
+                        <span>{{ formatChatTime(m.createdAt) }}</span>
+                        <i v-if="m.senderType === 'student'" class="fas fa-check-double chat-tick" :class="{ read: m.status === 'read' }"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="chatImagePreview" class="qa-image-preview-wrap" style="margin: 6px 10px 0;">
+            <img :src="chatImagePreview">
+            <div class="qa-image-preview-remove" @click="cancelChatImage"><i class="fas fa-times"></i></div>
+        </div>
+        <div class="chat-input-bar">
+            <label class="qa-attach-btn">
+                <i class="fas fa-paperclip"></i>
+                <input type="file" accept="image/*" class="hidden" @change="handleChatImageUpload">
+            </label>
+            <input type="text" v-model="chatInputText" placeholder="اكتب رسالة..." @keyup.enter="sendChatMessage">
+            <button class="chat-send-btn" @click="sendChatMessage" :disabled="sendingChatMessage">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </template>
+
+    <!-- حالة المعلمة: قائمة المحادثات أو محادثة مفتوحة -->
+    <template v-else>
+        <div v-if="!activeChatId">
+            <div class="qa-panel-header wa-theme">
+                <h3 class="text-lg font-bold"><i class="fab fa-whatsapp mr-1"></i> محادثات الطلاب</h3>
+                <button @click="showChatPanel = false" class="text-white/80 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="qa-panel-body">
+                <div v-if="chatConversations.length === 0" class="chat-empty-state">
+                    <i class="fab fa-whatsapp text-3xl mb-2"></i>
+                    <p>لا توجد محادثات بعد</p>
+                </div>
+                <div v-for="c in chatConversations" :key="c.id" class="chat-conv-item" @click="openChatThread(c.studentId, c.studentName, c.studentPhoto)">
+                    <img :src="c.studentPhoto || 'https://cdn-icons-png.flaticon.com/128/17446/17446833.png'" class="chat-conv-avatar">
+                    <div class="chat-conv-info">
+                        <div class="chat-conv-name">{{ c.studentName }}</div>
+                        <div class="chat-conv-last">{{ c.lastMessage }}</div>
+                    </div>
+                    <span v-if="c.unreadByTeacher > 0" class="chat-conv-badge">{{ c.unreadByTeacher }}</span>
+                </div>
+            </div>
+        </div>
+        <div v-else>
+            <div class="qa-panel-header wa-theme">
+                <div class="chat-thread-header">
+                    <i class="fas fa-arrow-right chat-back-btn" @click="backToChatList"></i>
+                    <img :src="activeChatPhoto || 'https://cdn-icons-png.flaticon.com/128/17446/17446833.png'" class="chat-conv-avatar" style="width:34px;height:34px;">
+                    <h3 class="text-base font-bold">{{ activeChatName }}</h3>
+                </div>
+                <button @click="showChatPanel = false" class="text-white/80 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="chatMessagesBox" class="qa-panel-body chat-thread-body">
+                <div v-if="activeChatMessages.length === 0" class="chat-empty-state">
+                    <i class="fab fa-whatsapp text-3xl mb-2"></i>
+                    <p>ابدأ المحادثة مع الطالب</p>
+                </div>
+                <div v-for="m in activeChatMessages" :key="m.id" class="chat-bubble-row" :class="m.senderType === 'teacher' ? 'sent' : 'received'">
+                    <div class="chat-bubble" :class="m.senderType === 'teacher' ? 'sent' : 'received'">
+                        <img v-if="m.imageUrl" :src="m.imageUrl" @click="openImageLightbox(m.imageUrl)">
+                        <div v-if="m.text">{{ m.text }}</div>
+                        <div class="chat-bubble-meta">
+                            <span>{{ formatChatTime(m.createdAt) }}</span>
+                            <i v-if="m.senderType === 'teacher'" class="fas fa-check-double chat-tick" :class="{ read: m.status === 'read' }"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="chatImagePreview" class="qa-image-preview-wrap" style="margin: 6px 10px 0;">
+                <img :src="chatImagePreview">
+                <div class="qa-image-preview-remove" @click="cancelChatImage"><i class="fas fa-times"></i></div>
+            </div>
+            <div class="chat-input-bar">
+                <label class="qa-attach-btn">
+                    <i class="fas fa-paperclip"></i>
+                    <input type="file" accept="image/*" class="hidden" @change="handleChatImageUpload">
+                </label>
+                <input type="text" v-model="chatInputText" placeholder="اكتب رسالة..." @keyup.enter="sendChatMessage">
+                <button class="chat-send-btn" @click="sendChatMessage" :disabled="sendingChatMessage">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </template>
+</div>
+
+<!-- ============================================================ -->
+<!-- معاينة وتكبير الصور (يُستخدم مع الدردشة والمنتدى) -->
+<!-- ============================================================ -->
+<div class="image-lightbox-overlay" v-if="showImageLightbox" @click="closeImageLightbox">
+    <button class="image-lightbox-close" @click.stop="closeImageLightbox">
+        <i class="fas fa-times"></i>
+    </button>
+    <div class="image-lightbox-hint" @click.stop>
+        <i class="fas fa-magnifying-glass-plus"></i> اضغطي على الصورة للتكبير
+    </div>
+    <img :src="lightboxImage"
+         class="image-lightbox-img"
+         :class="{ zoomed: lightboxZoomed }"
+         @click.stop="lightboxZoomed = !lightboxZoomed">
+    <a :href="lightboxImage" target="_blank" download class="image-lightbox-download" @click.stop>
+        <i class="fas fa-download"></i>
+    </a>
+</div>
+
 <!-- زر التحفيز الذكي العائم للطلاب -->
 <!-- زر التحفيز الذكي العائم للطلاب -->
 <div v-if="isStudentLoggedIn" class="ai-motivation-floating-btn" @click="openMotivationModal">
@@ -8267,6 +9552,18 @@ const copyBtnText = ref('نسخ');
 onMounted(() => {
     loadLastMotivation();
     addMotivationStyles();
+
+    // استعادة جلسة الدخول المحفوظة محليًا (تسجيل الدخول التلقائي)
+    try {
+        const savedSession = JSON.parse(localStorage.getItem('sallyPlatformSession') || 'null');
+        if (savedSession && savedSession.role === 'teacher' && savedSession.code) {
+            handleLogin(savedSession.code);
+        } else if (savedSession && savedSession.role === 'student' && savedSession.code) {
+            handleStudentLogin(savedSession.code);
+        }
+    } catch (e) {
+        console.warn('تعذر استعادة جلسة الدخول المحفوظة', e);
+    }
 });
 
                 // Notification state
@@ -8281,6 +9578,69 @@ const newNotification = ref({
     selectedClass: '',
     selectedStudent: ''
 });
+                // ================= Forum (Q&A) state =================
+                const showForumPanel = ref(false);
+                const forumQuestions = ref([]);
+                const newQuestionText = ref('');
+                const newQuestionImageFile = ref(null);
+                const newQuestionImagePreview = ref('');
+                const askingQuestion = ref(false);
+                const replyingToId = ref(null);
+                const replyText = ref('');
+                const replyImageFile = ref(null);
+                const replyImagePreview = ref('');
+                const sendingReply = ref(false);
+                let forumUnsub = null;
+                const forumFilter = ref('pending');
+
+                // ================= إرسال درجات اليوم عبر واتساب =================
+                const todaysGradesForSending = ref([]);
+                const loadingTodaysGrades = ref(false);
+                const gradeSourceFilter = ref('all'); // all | center | mcq
+
+                // ================= الاتصال بسيرفر واتساب (Railway) =================
+                const waServerUrl = ref(localStorage.getItem('waServerUrl') || '');
+                const waApiKey = ref(localStorage.getItem('waApiKey') || '');
+                const waConnectionStatus = ref('disconnected'); // disconnected | checking | qr | ready
+                const waQrImage = ref('');
+                const waConnecting = ref(false);
+                let waPollTimer = null;
+
+                // قالب رسالة الدرجات (قابل للتعديل من الواجهة)
+                const DEFAULT_GRADE_TEMPLATE = 'السلام عليكم، نود إعلامكم بدرجة الطالب/ة *{name}* في *{quiz}*:\n\nالدرجة: {score} من {total} ({percentage}%)\n\nمع تحيات، Mrs. Sally';
+                const gradeMessageTemplate = ref(localStorage.getItem('gradeMessageTemplate') || DEFAULT_GRADE_TEMPLATE);
+
+                // رسالة مخصصة حرة لأي ولي أمر
+                const showCustomMessageBox = ref(false);
+                const customMessageStudentId = ref('');
+                const customMessageText = ref('');
+                const sendingCustomMessage = ref(false);
+
+                // ================= Chat (WhatsApp style) state =================
+                const showChatPanel = ref(false);
+                const chatConversations = ref([]);
+                const activeChatId = ref(null);
+                const activeChatName = ref('');
+                const activeChatPhoto = ref('');
+                const activeChatMessages = ref([]);
+                const chatInputText = ref('');
+                const chatImageFile = ref(null);
+                const chatImagePreview = ref('');
+                const sendingChatMessage = ref(false);
+                const chatUnreadTotal = ref(0);
+
+                // ================= Image Lightbox state =================
+                const showImageLightbox = ref(false);
+                const lightboxImage = ref('');
+                const lightboxZoomed = ref(false);
+
+                // ================= Lecture filter state =================
+                const selectedLectureFilter = ref('all');
+                const selectedStudentLectureFilter = ref('all');
+                let chatMessagesUnsub = null;
+                let chatConversationsUnsub = null;
+                let chatUnreadUnsub = null;
+
                 // Chart control variables
 const chartsInitialized = ref(false);
 const chartsInitializing = ref(false);
@@ -8317,6 +9677,7 @@ const chartsCleanup = ref(false);
                     title: '',
                     url: '',
                     class: '',
+                    lecture: '',
                     description: '',
                     file: null,
                     filePreview: null
@@ -8353,6 +9714,7 @@ const chartsCleanup = ref(false);
                     maxAttempts: 1,
                     showAnswers: false,
                     questions: [],
+                    scheduledAt: '',
                     createdAt: new Date().toISOString().split('T')[0],
                     createdBy: ''
                 });
@@ -8429,7 +9791,21 @@ const chartsCleanup = ref(false);
                     return filtered;
                 });
                 
-                // تنظيم المحتوى حسب النوع
+                // قائمة المحاضرات المتاحة (المعلمة)
+                const teacherLectures = computed(() => {
+                    const set = new Set();
+                    teacherContent.value.forEach(c => set.add((c.lecture && c.lecture.trim()) || 'عام'));
+                    return Array.from(set);
+                });
+
+                // قائمة المحاضرات المتاحة (الطالب)
+                const studentLectures = computed(() => {
+                    const set = new Set();
+                    studentContent.value.forEach(c => set.add((c.lecture && c.lecture.trim()) || 'عام'));
+                    return Array.from(set);
+                });
+
+                // تنظيم المحتوى حسب النوع (مع تصفية حسب المحاضرة المختارة)
                 const organizedContent = computed(() => {
                     const organized = {
                         youtube: [],
@@ -8441,6 +9817,8 @@ const chartsCleanup = ref(false);
                     };
                     
                     teacherContent.value.forEach(content => {
+                        const lecture = (content.lecture && content.lecture.trim()) || 'عام';
+                        if (selectedLectureFilter.value !== 'all' && lecture !== selectedLectureFilter.value) return;
                         if (content.type && organized[content.type]) {
                             organized[content.type].push(content);
                         }
@@ -8449,7 +9827,7 @@ const chartsCleanup = ref(false);
                     return organized;
                 });
                 
-                // تنظيم المحتوى للطلاب حسب النوع
+                // تنظيم المحتوى للطلاب حسب النوع (مع تصفية حسب المحاضرة المختارة)
                 const organizedStudentContent = computed(() => {
                     const organized = {
                         youtube: [],
@@ -8462,6 +9840,8 @@ const chartsCleanup = ref(false);
                     };
                     
                     studentContent.value.forEach(content => {
+                        const lecture = (content.lecture && content.lecture.trim()) || 'عام';
+                        if (content.type !== 'mcqQuiz' && selectedStudentLectureFilter.value !== 'all' && lecture !== selectedStudentLectureFilter.value) return;
                         if (content.type && organized[content.type]) {
                             organized[content.type].push(content);
                         }
@@ -8529,6 +9909,24 @@ const chartsCleanup = ref(false);
                     }
                     
                     return filtered;
+                });
+
+                // تصفية أسئلة المنتدى حسب الحالة (لتبويب المعلمة)
+                const teacherFilteredForumQuestions = computed(() => {
+                    if (forumFilter.value === 'pending') return forumQuestions.value.filter(q => !q.answered);
+                    if (forumFilter.value === 'answered') return forumQuestions.value.filter(q => q.answered);
+                    return forumQuestions.value;
+                });
+
+                // الدرجات المعروضة بعد تصفية المصدر (امتحان سنتر / أونلاين / الكل)
+                const filteredTodaysGrades = computed(() => {
+                    if (gradeSourceFilter.value === 'all') return todaysGradesForSending.value;
+                    return todaysGradesForSending.value.filter(g => g.source === gradeSourceFilter.value);
+                });
+
+                // الدرجات التي لم تُرسل بعد لولي الأمر (بعد تصفية المصدر)
+                const unsentTodaysGrades = computed(() => {
+                    return filteredTodaysGrades.value.filter(g => g.parentPhone && !g.sentToParentAt);
                 });
 
                 // Chart data computed properties
@@ -9331,6 +10729,22 @@ const formatNotificationDate = (dateString) => {
     return date.toLocaleDateString('ar-EG');
 };
 
+// التحقق مما إذا كان الاختبار مجدولاً لوقت لاحق لم يحن بعد
+const isQuizScheduledFuture = (quiz) => {
+    return !!(quiz && quiz.scheduledAt && new Date(quiz.scheduledAt).getTime() > Date.now());
+};
+
+// عرض ميعاد نشر الاختبار بصيغة مقروءة
+const formatScheduleDate = (dateString) => {
+    if (!dateString) return '';
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleString('ar-EG', { dateStyle: 'medium', timeStyle: 'short' });
+    } catch (e) {
+        return dateString;
+    }
+};
+
 // دالة لإرسال إشعارات تلقائية عند إضافة محتوى
 const sendAutoNotification = async (type, title, message, recipients) => {
     try {
@@ -9356,6 +10770,341 @@ const onRecipientTypeChange = () => {
     // إعادة تعيين القيم المحددة عند تغيير نوع المستلم
     newNotification.value.selectedClass = '';
     newNotification.value.selectedStudent = '';
+};
+
+// ======================================================================
+// منتدى الأسئلة: الطالب يرفع سؤاله (نص/صورة) والمعلمة ترد (نص/صورة)
+// ======================================================================
+const forumUnansweredCount = computed(() => {
+    return forumQuestions.value.filter(q => !q.answered).length;
+});
+
+const closeOtherPanels = () => {
+    const notifPanel = document.getElementById('notificationsPanel');
+    if (notifPanel) notifPanel.classList.add('hidden');
+};
+
+const toggleForumPanel = () => {
+    showForumPanel.value = !showForumPanel.value;
+    if (showForumPanel.value) {
+        showChatPanel.value = false;
+        closeOtherPanels();
+    }
+};
+
+const listenForumQuestions = () => {
+    if (forumUnsub) { forumUnsub(); forumUnsub = null; }
+    let query;
+    if (isStudentLoggedIn.value && currentStudent.value && currentStudent.value.id) {
+        query = db.collection('forum_questions')
+            .where('studentId', '==', currentStudent.value.id)
+            .orderBy('createdAt', 'desc');
+    } else {
+        query = db.collection('forum_questions').orderBy('createdAt', 'desc');
+    }
+    forumUnsub = query.onSnapshot((snapshot) => {
+        forumQuestions.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    }, (error) => {
+        console.error('Error listening to forum questions:', error);
+    });
+};
+
+const handleQuestionImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    newQuestionImageFile.value = file;
+    newQuestionImagePreview.value = URL.createObjectURL(file);
+};
+
+const cancelNewQuestionImage = () => {
+    newQuestionImageFile.value = null;
+    newQuestionImagePreview.value = '';
+};
+
+const submitQuestion = async () => {
+    if (!newQuestionText.value.trim() && !newQuestionImageFile.value) {
+        alert('اكتب سؤالك أو أرفق صورة له قبل الإرسال');
+        return;
+    }
+    askingQuestion.value = true;
+    try {
+        let imageUrl = null;
+        if (newQuestionImageFile.value) {
+            const uploadResult = await uploadToSupabase(newQuestionImageFile.value, 'content', 'forum-questions');
+            imageUrl = uploadResult.url;
+        }
+        await db.collection('forum_questions').add({
+            studentId: currentStudent.value.id,
+            studentName: currentStudent.value.name,
+            studentClass: currentStudent.value.class || '',
+            studentPhoto: currentStudent.value.photoURL || '',
+            question: newQuestionText.value.trim(),
+            questionImage: imageUrl,
+            createdAt: new Date().toISOString(),
+            answered: false,
+            answer: null,
+            answerImage: null,
+            answeredAt: null,
+            answeredByName: null
+        });
+        newQuestionText.value = '';
+        cancelNewQuestionImage();
+    } catch (error) {
+        console.error('Error submitting question:', error);
+        alert('حدث خطأ أثناء إرسال السؤال، حاول مرة أخرى');
+    } finally {
+        askingQuestion.value = false;
+    }
+};
+
+const openReplyBox = (questionId) => {
+    replyingToId.value = questionId;
+    replyText.value = '';
+    cancelReplyImage();
+};
+
+const cancelReplyBox = () => {
+    replyingToId.value = null;
+    replyText.value = '';
+    cancelReplyImage();
+};
+
+const handleReplyImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    replyImageFile.value = file;
+    replyImagePreview.value = URL.createObjectURL(file);
+};
+
+const cancelReplyImage = () => {
+    replyImageFile.value = null;
+    replyImagePreview.value = '';
+};
+
+const submitAnswer = async (question) => {
+    if (!replyText.value.trim() && !replyImageFile.value) {
+        alert('اكتب ردك أو أرفق صورة له قبل الإرسال');
+        return;
+    }
+    sendingReply.value = true;
+    try {
+        let imageUrl = null;
+        if (replyImageFile.value) {
+            const uploadResult = await uploadToSupabase(replyImageFile.value, 'content', 'forum-answers');
+            imageUrl = uploadResult.url;
+        }
+        await db.collection('forum_questions').doc(question.id).update({
+            answer: replyText.value.trim(),
+            answerImage: imageUrl,
+            answered: true,
+            answeredAt: new Date().toISOString(),
+            answeredByName: currentUser.value.name
+        });
+        await sendAutoNotification(
+            'content',
+            'تم الرد على سؤالك',
+            `أجابت ${currentUser.value.name} على سؤالك في المنتدى`,
+            [question.studentId]
+        );
+        cancelReplyBox();
+    } catch (error) {
+        console.error('Error submitting answer:', error);
+        alert('حدث خطأ أثناء إرسال الرد، حاول مرة أخرى');
+    } finally {
+        sendingReply.value = false;
+    }
+};
+
+const deleteForumQuestion = async (questionId) => {
+    if (!confirm('هل تريد حذف هذا السؤال نهائياً؟')) return;
+    try {
+        await db.collection('forum_questions').doc(questionId).delete();
+    } catch (error) {
+        console.error('Error deleting forum question:', error);
+    }
+};
+
+const formatForumDate = (dateString) => formatNotificationDate(dateString);
+
+// ======================================================================
+// نظام الدردشة الفورية بين الطالب والمعلمة (شكل واتساب + حالة القراءة)
+// ======================================================================
+const toggleChatPanel = () => {
+    showChatPanel.value = !showChatPanel.value;
+    if (showChatPanel.value) {
+        showForumPanel.value = false;
+        closeOtherPanels();
+        if (isStudentLoggedIn.value && currentStudent.value) {
+            openChatThread(currentStudent.value.id, currentStudent.value.name, currentStudent.value.photoURL);
+        }
+    } else {
+        if (chatMessagesUnsub) { chatMessagesUnsub(); chatMessagesUnsub = null; }
+        if (!isStudentLoggedIn.value) activeChatId.value = null;
+    }
+};
+
+const backToChatList = () => {
+    if (chatMessagesUnsub) { chatMessagesUnsub(); chatMessagesUnsub = null; }
+    activeChatId.value = null;
+    activeChatMessages.value = [];
+};
+
+// المعلمة: الاستماع لجميع محادثات الطلاب لحظياً
+const listenChatConversations = () => {
+    if (chatConversationsUnsub) { chatConversationsUnsub(); chatConversationsUnsub = null; }
+    chatConversationsUnsub = db.collection('chats')
+        .orderBy('lastMessageAt', 'desc')
+        .onSnapshot((snapshot) => {
+            chatConversations.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            chatUnreadTotal.value = chatConversations.value.reduce((sum, c) => sum + (c.unreadByTeacher || 0), 0);
+        }, (error) => {
+            console.error('Error listening to chat conversations:', error);
+        });
+};
+
+// الطالب: الاستماع لعدد رسائله غير المقروءة فقط (بدون فتح المحادثة)
+const listenStudentChatBadge = () => {
+    if (chatUnreadUnsub) { chatUnreadUnsub(); chatUnreadUnsub = null; }
+    chatUnreadUnsub = db.collection('chats').doc(currentStudent.value.id)
+        .onSnapshot((doc) => {
+            chatUnreadTotal.value = doc.exists ? (doc.data().unreadByStudent || 0) : 0;
+        }, (error) => {
+            console.error('Error listening to chat badge:', error);
+        });
+};
+
+const openChatThread = async (studentId, studentName, studentPhoto) => {
+    if (chatMessagesUnsub) { chatMessagesUnsub(); chatMessagesUnsub = null; }
+    activeChatId.value = studentId;
+    activeChatName.value = studentName || '';
+    activeChatPhoto.value = studentPhoto || '';
+    activeChatMessages.value = [];
+
+    try {
+        const chatRef = db.collection('chats').doc(studentId);
+        const chatDoc = await chatRef.get();
+        if (!chatDoc.exists) {
+            await chatRef.set({
+                studentId: studentId,
+                studentName: studentName || '',
+                studentPhoto: studentPhoto || '',
+                lastMessage: '',
+                lastMessageAt: new Date().toISOString(),
+                lastSenderType: '',
+                unreadByTeacher: 0,
+                unreadByStudent: 0
+            });
+        }
+
+        chatMessagesUnsub = chatRef.collection('messages')
+            .orderBy('createdAt', 'asc')
+            .onSnapshot((snapshot) => {
+                activeChatMessages.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                nextTick(() => {
+                    const box = document.getElementById('chatMessagesBox');
+                    if (box) box.scrollTop = box.scrollHeight;
+                });
+                markChatAsRead(studentId);
+            }, (error) => {
+                console.error('Error listening to chat messages:', error);
+            });
+    } catch (error) {
+        console.error('Error opening chat thread:', error);
+    }
+};
+
+const markChatAsRead = async (studentId) => {
+    try {
+        const myRole = isStudentLoggedIn.value ? 'student' : 'teacher';
+        const otherRole = myRole === 'student' ? 'teacher' : 'student';
+        const chatRef = db.collection('chats').doc(studentId);
+        const messagesSnapshot = await chatRef.collection('messages')
+            .where('senderType', '==', otherRole)
+            .where('status', '==', 'sent')
+            .get();
+
+        if (messagesSnapshot.empty) return;
+
+        const batch = db.batch();
+        messagesSnapshot.docs.forEach(doc => {
+            batch.update(doc.ref, { status: 'read' });
+        });
+        const unreadField = myRole === 'student' ? 'unreadByStudent' : 'unreadByTeacher';
+        batch.update(chatRef, { [unreadField]: 0 });
+        await batch.commit();
+    } catch (error) {
+        console.error('Error marking chat as read:', error);
+    }
+};
+
+const handleChatImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    chatImageFile.value = file;
+    chatImagePreview.value = URL.createObjectURL(file);
+};
+
+const cancelChatImage = () => {
+    chatImageFile.value = null;
+    chatImagePreview.value = '';
+};
+
+const sendChatMessage = async () => {
+    if (!chatInputText.value.trim() && !chatImageFile.value) return;
+    if (!activeChatId.value) return;
+    sendingChatMessage.value = true;
+    try {
+        const myRole = isStudentLoggedIn.value ? 'student' : 'teacher';
+        const senderId = myRole === 'student' ? currentStudent.value.id : currentUser.value.uid;
+        const senderName = myRole === 'student' ? currentStudent.value.name : currentUser.value.name;
+
+        let imageUrl = null;
+        if (chatImageFile.value) {
+            const uploadResult = await uploadToSupabase(chatImageFile.value, 'content', 'chat');
+            imageUrl = uploadResult.url;
+        }
+
+        const chatRef = db.collection('chats').doc(activeChatId.value);
+        const messageText = chatInputText.value.trim();
+
+        await chatRef.collection('messages').add({
+            senderId: senderId,
+            senderType: myRole,
+            senderName: senderName,
+            text: messageText || null,
+            imageUrl: imageUrl,
+            createdAt: new Date().toISOString(),
+            status: 'sent'
+        });
+
+        const unreadField = myRole === 'student' ? 'unreadByTeacher' : 'unreadByStudent';
+        await chatRef.set({
+            studentId: activeChatId.value,
+            studentName: myRole === 'student' ? senderName : activeChatName.value,
+            studentPhoto: myRole === 'student' ? (currentStudent.value.photoURL || '') : activeChatPhoto.value,
+            lastMessage: messageText || '📷 صورة',
+            lastMessageAt: new Date().toISOString(),
+            lastSenderType: myRole,
+            [unreadField]: firebase.firestore.FieldValue.increment(1)
+        }, { merge: true });
+
+        chatInputText.value = '';
+        cancelChatImage();
+    } catch (error) {
+        console.error('Error sending chat message:', error);
+        alert('حدث خطأ أثناء إرسال الرسالة، حاول مرة أخرى');
+    } finally {
+        sendingChatMessage.value = false;
+    }
+};
+
+const formatChatTime = (dateString) => {
+    if (!dateString) return '';
+    try {
+        return new Date(dateString).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+        return '';
+    }
 };
                 const generateStudentCode = () => {
                     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -9712,8 +11461,8 @@ const cleanupCharts = () => {
                     };
                 };
                 
-                const handleLogin = async () => {
-    const code = document.getElementById('code').value.trim();
+                const handleLogin = async (codeParam) => {
+    const code = (typeof codeParam === 'string' ? codeParam : document.getElementById('code').value.trim());
     
     if (code === '') {
         loginError.value = 'الرجاء إدخال كود المعلم';
@@ -9731,6 +11480,11 @@ const cleanupCharts = () => {
                 role: 'teacher',
                 photoURL: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/622d8d48-58ff-42d5-9014-d1eb55371e38.png'
             };
+
+            // حفظ الجلسة محليًا حتى يظل تسجيل الدخول بعد تحديث الصفحة
+            try {
+                localStorage.setItem('sallyPlatformSession', JSON.stringify({ role: 'teacher', code: code }));
+            } catch (e) { console.warn('تعذر حفظ جلسة الدخول محليًا', e); }
             
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('teacherDashboard').classList.remove('hidden');
@@ -9744,6 +11498,10 @@ const cleanupCharts = () => {
             
             // Now load stats after all data is loaded
             await loadTeacherStats();
+
+            // تشغيل مستمعات المنتدى والدردشة اللحظية
+            listenForumQuestions();
+            listenChatConversations();
              
             
         } else {
@@ -9755,8 +11513,8 @@ const cleanupCharts = () => {
     }
 };
                 
-const handleStudentLogin = async () => {
-    const studentCode = document.getElementById('studentCode').value.trim();
+const handleStudentLogin = async (codeParam) => {
+    const studentCode = (typeof codeParam === 'string' ? codeParam : document.getElementById('studentCode').value.trim());
     
     if (studentCode === '') {
         studentLoginError.value = 'الرجاء إدخال كود الطالب';
@@ -9786,6 +11544,11 @@ const handleStudentLogin = async () => {
             
             isStudentLoggedIn.value = true;
             currentStudent.value = student;
+
+            // حفظ الجلسة محليًا حتى يظل تسجيل الدخول بعد تحديث الصفحة
+            try {
+                localStorage.setItem('sallyPlatformSession', JSON.stringify({ role: 'student', code: studentCode }));
+            } catch (e) { console.warn('تعذر حفظ جلسة الدخول محليًا', e); }
             
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('studentDashboard').classList.remove('hidden');
@@ -9795,6 +11558,8 @@ const handleStudentLogin = async () => {
             loadStudentGrades();
            loadNotifications();
                        loadLastMotivation();
+            listenForumQuestions();
+            listenStudentChatBadge();
         } else {
             studentLoginError.value = 'كود الطالب غير صحيح';
         }
@@ -9812,6 +11577,13 @@ const handleStudentLogin = async () => {
                         document.getElementById('teacherDashboard').classList.add('hidden');
                         document.getElementById('code').value = '';
                         showTeacherLogin.value = false;
+                        try { localStorage.removeItem('sallyPlatformSession'); } catch (e) {}
+                        if (forumUnsub) { forumUnsub(); forumUnsub = null; }
+                        if (chatConversationsUnsub) { chatConversationsUnsub(); chatConversationsUnsub = null; }
+                        if (chatMessagesUnsub) { chatMessagesUnsub(); chatMessagesUnsub = null; }
+                        showChatPanel.value = false;
+                        showForumPanel.value = false;
+                        activeChatId.value = null;
                     } catch (error) {
                         console.error('Logout error:', error);
                     }
@@ -9824,6 +11596,13 @@ const handleStudentLogin = async () => {
                         document.getElementById('studentDashboard').classList.add('hidden');
                         document.getElementById('studentCode').value = '';
                         showTeacherLogin.value = false;
+                        try { localStorage.removeItem('sallyPlatformSession'); } catch (e) {}
+                        if (forumUnsub) { forumUnsub(); forumUnsub = null; }
+                        if (chatUnreadUnsub) { chatUnreadUnsub(); chatUnreadUnsub = null; }
+                        if (chatMessagesUnsub) { chatMessagesUnsub(); chatMessagesUnsub = null; }
+                        showChatPanel.value = false;
+                        showForumPanel.value = false;
+                        activeChatId.value = null;
                     } catch (error) {
                         console.error('Student logout error:', error);
                     }
@@ -9837,6 +11616,295 @@ const handleStudentLogin = async () => {
                 const closeVideo = () => {
                     document.getElementById('videoModal').classList.add('hidden');
                     currentVideo.value = {};
+                };
+
+                // معاينة وتكبير الصور
+                const openImageLightbox = (url) => {
+                    if (!url) return;
+                    lightboxImage.value = url;
+                    lightboxZoomed.value = false;
+                    showImageLightbox.value = true;
+                };
+
+                const closeImageLightbox = () => {
+                    showImageLightbox.value = false;
+                    lightboxZoomed.value = false;
+                    lightboxImage.value = '';
+                };
+
+                // التمرير إلى قسم منتدى الأسئلة (الطالب)
+                const scrollToStudentForum = () => {
+                    const el = document.getElementById('studentForumSection');
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                };
+
+                // صوت تنبيه بسيط عند إرسال رسالة واتساب (بدون الحاجة لملف صوتي خارجي)
+                const playNotifySound = () => {
+                    try {
+                        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                        const oscillator = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        oscillator.connect(gain);
+                        gain.connect(ctx.destination);
+                        oscillator.type = 'sine';
+                        oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+                        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+                        oscillator.start();
+                        oscillator.stop(ctx.currentTime + 0.35);
+                    } catch (e) { /* الصوت اختياري ولا يوقف باقي العملية */ }
+                };
+
+                // تحويل رقم الهاتف المصري المحلي إلى صيغة دولية لواتساب (wa.me)
+                const formatPhoneForWhatsApp = (phone) => {
+                    if (!phone) return '';
+                    let digits = String(phone).replace(/[^0-9]/g, '');
+                    if (digits.startsWith('0')) digits = '20' + digits.substring(1);
+                    else if (!digits.startsWith('20') && digits.length === 10) digits = '20' + digits;
+                    return digits;
+                };
+
+                // بناء نص رسالة الدرجة لولي الأمر من القالب القابل للتعديل
+                const buildGradeWhatsAppMessage = (g) => {
+                    const percentage = g.totalScore ? Math.round((parseFloat(g.score) / parseFloat(g.totalScore)) * 100) : '';
+                    return gradeMessageTemplate.value
+                        .replace(/\{name\}/g, g.studentName || '')
+                        .replace(/\{quiz\}/g, g.quizTitle || '')
+                        .replace(/\{score\}/g, g.score)
+                        .replace(/\{total\}/g, g.totalScore)
+                        .replace(/\{percentage\}/g, percentage);
+                };
+
+                // حفظ قالب الرسالة
+                const saveGradeMessageTemplate = () => {
+                    localStorage.setItem('gradeMessageTemplate', gradeMessageTemplate.value);
+                    alert('تم حفظ قالب الرسالة ✅');
+                };
+
+                // إرجاع القالب الافتراضي
+                const resetGradeMessageTemplate = () => {
+                    gradeMessageTemplate.value = DEFAULT_GRADE_TEMPLATE;
+                    localStorage.setItem('gradeMessageTemplate', DEFAULT_GRADE_TEMPLATE);
+                };
+
+                // ------------------------------------------------------------
+                // الاتصال بسيرفر واتساب (المستضاف على Railway)
+                // ------------------------------------------------------------
+
+                // رؤوس الطلب (تشمل مفتاح API لو محدد)
+                const waHeaders = () => {
+                    const headers = { 'Content-Type': 'application/json' };
+                    if (waApiKey.value) headers['x-api-key'] = waApiKey.value;
+                    return headers;
+                };
+
+                // جلب حالة الاتصال الحالية من السيرفر
+                const fetchWaStatus = async () => {
+                    if (!waServerUrl.value) { waConnectionStatus.value = 'disconnected'; return; }
+                    try {
+                        const res = await fetch(`${waServerUrl.value}/status`, { headers: waHeaders() });
+                        const data = await res.json();
+                        waConnectionStatus.value = data.connected ? 'ready' : (data.status || 'disconnected');
+                        if (data.connected) waQrImage.value = '';
+                    } catch (error) {
+                        waConnectionStatus.value = 'unreachable';
+                    }
+                };
+
+                // جلب كود QR الحالي من السيرفر (لو لسه مش متصل)
+                const fetchWaQr = async () => {
+                    if (!waServerUrl.value) return;
+                    try {
+                        const res = await fetch(`${waServerUrl.value}/qr`, { headers: waHeaders() });
+                        const data = await res.json();
+                        waQrImage.value = data.qr || '';
+                    } catch (error) {
+                        // تجاهل الخطأ، هيتحدث في المحاولة الجاية
+                    }
+                };
+
+                // تشغيل تحديث دوري لحالة الاتصال وكود QR
+                const startWaPolling = () => {
+                    if (waPollTimer) return; // شغال بالفعل
+                    waPollTimer = setInterval(async () => {
+                        await fetchWaStatus();
+                        if (waConnectionStatus.value !== 'ready') {
+                            await fetchWaQr();
+                        }
+                    }, 4000);
+                };
+
+                const stopWaPolling = () => {
+                    if (waPollTimer) { clearInterval(waPollTimer); waPollTimer = null; }
+                };
+
+                // حفظ إعدادات الاتصال (رابط السيرفر + مفتاح API) وبدء المتابعة
+                const saveWaConnectionSettings = async () => {
+                    if (!waServerUrl.value) {
+                        alert('الرجاء إدخال رابط السيرفر أولاً');
+                        return;
+                    }
+                    // إزالة أي / زيادة في آخر الرابط
+                    waServerUrl.value = waServerUrl.value.replace(/\/+$/, '');
+                    localStorage.setItem('waServerUrl', waServerUrl.value);
+                    localStorage.setItem('waApiKey', waApiKey.value);
+                    waConnecting.value = true;
+                    waConnectionStatus.value = 'checking';
+                    await fetchWaStatus();
+                    await fetchWaQr();
+                    waConnecting.value = false;
+                    startWaPolling();
+                };
+
+                // فصل الرقم المرتبط حاليًا (لربط رقم آخر)
+                const disconnectWa = async () => {
+                    if (!waServerUrl.value) return;
+                    if (!confirm('هل تريدين فصل رقم واتساب الحالي؟ ستحتاجين مسح QR جديد لربط رقم آخر')) return;
+                    try {
+                        await fetch(`${waServerUrl.value}/logout`, { method: 'POST', headers: waHeaders() });
+                        waConnectionStatus.value = 'disconnected';
+                        waQrImage.value = '';
+                        setTimeout(() => fetchWaQr(), 2000);
+                    } catch (error) {
+                        alert('تعذر فصل الاتصال، حاولي مرة أخرى');
+                    }
+                };
+
+                // محاولة الإرسال الفعلي عبر السيرفر (تلقائيًا بدون فتح أي نافذة)،
+                // وإذا لم يكن السيرفر متصلًا يتم الرجوع لفتح واتساب ويب يدويًا كحل بديل
+                const sendViaBackendOrFallback = async (phone, message) => {
+                    const digits = formatPhoneForWhatsApp(phone);
+                    if (waServerUrl.value && waConnectionStatus.value === 'ready') {
+                        try {
+                            const res = await fetch(`${waServerUrl.value}/send-message`, {
+                                method: 'POST',
+                                headers: waHeaders(),
+                                body: JSON.stringify({ phone: digits, message })
+                            });
+                            const data = await res.json();
+                            if (data.success) {
+                                playNotifySound();
+                                return true;
+                            }
+                        } catch (error) {
+                            console.error('WhatsApp backend send failed, falling back to wa.me', error);
+                        }
+                    }
+                    // الحل البديل: فتح واتساب ويب/التطبيق مع رسالة جاهزة يدويًا
+                    const url = `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
+                    window.open(url, '_blank');
+                    playNotifySound();
+                    return false;
+                };
+
+                // إرسال رسالة مخصصة حرة لولي أمر أي طالب من نفس القسم
+                const sendCustomMessage = async () => {
+                    const student = students.value.find(s => s.id === customMessageStudentId.value);
+                    if (!student) {
+                        alert('الرجاء اختيار طالب أولاً');
+                        return;
+                    }
+                    if (!student.parentPhone) {
+                        alert('لا يوجد رقم واتساب مسجل لولي أمر هذا الطالب');
+                        return;
+                    }
+                    if (!customMessageText.value.trim()) {
+                        alert('الرجاء كتابة نص الرسالة');
+                        return;
+                    }
+                    sendingCustomMessage.value = true;
+                    try {
+                        await sendViaBackendOrFallback(student.parentPhone, customMessageText.value.trim());
+                        customMessageText.value = '';
+                        showCustomMessageBox.value = false;
+                    } finally {
+                        sendingCustomMessage.value = false;
+                    }
+                };
+
+                // تحميل درجات اليوم (امتحان/كويز السنتر + كويز المنصة) الجاهزة للإرسال لأولياء الأمور
+                const loadTodaysGradesForSending = async () => {
+                    loadingTodaysGrades.value = true;
+                    try {
+                        const todayStr = new Date().toISOString().split('T')[0];
+
+                        const [centerSnap, mcqSnap] = await Promise.all([
+                            db.collection('grades').where('date', '==', todayStr).get(),
+                            db.collection('mcq-grades').where('date', '==', todayStr).get()
+                        ]);
+
+                        const findStudent = (studentId) => students.value.find(s => s.id === studentId);
+
+                        const centerGrades = centerSnap.docs.map(doc => {
+                            const data = doc.data();
+                            const student = findStudent(data.studentId);
+                            return {
+                                id: doc.id,
+                                source: 'center',
+                                studentId: data.studentId,
+                                studentName: data.studentName,
+                                quizTitle: data.quizTitle,
+                                score: data.score,
+                                totalScore: data.totalScore,
+                                parentPhone: student ? student.parentPhone : '',
+                                sentToParentAt: data.sentToParentAt || null
+                            };
+                        });
+
+                        const mcqGradesToday = mcqSnap.docs.map(doc => {
+                            const data = doc.data();
+                            const student = findStudent(data.studentId);
+                            return {
+                                id: doc.id,
+                                source: 'mcq',
+                                studentId: data.studentId,
+                                studentName: data.studentName,
+                                quizTitle: data.quizTitle,
+                                score: data.score,
+                                totalScore: data.totalScore,
+                                parentPhone: student ? student.parentPhone : '',
+                                sentToParentAt: data.sentToParentAt || null
+                            };
+                        });
+
+                        todaysGradesForSending.value = [...centerGrades, ...mcqGradesToday];
+                    } catch (error) {
+                        console.error('Error loading todays grades for sending:', error);
+                        todaysGradesForSending.value = [];
+                    } finally {
+                        loadingTodaysGrades.value = false;
+                    }
+
+                    // تحديث حالة اتصال واتساب أيضًا عند فتح القسم
+                    if (waServerUrl.value) {
+                        await fetchWaStatus();
+                        if (waConnectionStatus.value !== 'ready') await fetchWaQr();
+                        startWaPolling();
+                    }
+                };
+
+                // إرسال درجة طالب واحد إلى ولي الأمر عبر واتساب
+                const sendGradeToWhatsApp = async (g) => {
+                    if (!g.parentPhone) return;
+                    const message = buildGradeWhatsAppMessage(g);
+                    await sendViaBackendOrFallback(g.parentPhone, message);
+
+                    // تسجيل وقت الإرسال حتى لا تتكرر بالخطأ
+                    g.sentToParentAt = new Date().toISOString();
+                    try {
+                        const collectionName = g.source === 'mcq' ? 'mcq-grades' : 'grades';
+                        await db.collection(collectionName).doc(g.id).update({ sentToParentAt: g.sentToParentAt });
+                    } catch (error) {
+                        console.error('Error marking grade as sent:', error);
+                    }
+                };
+
+                // إرسال كل الدرجات الغير مُرسلة اليوم (بفاصل زمني بسيط بين كل رسالة وأخرى)
+                const sendAllTodaysGradesToWhatsApp = () => {
+                    const list = [...unsentTodaysGrades.value];
+                    list.forEach((g, index) => {
+                        setTimeout(() => sendGradeToWhatsApp(g), index * 1500);
+                    });
                 };
                 
                 const openFileViewer = (file) => {
@@ -9857,6 +11925,7 @@ const handleStudentLogin = async () => {
                         title: '',
                         url: '',
                         class: '',
+                        lecture: '',
                         description: '',
                         file: null,
                         filePreview: null
@@ -9903,6 +11972,7 @@ const handleStudentLogin = async () => {
                         maxAttempts: 1,
                         showAnswers: false,
                         questions: [],
+                        scheduledAt: '',
                         createdAt: new Date().toISOString().split('T')[0],
                         createdBy: ''
                     };
@@ -9950,6 +12020,7 @@ const handleStudentLogin = async () => {
             type: newContent.value.type,
             title: newContent.value.title,
             class: newContent.value.class,
+            lecture: (newContent.value.lecture && newContent.value.lecture.trim()) || 'عام',
             description: newContent.value.description,
             createdAt: new Date().toISOString().split('T')[0],
             createdBy: currentUser.value.uid
@@ -10140,6 +12211,7 @@ const handleStudentLogin = async () => {
                             maxAttempts: parseInt(newMCQQuiz.value.maxAttempts) || 1,
                             questions: [],
                             showAnswers: newMCQQuiz.value.showAnswers || false,
+                            scheduledAt: newMCQQuiz.value.scheduledAt || null,
                             createdAt: newMCQQuiz.value.createdAt || new Date().toISOString().split('T')[0],
                             createdBy: currentUser.value.uid
                         };
@@ -10442,6 +12514,12 @@ const saveGrade = async (student) => {
                         alert('بيانات الاختبار غير صالحة');
                         return;
                     }
+
+                    // التحقق من ميعاد النشر المجدول
+                    if (quiz.scheduledAt && new Date(quiz.scheduledAt).getTime() > Date.now()) {
+                        alert('هذا الاختبار لم يُنشر بعد، سيكون متاحًا في الميعاد المحدد.');
+                        return;
+                    }
                     
                     // التحقق من عدد المحاولات
                     const attempts = await getStudentAttempts(quiz.id);
@@ -10698,6 +12776,12 @@ const saveGrade = async (student) => {
             if (quiz.mcqVisible === false) {
                 console.log(`تم إخفاء الاختبار: ${quiz.title} (mcqVisible = false)`);
                 continue; // تخطي الاختبار المخفي
+            }
+
+            // 1.5 التحقق من ميعاد النشر المجدول
+            if (quiz.scheduledAt && new Date(quiz.scheduledAt).getTime() > Date.now()) {
+                console.log(`الاختبار مجدول ولم يحن وقته بعد: ${quiz.title}`);
+                continue; // لم يحن ميعاد نشر الاختبار بعد
             }
             
             // 2. التحقق من المحاولات المتبقية
@@ -10964,12 +13048,33 @@ onMounted(() => {
                     filteredStudentsForGrades,
                     organizedContent,
                     organizedStudentContent,
+                    teacherLectures,
+                    studentLectures,
+                    selectedLectureFilter,
+                    selectedStudentLectureFilter,
                     currentQuestion,
                     correctAnswers,
                     wrongAnswers,
                     skippedAnswers,
                     hasMoreAttempts,
                     filteredMCQGrades,
+                    teacherFilteredForumQuestions,
+                    unsentTodaysGrades,
+                    forumFilter,
+                    todaysGradesForSending,
+                    filteredTodaysGrades,
+                    gradeSourceFilter,
+                    loadingTodaysGrades,
+                    waServerUrl,
+                    waApiKey,
+                    waConnectionStatus,
+                    waQrImage,
+                    waConnecting,
+                    gradeMessageTemplate,
+                    showCustomMessageBox,
+                    customMessageStudentId,
+                    customMessageText,
+                    sendingCustomMessage,
                     hasCentralExamData,
                     hasInteractiveExamData,
                     centralExamStats,
@@ -10995,6 +13100,20 @@ onMounted(() => {
                     studentLogout,
                     openVideo,
                     closeVideo,
+                    showImageLightbox,
+                    lightboxImage,
+                    lightboxZoomed,
+                    openImageLightbox,
+                    closeImageLightbox,
+                    scrollToStudentForum,
+                    loadTodaysGradesForSending,
+                    sendGradeToWhatsApp,
+                    sendAllTodaysGradesToWhatsApp,
+                    saveWaConnectionSettings,
+                    disconnectWa,
+                    saveGradeMessageTemplate,
+                    resetGradeMessageTemplate,
+                    sendCustomMessage,
                     openFileViewer,
                     closeFileViewer,
                     closeAddContentModal,
@@ -11051,6 +13170,51 @@ onMounted(() => {
     getNotificationIcon,
     getNotificationTypeText,
     formatNotificationDate,
+    isQuizScheduledFuture,
+    formatScheduleDate,
+
+    // منتدى الأسئلة
+    showForumPanel,
+    forumQuestions,
+    forumUnansweredCount,
+    newQuestionText,
+    newQuestionImagePreview,
+    askingQuestion,
+    replyingToId,
+    replyText,
+    replyImagePreview,
+    sendingReply,
+    toggleForumPanel,
+    handleQuestionImageUpload,
+    cancelNewQuestionImage,
+    submitQuestion,
+    openReplyBox,
+    cancelReplyBox,
+    handleReplyImageUpload,
+    cancelReplyImage,
+    submitAnswer,
+    deleteForumQuestion,
+    formatForumDate,
+
+    // نظام الدردشة
+    showChatPanel,
+    chatConversations,
+    activeChatId,
+    activeChatName,
+    activeChatPhoto,
+    activeChatMessages,
+    chatInputText,
+    chatImagePreview,
+    sendingChatMessage,
+    chatUnreadTotal,
+    toggleChatPanel,
+    backToChatList,
+    openChatThread,
+    handleChatImageUpload,
+    cancelChatImage,
+    sendChatMessage,
+    formatChatTime,
+
     showMotivationModal,  // خاصية
     currentMotivation,
     motivationLoading,
