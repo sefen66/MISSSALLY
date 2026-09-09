@@ -5682,6 +5682,13 @@ input:focus {
     .header-action-label { display: none; }
     .header-mobile-toggle { display: none; }
 
+    /* الوضع الافتراضي (ديسكتوب): الأزرار جنب بعض في صف واحد */
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
     @media (max-width: 640px) {
         .header-more-btn { display: flex; }
         .header-mobile-toggle {
