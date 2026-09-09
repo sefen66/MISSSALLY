@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mrs Sally's educational platform</title>
+    <!-- PWA -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#7c3aed">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Mrs Sally">
+    <link rel="apple-touch-icon" href="./icon-192.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/11806/11806748.png" type="image/png">
@@ -4402,12 +4410,28 @@ input:focus {
             overflow-x: auto;
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            scrollbar-width: thin;
+            scrollbar-color: #a78bfa #f1f5f9;
+            padding-bottom: 6px;
         }
 
         .tabs-container::-webkit-scrollbar {
-            display: none;
+            display: block;
+            height: 8px;
+        }
+        .tabs-container::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        .tabs-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, #a78bfa, #8b5cf6);
+            border-radius: 10px;
+        }
+        .tabs-container::-webkit-scrollbar-thumb:hover {
+            background: #7c3aed;
+        }
+        .dark .tabs-container::-webkit-scrollbar-track {
+            background: #374151;
         }
 
         .tabs-nav {
@@ -5409,6 +5433,192 @@ input:focus {
     html:not(.dark) textarea:focus {
         background-color: #ffffff;
     }
+    /* ============================================================
+       تحسينات الموبايل للأقسام الجديدة (المنتدى / واتساب / المحاضرات / الكويزات)
+       ============================================================ */
+    @media (max-width: 640px) {
+        /* فلاتر المحاضرات ومصادر الدرجات - سطر أفقي قابل للسحب بدل التفاف مزدحم */
+        .lecture-tabs, .forum-filter-tabs {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 6px;
+        }
+        .lecture-tabs::-webkit-scrollbar, .forum-filter-tabs::-webkit-scrollbar { display: none; }
+        .lecture-tab { flex-shrink: 0; padding: 7px 14px; font-size: 12.5px; }
+
+        /* شبكات المنتدى وبطاقات الدرجات: عمود واحد بدل الشبكة */
+        .forum-grid, .wa-grades-list {
+            grid-template-columns: 1fr !important;
+        }
+        .wa-grade-card {
+            flex-direction: column;
+            align-items: stretch;
+            text-align: center;
+        }
+        .wa-grade-student { justify-content: center; }
+        .wa-send-btn { width: 100%; margin-top: 8px; }
+
+        /* بطاقة الاتصال بواتساب: عمود واحد للحقول */
+        .wa-connect-inputs {
+            grid-template-columns: 1fr !important;
+        }
+        .wa-connect-btn { width: 100%; }
+        .wa-qr-box img { width: 160px; height: 160px; }
+        .whatsapp-toolbar { flex-direction: column; align-items: stretch; }
+        .wa-send-all-btn, .wa-refresh-btn { width: 100%; text-align: center; }
+
+        /* رأس بطاقة الكويز أصغر على الموبايل */
+        .mcq-quiz-card-header { height: 90px; }
+        .mcq-quiz-card-header i { font-size: 2rem; }
+
+        /* المنتدى المدمج: حشو أقل */
+        .forum-section-header, .whatsapp-section-header { padding: 14px 16px; }
+        .forum-section-header h3, .whatsapp-section-header h3 { font-size: 1.05rem; }
+
+        /* اللوحة العائمة (الدردشة) تاخد الشاشة كلها على الموبايل */
+        .qa-panel {
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            max-width: none;
+            max-height: none;
+        }
+
+        /* الجداول: سكرول أفقي بدل تكسير التصميم */
+        table { min-width: 560px; }
+        .overflow-x-auto, table { -webkit-overflow-scrolling: touch; }
+
+        /* المودالات تاخد عرض الشاشة تقريبًا مع حشو أقل */
+        #addContentModal .p-6, #addMCQModal .p-6 { padding: 1rem; }
+        #addContentModal > div, #addMCQModal > div {
+            width: 95vw !important;
+            max-height: 92vh;
+            overflow-y: auto;
+        }
+
+        /* الأزرار العائمة (منتدى/دردشة) أصغر شوية وأقرب للحافة */
+        .notifications-toggle {
+            width: 44px;
+            height: 44px;
+        }
+
+        /* بطاقات لوحة التحكم الرئيسية */
+        .dashboard-stat-card { padding: 14px; }
+        .dashboard-stat-value { font-size: 1.5rem; }
+    }
+
+    /* ============================================================
+       لوحة التحكم الرئيسية (نظرة سريعة)
+       ============================================================ */
+    .dashboard-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+    .dashboard-stat-card {
+        background: white;
+        border: 1px solid #eef0f3;
+        border-radius: 16px;
+        padding: 18px;
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+    }
+    .dashboard-stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(15, 23, 42, 0.1); }
+    .dashboard-stat-card.no-click { cursor: default; }
+    .dashboard-stat-card.no-click:hover { transform: none; }
+    .dashboard-stat-card.has-alert {
+        border-color: #fca5a5;
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+    }
+    .dashboard-stat-icon {
+        width: 46px; height: 46px;
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        margin: 0 auto 10px;
+        font-size: 1.2rem;
+        color: white;
+    }
+    .dashboard-stat-icon.forum { background: linear-gradient(135deg, #7c3aed, #4f46e5); }
+    .dashboard-stat-icon.quiz { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .dashboard-stat-icon.live { background: linear-gradient(135deg, #10b981, #059669); }
+    .dashboard-stat-icon.grades { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+    .dashboard-stat-icon.chat { background: linear-gradient(135deg, #ec4899, #db2777); }
+    .dashboard-stat-icon.students { background: linear-gradient(135deg, #6366f1, #4338ca); }
+    .dashboard-stat-value { font-size: 1.9rem; font-weight: 800; color: #1e293b; }
+    .dashboard-stat-label { font-size: 12.5px; color: #64748b; margin-top: 4px; }
+
+    .dashboard-last-quiz-card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background: linear-gradient(135deg, #f5f3ff, #eef2ff);
+        border-radius: 16px;
+        padding: 18px 20px;
+    }
+    .dashboard-last-quiz-icon {
+        width: 48px; height: 48px; border-radius: 50%;
+        background: white; color: #6366f1;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.3rem; flex-shrink: 0;
+    }
+    .dashboard-last-quiz-title { font-weight: 700; color: #312e81; font-size: 14.5px; }
+    .dashboard-last-quiz-sub { font-size: 12px; color: #64748b; margin-top: 2px; }
+    .dashboard-last-quiz-percentage {
+        margin-right: auto;
+        font-size: 1.6rem;
+        font-weight: 800;
+        padding: 6px 16px;
+        border-radius: 12px;
+    }
+    .dashboard-last-quiz-percentage.high { background: #dcfce7; color: #15803d; }
+    .dashboard-last-quiz-percentage.mid { background: #fef3c7; color: #b45309; }
+    .dashboard-last-quiz-percentage.low { background: #fee2e2; color: #b91c1c; }
+    .dashboard-empty-hint {
+        text-align: center;
+        color: #94a3b8;
+        font-size: 13px;
+        padding: 20px;
+    }
+    .dashboard-enable-notify-btn {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 3px 10px rgba(245, 158, 11, 0.3);
+    }
+    .dashboard-notify-active {
+        color: #15803d;
+        background: #dcfce7;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 12.5px;
+        font-weight: 700;
+    }
+    .dashboard-install-btn {
+        background: linear-gradient(135deg, #6366f1, #4338ca);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
+    }
+
+    @media (max-width: 400px) {
+        .wa-qr-box img { width: 140px; height: 140px; }
+        .lecture-tab { font-size: 11.5px; padding: 6px 11px; }
+    }
     </style>
 </head>
 <body class="dark:bg-gray-900 dark:text-white">
@@ -5782,6 +5992,14 @@ input:focus {
                     <div class="border-b border-gray-200 mb-6">
                         <div class="tabs-container">
                             <nav class="tabs-nav -mb-px flex space-x-8">
+                                <button @click="teacherActiveTab = 'overview'" 
+                                        :class="{ 
+                                            'border-purple-600 text-purple-700 bg-purple-50 font-bold': teacherActiveTab === 'overview', 
+                                            'border-transparent text-gray-700 hover:text-black hover:border-gray-400': teacherActiveTab !== 'overview' 
+                                        }" 
+                                        class="tab-button whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm transition-all duration-300 ease-in-out rounded-t-lg">
+                                    <i class="fas fa-house mr-1"></i> الرئيسية
+                                </button>
                                 <button @click="teacherActiveTab = 'students'" 
                                         :class="{ 
                                             'border-purple-600 text-purple-700 bg-purple-50 font-bold': teacherActiveTab === 'students', 
@@ -5855,6 +6073,77 @@ input:focus {
                         </div>
                     </div>
                     
+                    <!-- Overview / Dashboard Tab -->
+                    <div class="bg-white rounded-xl shadow overflow-hidden mb-8 dashboard-overview" v-show="teacherActiveTab === 'overview'">
+                        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center flex-wrap gap-3">
+                            <h3 class="text-lg font-medium text-gray-900"><i class="fas fa-house mr-2"></i> نظرة سريعة على اليوم</h3>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <button v-if="showInstallButton" @click="installApp" class="dashboard-install-btn">
+                                    <i class="fas fa-download mr-1"></i> تثبيت التطبيق
+                                </button>
+                                <button v-if="notificationPermission !== 'granted'" @click="requestNotificationPermission" class="dashboard-enable-notify-btn">
+                                    <i class="fas fa-bell mr-1"></i> تفعيل تنبيهات فورية
+                                </button>
+                                <span v-else class="dashboard-notify-active">
+                                    <i class="fas fa-bell mr-1"></i> التنبيهات الفورية مفعّلة
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="dashboard-stats-grid">
+                                <div class="dashboard-stat-card" :class="{ 'has-alert': dashboardPendingForumCount > 0 }" @click="teacherActiveTab = 'forum'">
+                                    <div class="dashboard-stat-icon forum"><i class="fas fa-comments"></i></div>
+                                    <div class="dashboard-stat-value">{{ dashboardPendingForumCount }}</div>
+                                    <div class="dashboard-stat-label">سؤال بانتظار الرد</div>
+                                </div>
+
+                                <div class="dashboard-stat-card" @click="teacherActiveTab = 'mcq-quizzes'">
+                                    <div class="dashboard-stat-icon quiz"><i class="fas fa-clock-rotate-left"></i></div>
+                                    <div class="dashboard-stat-value">{{ dashboardScheduledQuizzesCount }}</div>
+                                    <div class="dashboard-stat-label">اختبار مجدول للنشر</div>
+                                </div>
+
+                                <div class="dashboard-stat-card" @click="teacherActiveTab = 'mcq-quizzes'">
+                                    <div class="dashboard-stat-icon live"><i class="fas fa-circle-play"></i></div>
+                                    <div class="dashboard-stat-value">{{ dashboardLiveQuizzesCount }}</div>
+                                    <div class="dashboard-stat-label">اختبار منشور حاليًا</div>
+                                </div>
+
+                                <div class="dashboard-stat-card" @click="teacherActiveTab = 'send-grades'">
+                                    <div class="dashboard-stat-icon grades"><i class="fas fa-clipboard-check"></i></div>
+                                    <div class="dashboard-stat-value">{{ dashboardTodaysGradesCount }}</div>
+                                    <div class="dashboard-stat-label">درجة مسجّلة اليوم</div>
+                                </div>
+
+                                <div class="dashboard-stat-card" :class="{ 'has-alert': dashboardUnreadChatsCount > 0 }" @click="teacherActiveTab = 'students'">
+                                    <div class="dashboard-stat-icon chat"><i class="fas fa-message"></i></div>
+                                    <div class="dashboard-stat-value">{{ dashboardUnreadChatsCount }}</div>
+                                    <div class="dashboard-stat-label">رسالة دردشة غير مقروءة</div>
+                                </div>
+
+                                <div class="dashboard-stat-card no-click">
+                                    <div class="dashboard-stat-icon students"><i class="fas fa-user-graduate"></i></div>
+                                    <div class="dashboard-stat-value">{{ students.length }}</div>
+                                    <div class="dashboard-stat-label">إجمالي عدد الطلاب</div>
+                                </div>
+                            </div>
+
+                            <div v-if="dashboardLastQuizAverage" class="dashboard-last-quiz-card">
+                                <div class="dashboard-last-quiz-icon"><i class="fas fa-chart-line"></i></div>
+                                <div>
+                                    <div class="dashboard-last-quiz-title">متوسط آخر اختبار: {{ dashboardLastQuizAverage.title }}</div>
+                                    <div class="dashboard-last-quiz-sub">{{ dashboardLastQuizAverage.count }} طالب/ة صحّحوا الاختبار</div>
+                                </div>
+                                <div class="dashboard-last-quiz-percentage" :class="{ low: dashboardLastQuizAverage.average < 50, mid: dashboardLastQuizAverage.average >= 50 && dashboardLastQuizAverage.average < 75, high: dashboardLastQuizAverage.average >= 75 }">
+                                    {{ dashboardLastQuizAverage.average }}%
+                                </div>
+                            </div>
+                            <div v-else class="dashboard-empty-hint">
+                                <i class="fas fa-info-circle mr-1"></i> لا توجد نتائج اختبارات تفاعلية مسجلة بعد
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Students Tab -->
                     <div class="bg-white rounded-xl shadow overflow-hidden mb-8" v-show="teacherActiveTab === 'students'">
                         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
@@ -6852,6 +7141,9 @@ input:focus {
                 </div>
             </div>
             <div class="flex items-center space-x-4 space-x-reverse">
+                <button v-if="showInstallButton" @click="installApp" class="notifications-toggle relative" title="تثبيت التطبيق">
+                    <i class="fas fa-download"></i>
+                </button>
                 <button @click="scrollToStudentForum" class="notifications-toggle relative" title="منتدى الأسئلة">
                     <i class="fas fa-question-circle"></i>
                 </button>
@@ -9827,7 +10119,7 @@ const chartsCleanup = ref(false);
 
                 
                 // Dashboard state
-                const teacherActiveTab = ref('students');
+                const teacherActiveTab = ref('overview');
                 const studentSearch = ref('');
                 const showAddContentModal = ref(false);
                 const showAddStudentModal = ref(false);
@@ -10117,6 +10409,40 @@ const chartsCleanup = ref(false);
                 const unsentTodaysGrades = computed(() => {
                     return filteredTodaysGrades.value.filter(g => g.parentPhone && !g.sentToParentAt);
                 });
+
+                // ==================== إحصائيات لوحة التحكم الرئيسية ====================
+                const dashboardPendingForumCount = computed(() => {
+                    return forumQuestions.value.filter(q => !q.answered).length;
+                });
+
+                const dashboardScheduledQuizzesCount = computed(() => {
+                    return mcqQuizzes.value.filter(q => isQuizScheduledFuture(q)).length;
+                });
+
+                const dashboardLiveQuizzesCount = computed(() => {
+                    return mcqQuizzes.value.filter(q => !isQuizScheduledFuture(q)).length;
+                });
+
+                // متوسط درجات آخر اختبار تم تسجيل نتائجه (من كويز المنصة)
+                const dashboardLastQuizAverage = computed(() => {
+                    if (!mcqGrades.value.length) return null;
+                    const sorted = [...mcqGrades.value].sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
+                    const lastQuizTitle = sorted[0].quizTitle;
+                    const lastQuizGrades = mcqGrades.value.filter(g => g.quizTitle === lastQuizTitle);
+                    if (!lastQuizGrades.length) return null;
+                    const totalPercentage = lastQuizGrades.reduce((sum, g) => {
+                        const pct = g.totalScore ? (parseFloat(g.score) / parseFloat(g.totalScore)) * 100 : 0;
+                        return sum + pct;
+                    }, 0);
+                    return {
+                        title: lastQuizTitle,
+                        average: Math.round(totalPercentage / lastQuizGrades.length),
+                        count: lastQuizGrades.length
+                    };
+                });
+
+                const dashboardTodaysGradesCount = computed(() => todaysGradesForSending.value.length);
+                const dashboardUnreadChatsCount = computed(() => chatUnreadTotal.value);
 
                 // تقسيم الدرجات المعروضة إلى مجموعات حسب اسم الامتحان + تاريخه + المصدر،
                 // مع إحصائيات لكل مجموعة (نسبة الإرسال، المتوسط، عدد بدون رقم)
@@ -11019,8 +11345,10 @@ const toggleForumPanel = () => {
     }
 };
 
+let forumInitialLoadDone = false;
 const listenForumQuestions = () => {
     if (forumUnsub) { forumUnsub(); forumUnsub = null; }
+    forumInitialLoadDone = false;
     let query;
     if (isStudentLoggedIn.value && currentStudent.value && currentStudent.value.id) {
         query = db.collection('forum_questions')
@@ -11030,7 +11358,16 @@ const listenForumQuestions = () => {
         query = db.collection('forum_questions').orderBy('createdAt', 'desc');
     }
     forumUnsub = query.onSnapshot((snapshot) => {
+        if (isLoggedIn.value && forumInitialLoadDone) {
+            snapshot.docChanges().forEach(change => {
+                if (change.type === 'added') {
+                    const q = change.doc.data();
+                    notifyTeacher('سؤال جديد من ' + (q.studentName || 'طالب'), q.question || 'اضغطي لعرض السؤال');
+                }
+            });
+        }
         forumQuestions.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        forumInitialLoadDone = true;
     }, (error) => {
         console.error('Error listening to forum questions:', error);
     });
@@ -11074,6 +11411,7 @@ const submitQuestion = async () => {
             answeredAt: null,
             answeredByName: null
         });
+        triggerServerPush('سؤال جديد من ' + currentStudent.value.name, newQuestionText.value.trim() || 'صورة سؤال جديدة');
         newQuestionText.value = '';
         cancelNewQuestionImage();
     } catch (error) {
@@ -11177,13 +11515,28 @@ const backToChatList = () => {
 };
 
 // المعلمة: الاستماع لجميع محادثات الطلاب لحظياً
+let chatUnreadPrev = {};
+let chatInitialLoadDone = false;
 const listenChatConversations = () => {
     if (chatConversationsUnsub) { chatConversationsUnsub(); chatConversationsUnsub = null; }
+    chatInitialLoadDone = false;
+    chatUnreadPrev = {};
     chatConversationsUnsub = db.collection('chats')
         .orderBy('lastMessageAt', 'desc')
         .onSnapshot((snapshot) => {
-            chatConversations.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            chatUnreadTotal.value = chatConversations.value.reduce((sum, c) => sum + (c.unreadByTeacher || 0), 0);
+            const newList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            if (chatInitialLoadDone) {
+                newList.forEach(c => {
+                    const prevCount = chatUnreadPrev[c.id] || 0;
+                    if ((c.unreadByTeacher || 0) > prevCount) {
+                        notifyTeacher('رسالة جديدة من ' + (c.studentName || 'طالب'), c.lastMessage || 'اضغطي لعرض الرسالة');
+                    }
+                });
+            }
+            newList.forEach(c => { chatUnreadPrev[c.id] = c.unreadByTeacher || 0; });
+            chatConversations.value = newList;
+            chatUnreadTotal.value = newList.reduce((sum, c) => sum + (c.unreadByTeacher || 0), 0);
+            chatInitialLoadDone = true;
         }, (error) => {
             console.error('Error listening to chat conversations:', error);
         });
@@ -11314,6 +11667,10 @@ const sendChatMessage = async () => {
             lastSenderType: myRole,
             [unreadField]: firebase.firestore.FieldValue.increment(1)
         }, { merge: true });
+
+        if (myRole === 'student') {
+            triggerServerPush('رسالة جديدة من ' + senderName, messageText || '📷 صورة');
+        }
 
         chatInputText.value = '';
         cancelChatImage();
@@ -11730,6 +12087,7 @@ const cleanupCharts = () => {
             // تشغيل مستمعات المنتدى والدردشة اللحظية
             listenForumQuestions();
             listenChatConversations();
+            listenTodaysMcqGradesLive();
              
             
         } else {
@@ -11788,6 +12146,7 @@ const handleStudentLogin = async (codeParam) => {
                        loadLastMotivation();
             listenForumQuestions();
             listenStudentChatBadge();
+            loadWaSettingsFromCloud();
         } else {
             studentLoginError.value = 'كود الطالب غير صحيح';
         }
@@ -11809,6 +12168,7 @@ const handleStudentLogin = async (codeParam) => {
                         if (forumUnsub) { forumUnsub(); forumUnsub = null; }
                         if (chatConversationsUnsub) { chatConversationsUnsub(); chatConversationsUnsub = null; }
                         if (chatMessagesUnsub) { chatMessagesUnsub(); chatMessagesUnsub = null; }
+                        stopListenTodaysMcqGradesLive();
                         showChatPanel.value = false;
                         showForumPanel.value = false;
                         activeChatId.value = null;
@@ -11881,6 +12241,178 @@ const handleStudentLogin = async (codeParam) => {
                         oscillator.start();
                         oscillator.stop(ctx.currentTime + 0.35);
                     } catch (e) { /* الصوت اختياري ولا يوقف باقي العملية */ }
+                };
+
+                // صوت تنبيه مميز (نغمتين) للأحداث الفورية الجديدة (سؤال/رسالة/نتيجة اختبار)
+                const playAlertSound = () => {
+                    try {
+                        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                        [740, 1040].forEach((freq, i) => {
+                            const oscillator = ctx.createOscillator();
+                            const gain = ctx.createGain();
+                            oscillator.connect(gain);
+                            gain.connect(ctx.destination);
+                            oscillator.type = 'sine';
+                            oscillator.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.16);
+                            gain.gain.setValueAtTime(0.16, ctx.currentTime + i * 0.16);
+                            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.16 + 0.3);
+                            oscillator.start(ctx.currentTime + i * 0.16);
+                            oscillator.stop(ctx.currentTime + i * 0.16 + 0.3);
+                        });
+                    } catch (e) { /* الصوت اختياري */ }
+                };
+
+                // تنبيه فوري شامل للمعلمة: صوت + إشعار متصفح (يعمل حتى لو التبويب في الخلفية)
+                const notifyTeacher = (title, body) => {
+                    playAlertSound();
+                    try {
+                        if (window.Notification && Notification.permission === 'granted') {
+                            const n = new Notification(title, {
+                                body: body ? String(body).substring(0, 120) : '',
+                                icon: '/icon-192.png',
+                                tag: 'sally-live-alert-' + Date.now()
+                            });
+                            n.onclick = () => { window.focus(); n.close(); };
+                        }
+                    } catch (e) { /* الإشعار اختياري */ }
+                };
+
+                // ==================== تثبيت التطبيق (PWA) ====================
+                let deferredInstallPrompt = null;
+                const showInstallButton = ref(false);
+                const isAppInstalled = ref(window.matchMedia('(display-mode: standalone)').matches);
+
+                window.addEventListener('beforeinstallprompt', (event) => {
+                    event.preventDefault();
+                    deferredInstallPrompt = event;
+                    showInstallButton.value = true;
+                });
+
+                window.addEventListener('appinstalled', () => {
+                    showInstallButton.value = false;
+                    isAppInstalled.value = true;
+                });
+
+                const installApp = async () => {
+                    if (!deferredInstallPrompt) return;
+                    deferredInstallPrompt.prompt();
+                    await deferredInstallPrompt.userChoice;
+                    deferredInstallPrompt = null;
+                    showInstallButton.value = false;
+                };
+
+                // طلب إذن إشعارات المتصفح من المعلمة (مرة واحدة)
+                const notificationPermission = ref(
+                    (window.Notification && Notification.permission) || 'default'
+                );
+                // ============================================================
+                // إشعارات Push حقيقية (تصل حتى لو الموقع مقفول تمامًا)
+                // ============================================================
+                const VAPID_PUBLIC_KEY = 'BO4W91f7W5EI1E4MnyKlwi7EDWpl_8juFJzniml3-Ltpy2u4bCUzwdFsxH037zfNuTQC5NUnrTh2t_pnK5KazDU';
+                const teacherPushSubscriptions = ref([]);
+
+                const urlBase64ToUint8Array = (base64String) => {
+                    const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+                    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+                    const rawData = window.atob(base64);
+                    return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+                };
+
+                // اشتراك جهاز المعلمة في استقبال Push، وحفظ الاشتراك في قاعدة البيانات
+                const subscribeToPushNotifications = async () => {
+                    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+                    try {
+                        const registration = await navigator.serviceWorker.ready;
+                        let subscription = await registration.pushManager.getSubscription();
+                        if (!subscription) {
+                            subscription = await registration.pushManager.subscribe({
+                                userVisibleOnly: true,
+                                applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+                            });
+                        }
+                        const subJson = subscription.toJSON();
+                        const doc = await db.collection('settings').doc('whatsappBridge').get();
+                        const existing = (doc.exists && doc.data().pushSubscriptions) || [];
+                        const alreadySaved = existing.some(s => s.endpoint === subJson.endpoint);
+                        if (!alreadySaved) {
+                            existing.push(subJson);
+                            await db.collection('settings').doc('whatsappBridge').set({
+                                pushSubscriptions: existing
+                            }, { merge: true });
+                        }
+                        teacherPushSubscriptions.value = existing;
+                    } catch (error) {
+                        console.error('تعذر تفعيل اشتراك Push:', error);
+                    }
+                };
+
+                // استدعاء السيرفر لإرسال Push حقيقي لكل أجهزة المعلمة المشتركة
+                // (تُستدعى من متصفح الطالب مباشرة بعد أي حدث جديد)
+                const triggerServerPush = async (title, body) => {
+                    try {
+                        if (!waServerUrl.value) return;
+                        let subscriptions = teacherPushSubscriptions.value;
+                        if (!subscriptions.length) {
+                            const doc = await db.collection('settings').doc('whatsappBridge').get();
+                            subscriptions = (doc.exists && doc.data().pushSubscriptions) || [];
+                        }
+                        if (!subscriptions.length) return;
+                        const headers = { 'Content-Type': 'application/json' };
+                        if (waApiKey.value) headers['x-api-key'] = waApiKey.value;
+                        await Promise.all(subscriptions.map(sub =>
+                            fetch(`${waServerUrl.value}/send-push`, {
+                                method: 'POST',
+                                headers,
+                                body: JSON.stringify({ subscription: sub, title, body })
+                            }).catch(() => {})
+                        ));
+                    } catch (error) {
+                        console.error('تعذر إرسال Push عبر السيرفر:', error);
+                    }
+                };
+
+                const requestNotificationPermission = async () => {
+                    if (!window.Notification) {
+                        alert('متصفحك لا يدعم إشعارات سطح المكتب');
+                        return;
+                    }
+                    const result = await Notification.requestPermission();
+                    notificationPermission.value = result;
+                    if (result === 'granted') {
+                        notifyTeacher('تم تفعيل التنبيهات ✅', 'هتوصلك تنبيهات فورية لأي سؤال أو رسالة أو نتيجة اختبار جديدة');
+                        await subscribeToPushNotifications();
+                    }
+                };
+
+                // الاستماع لدرجات كويز المنصة الجديدة اليوم (تنبيه فوري عند انتهاء أي طالب من اختبار)
+                let mcqGradesLiveUnsub = null;
+                let mcqGradesLiveInitialLoadDone = false;
+                const listenTodaysMcqGradesLive = () => {
+                    if (mcqGradesLiveUnsub) { mcqGradesLiveUnsub(); mcqGradesLiveUnsub = null; }
+                    mcqGradesLiveInitialLoadDone = false;
+                    const todayStr = new Date().toISOString().split('T')[0];
+                    mcqGradesLiveUnsub = db.collection('mcq-grades')
+                        .where('date', '==', todayStr)
+                        .onSnapshot((snapshot) => {
+                            if (mcqGradesLiveInitialLoadDone) {
+                                snapshot.docChanges().forEach(change => {
+                                    if (change.type === 'added') {
+                                        const g = change.doc.data();
+                                        const pct = g.totalScore ? Math.round((parseFloat(g.score) / parseFloat(g.totalScore)) * 100) : '';
+                                        notifyTeacher(
+                                            'انتهى ' + (g.studentName || 'طالب') + ' من اختبار',
+                                            (g.quizTitle || '') + (pct !== '' ? ' - ' + pct + '%' : '')
+                                        );
+                                    }
+                                });
+                            }
+                            mcqGradesLiveInitialLoadDone = true;
+                        }, (error) => {
+                            console.error('Error listening to live mcq grades:', error);
+                        });
+                };
+                const stopListenTodaysMcqGradesLive = () => {
+                    if (mcqGradesLiveUnsub) { mcqGradesLiveUnsub(); mcqGradesLiveUnsub = null; }
                 };
 
                 // تحويل رقم الهاتف المصري المحلي إلى صيغة دولية لواتساب (wa.me)
@@ -11980,6 +12512,9 @@ const handleStudentLogin = async (codeParam) => {
                             if (data.apiKey && !waApiKey.value) {
                                 waApiKey.value = data.apiKey;
                                 localStorage.setItem('waApiKey', data.apiKey);
+                            }
+                            if (data.pushSubscriptions) {
+                                teacherPushSubscriptions.value = data.pushSubscriptions;
                             }
                         }
                     } catch (error) {
@@ -13016,6 +13551,10 @@ const saveGrade = async (student) => {
                         });
                         
                         await updateStudentAverageGrade(studentId);
+                        triggerServerPush(
+                            'انتهى ' + currentStudent.value.name + ' من اختبار',
+                            currentMCQQuiz.value.title + ' - ' + percentage.toFixed(0) + '%'
+                        );
                     } catch (error) {
                         console.error('Error updating student MCQ grade:', error);
                     }
@@ -13387,6 +13926,17 @@ onMounted(() => {
                     filteredMCQGrades,
                     teacherFilteredForumQuestions,
                     unsentTodaysGrades,
+                    dashboardPendingForumCount,
+                    dashboardScheduledQuizzesCount,
+                    dashboardLiveQuizzesCount,
+                    dashboardLastQuizAverage,
+                    dashboardTodaysGradesCount,
+                    dashboardUnreadChatsCount,
+                    notificationPermission,
+                    showInstallButton,
+                    isAppInstalled,
+                    installApp,
+                    requestNotificationPermission,
                     forumFilter,
                     todaysGradesForSending,
                     filteredTodaysGrades,
@@ -13577,6 +14127,17 @@ onMounted(() => {
             
         }).mount('#app');
         
+    </script>
+
+    <!-- تسجيل Service Worker لتفعيل خاصية التطبيق (PWA) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then((reg) => console.log('Service Worker مسجّل بنجاح ✅', reg.scope))
+                    .catch((err) => console.warn('تعذر تسجيل Service Worker:', err));
+            });
+        }
     </script>
 
     
