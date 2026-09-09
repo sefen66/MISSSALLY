@@ -5658,6 +5658,10 @@ input:focus {
         cursor: pointer;
         flex-shrink: 0;
     }
+    .header-inline-toggle {
+        margin-left: 8px;
+        flex-shrink: 0;
+    }
     .dark .header-more-btn {
         background: rgba(255, 255, 255, 0.08);
         border-color: rgba(255, 255, 255, 0.15);
@@ -5956,6 +5960,41 @@ input:focus {
                                     <p class="text-xs text-gray-500 teacher-title">professional English teacher</p>
                                 </div>
                             </div>
+
+                            <!-- زر BB-8 لتبديل الوضع الداكن - بجانب زر المزيد مباشرة -->
+                            <label class="bb8-toggle header-inline-toggle">
+                                <input class="bb8-toggle__checkbox" type="checkbox" @change="toggleDarkMode">
+                                <div class="bb8-toggle__container">
+                                    <div class="bb8-toggle__scenery">
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="tatto-1"></div>
+                                        <div class="tatto-2"></div>
+                                        <div class="gomrassen"></div>
+                                        <div class="hermes"></div>
+                                        <div class="chenini"></div>
+                                        <div class="bb8-toggle__cloud"></div>
+                                        <div class="bb8-toggle__cloud"></div>
+                                        <div class="bb8-toggle__cloud"></div>
+                                    </div>
+                                    <div class="bb8">
+                                        <div class="bb8__head-container">
+                                            <div class="bb8__antenna"></div>
+                                            <div class="bb8__antenna"></div>
+                                            <div class="bb8__head"></div>
+                                        </div>
+                                        <div class="bb8__body"></div>
+                                    </div>
+                                    <div class="artificial__hidden">
+                                        <div class="bb8__shadow"></div>
+                                    </div>
+                                </div>
+                            </label>
 
                             <!-- زر "المزيد" - يظهر فقط على الموبايل عشان الصورة تفضل باينة -->
                             <button class="header-more-btn" @click="showTeacherHeaderMenu = !showTeacherHeaderMenu">
@@ -7266,11 +7305,54 @@ input:focus {
                 </div>
             </div>
 
+            <!-- زر الإشعارات - بجانب زر المزيد مباشرة -->
+            <button @click="toggleNotifications" class="notifications-toggle relative header-inline-toggle">
+                <i class="fas fa-bell"></i>
+                <span v-if="unreadNotificationsCount > 0" class="notification-badge absolute -top-1 -right-1">
+                    {{ unreadNotificationsCount }}
+                </span>
+            </button>
+
+            <!-- زر BB-8 لتبديل الوضع الداكن - بجانب زر المزيد مباشرة -->
+            <label class="bb8-toggle header-inline-toggle">
+                <input class="bb8-toggle__checkbox" type="checkbox" @change="toggleDarkMode">
+                <div class="bb8-toggle__container">
+                    <div class="bb8-toggle__scenery">
+                        <div class="bb8-toggle__star"></div>
+                        <div class="bb8-toggle__star"></div>
+                        <div class="bb8-toggle__star"></div>
+                        <div class="bb8-toggle__star"></div>
+                        <div class="bb8-toggle__star"></div>
+                        <div class="bb8-toggle__star"></div>
+                        <div class="bb8-toggle__star"></div>
+                        <div class="tatto-1"></div>
+                        <div class="tatto-2"></div>
+                        <div class="gomrassen"></div>
+                        <div class="hermes"></div>
+                        <div class="chenini"></div>
+                        <div class="bb8-toggle__cloud"></div>
+                        <div class="bb8-toggle__cloud"></div>
+                        <div class="bb8-toggle__cloud"></div>
+                    </div>
+                    <div class="bb8">
+                        <div class="bb8__head-container">
+                            <div class="bb8__antenna"></div>
+                            <div class="bb8__antenna"></div>
+                            <div class="bb8__head"></div>
+                        </div>
+                        <div class="bb8__body"></div>
+                    </div>
+                    <div class="artificial__hidden">
+                        <div class="bb8__shadow"></div>
+                    </div>
+                </div>
+            </label>
+
             <!-- زر "المزيد" - يظهر فقط على الموبايل عشان الصورة تفضل باينة -->
             <button class="header-more-btn" @click="showStudentHeaderMenu = !showStudentHeaderMenu">
                 <i class="fas fa-ellipsis-vertical"></i>
-                <span v-if="(chatUnreadTotal + unreadNotificationsCount) > 0" class="notification-badge header-more-badge">
-                    {{ chatUnreadTotal + unreadNotificationsCount }}
+                <span v-if="chatUnreadTotal > 0" class="notification-badge header-more-badge">
+                    {{ chatUnreadTotal }}
                 </span>
             </button>
 
