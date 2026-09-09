@@ -5680,9 +5680,23 @@ input:focus {
         justify-content: center;
     }
     .header-action-label { display: none; }
+    .header-mobile-toggle { display: none; }
 
     @media (max-width: 640px) {
         .header-more-btn { display: flex; }
+        .header-mobile-toggle {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+        label.bb8-toggle.header-mobile-toggle {
+            transform: scale(0.75);
+            transform-origin: center;
+        }
+        .header-actions .hide-on-mobile-menu {
+            display: none !important;
+        }
 
         /* backdrop-filter على الهيدر بيخلّيه containing block لأي عنصر fixed/absolute
            جواه، فلازم نلغي overflow:hidden هنا عشان القائمة متتقصّش */
@@ -5957,6 +5971,41 @@ input:focus {
                                 </div>
                             </div>
 
+                            <!-- زر BB-8 لتبديل الوضع الداكن - نسخة الموبايل، ظاهرة جنب ⋮ فقط على الهاتف -->
+                            <label class="bb8-toggle header-mobile-toggle">
+                                <input class="bb8-toggle__checkbox" type="checkbox" @change="toggleDarkMode">
+                                <div class="bb8-toggle__container">
+                                    <div class="bb8-toggle__scenery">
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="bb8-toggle__star"></div>
+                                        <div class="tatto-1"></div>
+                                        <div class="tatto-2"></div>
+                                        <div class="gomrassen"></div>
+                                        <div class="hermes"></div>
+                                        <div class="chenini"></div>
+                                        <div class="bb8-toggle__cloud"></div>
+                                        <div class="bb8-toggle__cloud"></div>
+                                        <div class="bb8-toggle__cloud"></div>
+                                    </div>
+                                    <div class="bb8">
+                                        <div class="bb8__head-container">
+                                            <div class="bb8__antenna"></div>
+                                            <div class="bb8__antenna"></div>
+                                            <div class="bb8__head"></div>
+                                        </div>
+                                        <div class="bb8__body"></div>
+                                    </div>
+                                    <div class="artificial__hidden">
+                                        <div class="bb8__shadow"></div>
+                                    </div>
+                                </div>
+                            </label>
+
                             <!-- زر "المزيد" - يظهر فقط على الموبايل عشان الصورة تفضل باينة -->
                             <button class="header-more-btn" @click="showTeacherHeaderMenu = !showTeacherHeaderMenu">
                                 <i class="fas fa-ellipsis-vertical"></i>
@@ -5982,8 +6031,8 @@ input:focus {
                                     <span class="header-action-label">الدردشة مع الطلاب</span>
                                 </button>
 
-                                <!-- زر BB-8 لتبديل الوضع الداكن -->
-                                <label class="bb8-toggle">
+                                <!-- زر BB-8 لتبديل الوضع الداكن - نسخة الديسكتوب، تختفي داخل قائمة الموبايل -->
+                                <label class="bb8-toggle hide-on-mobile-menu">
                                     <input class="bb8-toggle__checkbox" type="checkbox" @change="toggleDarkMode">
                                     <div class="bb8-toggle__container">
                                         <div class="bb8-toggle__scenery">
@@ -7300,11 +7349,54 @@ input:focus {
                 </div>
             </div>
 
+            <!-- زر الإشعارات - نسخة الموبايل، ظاهرة جنب ⋮ فقط على الهاتف -->
+            <button @click="toggleNotifications" class="notifications-toggle relative header-mobile-toggle">
+                <i class="fas fa-bell"></i>
+                <span v-if="unreadNotificationsCount > 0" class="notification-badge absolute -top-1 -right-1">
+                    {{ unreadNotificationsCount }}
+                </span>
+            </button>
+
+            <!-- زر BB-8 لتبديل الوضع الداكن - نسخة الموبايل، ظاهرة جنب ⋮ فقط على الهاتف -->
+            <label class="bb8-toggle header-mobile-toggle">
+                <input class="bb8-toggle__checkbox" type="checkbox" @change="toggleDarkMode">
+                <div class="bb8-toggle__container">
+                    <div class="bb8-toggle__scenery">
+                        <div class="bb8-toggle__star"></div>
+                        <div class="bb8-toggle__star"></div>
+                        <div class="bb8-toggle__star"></div>
+                        <div class="bb8-toggle__star"></div>
+                        <div class="bb8-toggle__star"></div>
+                        <div class="bb8-toggle__star"></div>
+                        <div class="bb8-toggle__star"></div>
+                        <div class="tatto-1"></div>
+                        <div class="tatto-2"></div>
+                        <div class="gomrassen"></div>
+                        <div class="hermes"></div>
+                        <div class="chenini"></div>
+                        <div class="bb8-toggle__cloud"></div>
+                        <div class="bb8-toggle__cloud"></div>
+                        <div class="bb8-toggle__cloud"></div>
+                    </div>
+                    <div class="bb8">
+                        <div class="bb8__head-container">
+                            <div class="bb8__antenna"></div>
+                            <div class="bb8__antenna"></div>
+                            <div class="bb8__head"></div>
+                        </div>
+                        <div class="bb8__body"></div>
+                    </div>
+                    <div class="artificial__hidden">
+                        <div class="bb8__shadow"></div>
+                    </div>
+                </div>
+            </label>
+
             <!-- زر "المزيد" - يظهر فقط على الموبايل عشان الصورة تفضل باينة -->
             <button class="header-more-btn" @click="showStudentHeaderMenu = !showStudentHeaderMenu">
                 <i class="fas fa-ellipsis-vertical"></i>
-                <span v-if="(chatUnreadTotal + unreadNotificationsCount) > 0" class="notification-badge header-more-badge">
-                    {{ chatUnreadTotal + unreadNotificationsCount }}
+                <span v-if="chatUnreadTotal > 0" class="notification-badge header-more-badge">
+                    {{ chatUnreadTotal }}
                 </span>
             </button>
 
@@ -7324,14 +7416,14 @@ input:focus {
                     </span>
                     <span class="header-action-label">الدردشة مع المعلمة</span>
                 </button>
-                <button @click="toggleNotifications(); showStudentHeaderMenu = false" class="notifications-toggle relative">
+                <button @click="toggleNotifications(); showStudentHeaderMenu = false" class="notifications-toggle relative hide-on-mobile-menu">
                     <i class="fas fa-bell"></i>
                     <span v-if="unreadNotificationsCount > 0" class="notification-badge absolute -top-1 -right-1">
                         {{ unreadNotificationsCount }}
                     </span>
                     <span class="header-action-label">الإشعارات</span>
                 </button>
-                <label class="bb8-toggle">
+                <label class="bb8-toggle hide-on-mobile-menu">
                     <input class="bb8-toggle__checkbox" type="checkbox" @change="toggleDarkMode">
                     <div class="bb8-toggle__container">
                         <div class="bb8-toggle__scenery">
