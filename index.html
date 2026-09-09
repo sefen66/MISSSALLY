@@ -5603,6 +5603,25 @@ input:focus {
         font-size: 12.5px;
         font-weight: 700;
     }
+    .ios-install-banner {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 14px 16px;
+        margin-bottom: 18px;
+        font-size: 13px;
+        color: #334155;
+        line-height: 1.6;
+    }
+    .ios-install-banner i.fa-apple {
+        font-size: 1.4rem;
+        color: #1e293b;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
     .dashboard-install-btn {
         background: linear-gradient(135deg, #6366f1, #4338ca);
         color: white;
@@ -6090,6 +6109,14 @@ input:focus {
                             </div>
                         </div>
                         <div class="p-6">
+                            <div v-if="showIosInstallHint" class="ios-install-banner">
+                                <i class="fab fa-apple"></i>
+                                <div>
+                                    <strong>على الآيفون/الآيباد:</strong>
+                                    التنبيهات الفورية بتشتغل بس لو التطبيق متثبت على الشاشة الرئيسية.
+                                    من Safari: زر المشاركة <i class="fas fa-arrow-up-from-bracket"></i> ← "إضافة إلى الشاشة الرئيسية".
+                                </div>
+                            </div>
                             <div class="dashboard-stats-grid">
                                 <div class="dashboard-stat-card" :class="{ 'has-alert': dashboardPendingForumCount > 0 }" @click="teacherActiveTab = 'forum'">
                                     <div class="dashboard-stat-icon forum"><i class="fas fa-comments"></i></div>
@@ -12371,7 +12398,22 @@ const handleStudentLogin = async (codeParam) => {
                     }
                 };
 
+                // اكتشاف نظام iOS وهل التطبيق متثبت على الشاشة الرئيسية أو لأ
+                const isIosDevice = () => /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+                const isRunningStandalone = () => {
+                    return (window.navigator.standalone === true) ||
+                        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+                };
+                const showIosInstallHint = ref(isIosDevice() && !isRunningStandalone());
+
                 const requestNotificationPermission = async () => {
+                    if (isIosDevice() && !isRunningStandalone()) {
+                        alert(
+                            'على الآيفون/الآيباد، الإشعارات الفورية بتشتغل بس لو التطبيق متثبت على الشاشة الرئيسية.\n\n' +
+                            'الخطوات: افتحي زر المشاركة (المربع وفوقه سهم) في متصفح Safari ← اختاري "إضافة إلى الشاشة الرئيسية" ← افتحي الموقع من الأيقونة الجديدة وجربي تفعيل التنبيهات تاني من هناك.'
+                        );
+                        return;
+                    }
                     if (!window.Notification) {
                         alert('متصفحك لا يدعم إشعارات سطح المكتب');
                         return;
@@ -13933,6 +13975,7 @@ onMounted(() => {
                     dashboardTodaysGradesCount,
                     dashboardUnreadChatsCount,
                     notificationPermission,
+                    showIosInstallHint,
                     showInstallButton,
                     isAppInstalled,
                     installApp,
