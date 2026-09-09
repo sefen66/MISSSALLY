@@ -5982,40 +5982,6 @@ input:focus {
                                     <span class="header-action-label">الدردشة مع الطلاب</span>
                                 </button>
 
-                                <!-- زر BB-8 لتبديل الوضع الداكن -->
-                                <label class="bb8-toggle">
-                                    <input class="bb8-toggle__checkbox" type="checkbox" @change="toggleDarkMode">
-                                    <div class="bb8-toggle__container">
-                                        <div class="bb8-toggle__scenery">
-                                            <div class="bb8-toggle__star"></div>
-                                            <div class="bb8-toggle__star"></div>
-                                            <div class="bb8-toggle__star"></div>
-                                            <div class="bb8-toggle__star"></div>
-                                            <div class="bb8-toggle__star"></div>
-                                            <div class="bb8-toggle__star"></div>
-                                            <div class="bb8-toggle__star"></div>
-                                            <div class="tatto-1"></div>
-                                            <div class="tatto-2"></div>
-                                            <div class="gomrassen"></div>
-                                            <div class="hermes"></div>
-                                            <div class="chenini"></div>
-                                            <div class="bb8-toggle__cloud"></div>
-                                            <div class="bb8-toggle__cloud"></div>
-                                            <div class="bb8-toggle__cloud"></div>
-                                        </div>
-                                        <div class="bb8">
-                                            <div class="bb8__head-container">
-                                                <div class="bb8__antenna"></div>
-                                                <div class="bb8__antenna"></div>
-                                                <div class="bb8__head"></div>
-                                            </div>
-                                            <div class="bb8__body"></div>
-                                        </div>
-                                        <div class="artificial__hidden">
-                                            <div class="bb8__shadow"></div>
-                                        </div>
-                                    </div>
-                                </label>
                                 <button @click="logout" class="logout-btn">
                                     <i class="fas fa-sign-out-alt"></i>
                                     <span class="header-action-label">تسجيل الخروج</span>
@@ -7324,46 +7290,6 @@ input:focus {
                     </span>
                     <span class="header-action-label">الدردشة مع المعلمة</span>
                 </button>
-                <button @click="toggleNotifications(); showStudentHeaderMenu = false" class="notifications-toggle relative">
-                    <i class="fas fa-bell"></i>
-                    <span v-if="unreadNotificationsCount > 0" class="notification-badge absolute -top-1 -right-1">
-                        {{ unreadNotificationsCount }}
-                    </span>
-                    <span class="header-action-label">الإشعارات</span>
-                </button>
-                <label class="bb8-toggle">
-                    <input class="bb8-toggle__checkbox" type="checkbox" @change="toggleDarkMode">
-                    <div class="bb8-toggle__container">
-                        <div class="bb8-toggle__scenery">
-                            <div class="bb8-toggle__star"></div>
-                            <div class="bb8-toggle__star"></div>
-                            <div class="bb8-toggle__star"></div>
-                            <div class="bb8-toggle__star"></div>
-                            <div class="bb8-toggle__star"></div>
-                            <div class="bb8-toggle__star"></div>
-                            <div class="bb8-toggle__star"></div>
-                            <div class="tatto-1"></div>
-                            <div class="tatto-2"></div>
-                            <div class="gomrassen"></div>
-                            <div class="hermes"></div>
-                            <div class="chenini"></div>
-                            <div class="bb8-toggle__cloud"></div>
-                            <div class="bb8-toggle__cloud"></div>
-                            <div class="bb8-toggle__cloud"></div>
-                        </div>
-                        <div class="bb8">
-                            <div class="bb8__head-container">
-                                <div class="bb8__antenna"></div>
-                                <div class="bb8__antenna"></div>
-                                <div class="bb8__head"></div>
-                            </div>
-                            <div class="bb8__body"></div>
-                        </div>
-                        <div class="artificial__hidden">
-                            <div class="bb8__shadow"></div>
-                        </div>
-                    </div>
-                </label>
                 <button @click="studentLogout" class="student-logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
                     <span class="header-action-label">تسجيل الخروج</span>
@@ -7380,7 +7306,7 @@ input:focus {
                 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <!-- Student Info Card -->
                     <div class="bg-white rounded-xl p-6 shadow mb-6">
-                        <div class="flex justify-between items-center">
+                        <div class="flex justify-between items-center flex-wrap gap-3">
                             <div>
                                 <h2 class="text-xl font-bold text-gray-800 mb-2">مرحباً، {{ currentStudent.name }}!</h2>
                                 <p class="text-gray-600">هذه هي درجاتك في المادة</p>
@@ -7389,6 +7315,14 @@ input:focus {
                                 <div class="text-lg font-bold text-purple-600">{{ currentStudent.averageGrade || 'لم يتم التقييم' }}</div>
                                 <div class="text-sm text-gray-500">المعدل الحالي</div>
                             </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <button v-if="notificationPermission !== 'granted'" @click="requestStudentNotificationPermission" class="dashboard-enable-notify-btn">
+                                <i class="fas fa-bell mr-1"></i> تفعيل تنبيهات فورية
+                            </button>
+                            <span v-else class="dashboard-notify-active">
+                                <i class="fas fa-bell mr-1"></i> التنبيهات الفورية مفعّلة
+                            </span>
                         </div>
                     </div>
                     
@@ -11397,6 +11331,7 @@ const sendNotification = async () => {
         };
         
         await db.collection('notifications').add(notificationData);
+        await triggerStudentPush(recipients, newNotification.value.title, newNotification.value.message);
         
         closeAddNotificationModal();
         alert('تم إرسال الإشعار بنجاح');
@@ -11645,6 +11580,11 @@ const submitAnswer = async (question) => {
             'تم الرد على سؤالك',
             `أجابت ${currentUser.value.name} على سؤالك في المنتدى`,
             [question.studentId]
+        );
+        await triggerStudentPush(
+            [question.studentId],
+            'تم الرد على سؤالك',
+            `أجابت ${currentUser.value.name} على سؤالك في المنتدى`
         );
         cancelReplyBox();
     } catch (error) {
@@ -12574,6 +12514,88 @@ const handleStudentLogin = async (codeParam) => {
                     }
                 };
 
+                // ============================================================
+                // إشعارات Push حقيقية للطلاب (تصل حتى لو الموقع مقفول تمامًا)
+                // ============================================================
+
+                // اشتراك جهاز الطالب في استقبال Push، وحفظ الاشتراك داخل مستند الطالب نفسه
+                const subscribeStudentToPushNotifications = async (studentId) => {
+                    if (!studentId) return;
+                    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+                    try {
+                        const registration = await navigator.serviceWorker.ready;
+                        let subscription = await registration.pushManager.getSubscription();
+                        if (!subscription) {
+                            subscription = await registration.pushManager.subscribe({
+                                userVisibleOnly: true,
+                                applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+                            });
+                        }
+                        const subJson = subscription.toJSON();
+                        const studentRef = db.collection('students').doc(studentId);
+                        const doc = await studentRef.get();
+                        const existing = (doc.exists && doc.data().pushSubscriptions) || [];
+                        const alreadySaved = existing.some(s => s.endpoint === subJson.endpoint);
+                        if (!alreadySaved) {
+                            existing.push(subJson);
+                            await studentRef.set({ pushSubscriptions: existing }, { merge: true });
+                        }
+                    } catch (error) {
+                        console.error('تعذر تفعيل اشتراك Push للطالب:', error);
+                    }
+                };
+
+                // طلب إذن الإشعارات من الطالب وتفعيل الاشتراك الحقيقي
+                const requestStudentNotificationPermission = async () => {
+                    if (isIosDevice() && !isRunningStandalone()) {
+                        alert(
+                            'على الآيفون/الآيباد، الإشعارات الفورية بتشتغل بس لو التطبيق متثبت على الشاشة الرئيسية.\n\n' +
+                            'الخطوات: افتحي زر المشاركة (المربع وفوقه سهم) في متصفح Safari ← اختاري "إضافة إلى الشاشة الرئيسية" ← افتحي الموقع من الأيقونة الجديدة وجربي تفعيل التنبيهات تاني من هناك.'
+                        );
+                        return;
+                    }
+                    if (!window.Notification) {
+                        alert('متصفحك لا يدعم إشعارات سطح المكتب');
+                        return;
+                    }
+                    const result = await Notification.requestPermission();
+                    notificationPermission.value = result;
+                    if (result === 'granted' && currentStudent.value && currentStudent.value.id) {
+                        await subscribeStudentToPushNotifications(currentStudent.value.id);
+                    }
+                };
+
+                // إرسال Push حقيقي لطلاب محددين (تُستدعى من متصفح المعلمة بعد أي حدث جديد يخص الطلاب)
+                const triggerStudentPush = async (studentIds, title, body) => {
+                    try {
+                        if (!waServerUrl.value) return;
+                        const ids = (studentIds || []).filter(Boolean);
+                        if (!ids.length) return;
+                        const docs = await Promise.all(
+                            ids.map(id => db.collection('students').doc(id).get().catch(() => null))
+                        );
+                        const subscriptions = [];
+                        docs.forEach(doc => {
+                            if (doc && doc.exists) {
+                                const subs = doc.data().pushSubscriptions || [];
+                                subscriptions.push(...subs);
+                            }
+                        });
+                        if (!subscriptions.length) return;
+                        const headers = { 'Content-Type': 'application/json' };
+                        if (waApiKey.value) headers['x-api-key'] = waApiKey.value;
+                        await Promise.all(subscriptions.map(sub =>
+                            fetch(`${waServerUrl.value}/send-push`, {
+                                method: 'POST',
+                                headers,
+                                body: JSON.stringify({ subscription: sub, title, body })
+                            }).catch(() => {})
+                        ));
+                    } catch (error) {
+                        console.error('تعذر إرسال Push للطلاب عبر السيرفر:', error);
+                    }
+                };
+
                 // الاستماع لدرجات كويز المنصة الجديدة اليوم (تنبيه فوري عند انتهاء أي طالب من اختبار)
                 let mcqGradesLiveUnsub = null;
                 let mcqGradesLiveInitialLoadDone = false;
@@ -13115,6 +13137,11 @@ const handleStudentLogin = async (codeParam) => {
                 `تم إضافة ${newContent.value.title} للصف ${newContent.value.class}`,
                 recipients
             );
+            await triggerStudentPush(
+                recipients,
+                'محتوى جديد متاح',
+                `تم إضافة ${newContent.value.title} للصف ${newContent.value.class}`
+            );
         }
         
         closeAddContentModal();
@@ -13235,6 +13262,24 @@ const handleStudentLogin = async (codeParam) => {
                         } else {
                             // Add new quiz
                             await db.collection('quizzes').add(quizData);
+
+                            // إرسال إشعار تلقائي (داخل التطبيق + Push حقيقي)
+                            const studentsSnapshot = await db.collection('students')
+                                .where('class', '==', newQuiz.value.class)
+                                .get();
+                            const recipients = studentsSnapshot.docs.map(doc => doc.id);
+
+                            await sendAutoNotification(
+                                'quiz',
+                                'اختبار جديد',
+                                `تم إضافة اختبار "${newQuiz.value.title}" للصف ${newQuiz.value.class}`,
+                                recipients
+                            );
+                            await triggerStudentPush(
+                                recipients,
+                                'اختبار جديد',
+                                `تم إضافة اختبار "${newQuiz.value.title}" للصف ${newQuiz.value.class}`
+                            );
                         }
                         
                         closeAddQuizModal();
@@ -13299,6 +13344,26 @@ const handleStudentLogin = async (codeParam) => {
                         } else {
                             // إضافة اختبار جديد
                             await db.collection('mcq-quizzes').add(quizData);
+
+                            // إرسال إشعار تلقائي (داخل التطبيق + Push حقيقي) - إلا لو الاختبار مجدول لوقت لاحق
+                            if (!isQuizScheduledFuture(quizData)) {
+                                const studentsSnapshot = await db.collection('students')
+                                    .where('class', '==', newMCQQuiz.value.class)
+                                    .get();
+                                const recipients = studentsSnapshot.docs.map(doc => doc.id);
+
+                                await sendAutoNotification(
+                                    'quiz',
+                                    'اختبار تفاعلي جديد',
+                                    `تم إضافة اختبار تفاعلي "${newMCQQuiz.value.title}" للصف ${newMCQQuiz.value.class}`,
+                                    recipients
+                                );
+                                await triggerStudentPush(
+                                    recipients,
+                                    'اختبار تفاعلي جديد',
+                                    `تم إضافة اختبار تفاعلي "${newMCQQuiz.value.title}" للصف ${newMCQQuiz.value.class}`
+                                );
+                            }
                         }
                         
                         closeAddMCQModal();
@@ -13526,6 +13591,11 @@ const saveGrade = async (student) => {
             'درجة جديدة',
             `تم إضافة درجة جديدة في ${gradeData.quizTitle}: ${gradeData.score}/${gradeData.totalScore}`,
             [student.id]
+        );
+        await triggerStudentPush(
+            [student.id],
+            'درجة جديدة',
+            `تم إضافة درجة جديدة في ${gradeData.quizTitle}: ${gradeData.score}/${gradeData.totalScore}`
         );
         
         alert('تم حفظ الدرجة بنجاح');
@@ -14128,6 +14198,7 @@ onMounted(() => {
                     isAppInstalled,
                     installApp,
                     requestNotificationPermission,
+                    requestStudentNotificationPermission,
                     forumFilter,
                     todaysGradesForSending,
                     filteredTodaysGrades,
