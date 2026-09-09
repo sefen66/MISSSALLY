@@ -1045,6 +1045,74 @@ body:fullscreen {
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
+/* الزر العائم للدردشة (معلم وطالب) */
+.chat-floating-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 62px;
+    height: 62px;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    box-shadow: 0 8px 25px rgba(22, 163, 74, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.chat-floating-btn.chat-floating-btn-stacked {
+    bottom: 114px;
+}
+
+.chat-floating-btn:hover {
+    transform: scale(1.1) rotate(-5deg);
+    box-shadow: 0 12px 40px rgba(22, 163, 74, 0.55);
+}
+
+.chat-floating-btn i {
+    font-size: 26px;
+    color: white;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.chat-floating-btn .chat-floating-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ef4444;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+@media (max-width: 480px) {
+    .chat-floating-btn {
+        bottom: 20px;
+        left: 20px;
+        width: 54px;
+        height: 54px;
+    }
+    .chat-floating-btn.chat-floating-btn-stacked {
+        bottom: 94px;
+    }
+    .chat-floating-btn i {
+        font-size: 22px;
+    }
+}
+
 .ai-motivation-modal {
     position: fixed;
     inset: 0;
@@ -9002,6 +9070,16 @@ input:focus {
     <i class="fas fa-bolt"></i>
 </div>
 
+<!-- زر الدردشة العائم (للمعلمة والطالب) -->
+<div v-if="(isLoggedIn || isStudentLoggedIn) && !showChatPanel"
+     class="chat-floating-btn"
+     :class="{ 'chat-floating-btn-stacked': isStudentLoggedIn }"
+     @click="toggleChatPanel"
+     :title="isStudentLoggedIn ? 'الدردشة مع المعلمة' : 'الدردشة مع الطلاب'">
+    <i class="fas fa-comment-dots"></i>
+    <span v-if="chatUnreadTotal > 0" class="chat-floating-badge">{{ chatUnreadTotal > 99 ? '99+' : chatUnreadTotal }}</span>
+</div>
+
 <!-- نافذة الجمل التحفيزية المعدلة -->
 <div class="ai-motivation-modal" :class="{ active: showMotivationModal }" @click.self="showMotivationModal = false">
     <div class="ai-motivation-card">
@@ -10381,6 +10459,22 @@ const newNotification = ref({
                 const chatImagePreview = ref('');
                 const sendingChatMessage = ref(false);
                 const chatUnreadTotal = ref(0);
+
+                // ================= App Icon Badge (PWA Badging API) =================
+                // يحدّث شارة الأيقونة بعدد الإشعارات + الدردشات غير المقروءة، حتى لو التطبيق مقفول
+                const updateAppBadge = (total) => {
+                    if (!('setAppBadge' in navigator)) return;
+                    try {
+                        if (total > 0) {
+                            navigator.setAppBadge(total).catch(() => {});
+                        } else if ('clearAppBadge' in navigator) {
+                            navigator.clearAppBadge().catch(() => {});
+                        }
+                    } catch (e) { /* المتصفح لا يدعم الخاصية */ }
+                };
+                watch([chatUnreadTotal, unreadNotificationsCount], ([chat, notif]) => {
+                    updateAppBadge((chat || 0) + (notif || 0));
+                });
 
                 // ================= Image Lightbox state =================
                 const showImageLightbox = ref(false);
