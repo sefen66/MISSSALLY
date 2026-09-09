@@ -2124,7 +2124,8 @@ input:focus {
         width: 40px;
         height: 40px;
     }
-}ر الخروج */
+}
+/* زر الخروج */
 .logout-btn {
     width: 44px;
     height: 44px;
@@ -5638,6 +5639,118 @@ input:focus {
         .wa-qr-box img { width: 140px; height: 140px; }
         .lecture-tab { font-size: 11.5px; padding: 6px 11px; }
     }
+
+    /* ============================================================
+       زر "المزيد" في الهيدر (موبايل فقط) — عشان الصورة والاسم يفضلوا باينين
+       ============================================================ */
+    .header-more-btn {
+        display: none;
+        position: relative;
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        color: #4b5563;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+    .dark .header-more-btn {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.15);
+        color: #e5e7eb;
+    }
+    .header-more-badge {
+        position: absolute;
+        top: -6px;
+        left: -6px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 4px;
+        border-radius: 9px;
+        background: #ef4444;
+        color: white;
+        font-size: 10px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .header-action-label { display: none; }
+
+    @media (max-width: 640px) {
+        .header-more-btn { display: flex; }
+
+        .header-actions {
+            display: none;
+            position: fixed;
+            top: 84px;
+            left: 12px;
+            right: 12px;
+            z-index: 1150;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+            padding: 10px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 4px;
+        }
+        .dark .header-actions {
+            background: #1f2937;
+            border: 1px solid #374151;
+        }
+        .header-actions.header-actions-open {
+            display: flex;
+            animation: headerMenuDrop 0.18s ease;
+        }
+        @keyframes headerMenuDrop {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .header-actions .notifications-toggle,
+        .header-actions .logout-btn,
+        .header-actions .student-logout-btn {
+            width: 100%;
+            height: auto;
+            flex-direction: row;
+            justify-content: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: transparent;
+            border: none;
+        }
+        .header-actions .notifications-toggle:hover,
+        .header-actions .logout-btn:hover,
+        .header-actions .student-logout-btn:hover {
+            background: #f3f4f6;
+        }
+        .dark .header-actions .notifications-toggle:hover,
+        .dark .header-actions .logout-btn:hover,
+        .dark .header-actions .student-logout-btn:hover {
+            background: #374151;
+        }
+        .header-action-label {
+            display: inline;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #374151;
+        }
+        .dark .header-action-label { color: #e5e7eb; }
+        .header-actions .notification-badge.absolute {
+            position: static;
+            margin-right: auto;
+        }
+        .header-actions .bb8-toggle {
+            transform: scale(0.8);
+            transform-origin: right center;
+            margin: 4px auto;
+        }
+    }
     </style>
 </head>
 <body class="dark:bg-gray-900 dark:text-white">
@@ -5836,19 +5949,30 @@ input:focus {
                                     <p class="text-xs text-gray-500 teacher-title">professional English teacher</p>
                                 </div>
                             </div>
-                            <div class="flex items-center space-x-4">
 
-                                <button @click="teacherActiveTab = 'forum'" class="notifications-toggle relative" title="منتدى الأسئلة">
+                            <!-- زر "المزيد" - يظهر فقط على الموبايل عشان الصورة تفضل باينة -->
+                            <button class="header-more-btn" @click="showTeacherHeaderMenu = !showTeacherHeaderMenu">
+                                <i class="fas fa-ellipsis-vertical"></i>
+                                <span v-if="(forumUnansweredCount + chatUnreadTotal) > 0" class="notification-badge header-more-badge">
+                                    {{ forumUnansweredCount + chatUnreadTotal }}
+                                </span>
+                            </button>
+
+                            <div class="header-actions" :class="{ 'header-actions-open': showTeacherHeaderMenu }">
+
+                                <button @click="teacherActiveTab = 'forum'; showTeacherHeaderMenu = false" class="notifications-toggle relative" title="منتدى الأسئلة">
                                     <i class="fas fa-question-circle"></i>
                                     <span v-if="forumUnansweredCount > 0" class="notification-badge absolute -top-1 -right-1">
                                         {{ forumUnansweredCount }}
                                     </span>
+                                    <span class="header-action-label">منتدى الأسئلة</span>
                                 </button>
-                                <button @click="toggleChatPanel" class="notifications-toggle relative" title="الدردشة مع الطلاب">
+                                <button @click="toggleChatPanel(); showTeacherHeaderMenu = false" class="notifications-toggle relative" title="الدردشة مع الطلاب">
                                     <i class="fab fa-whatsapp"></i>
                                     <span v-if="chatUnreadTotal > 0" class="notification-badge absolute -top-1 -right-1">
                                         {{ chatUnreadTotal }}
                                     </span>
+                                    <span class="header-action-label">الدردشة مع الطلاب</span>
                                 </button>
 
                                 <!-- زر BB-8 لتبديل الوضع الداكن -->
@@ -5887,6 +6011,7 @@ input:focus {
                                 </label>
                                 <button @click="logout" class="logout-btn">
                                     <i class="fas fa-sign-out-alt"></i>
+                                    <span class="header-action-label">تسجيل الخروج</span>
                                 </button>
                             </div>
                         </div>
@@ -7167,24 +7292,37 @@ input:focus {
                     <p class="student-header-title">طالب - {{ currentStudent.class }}</p>
                 </div>
             </div>
-            <div class="flex items-center space-x-4 space-x-reverse">
-                <button v-if="showInstallButton" @click="installApp" class="notifications-toggle relative" title="تثبيت التطبيق">
+
+            <!-- زر "المزيد" - يظهر فقط على الموبايل عشان الصورة تفضل باينة -->
+            <button class="header-more-btn" @click="showStudentHeaderMenu = !showStudentHeaderMenu">
+                <i class="fas fa-ellipsis-vertical"></i>
+                <span v-if="(chatUnreadTotal + unreadNotificationsCount) > 0" class="notification-badge header-more-badge">
+                    {{ chatUnreadTotal + unreadNotificationsCount }}
+                </span>
+            </button>
+
+            <div class="header-actions" :class="{ 'header-actions-open': showStudentHeaderMenu }">
+                <button v-if="showInstallButton" @click="installApp(); showStudentHeaderMenu = false" class="notifications-toggle relative" title="تثبيت التطبيق">
                     <i class="fas fa-download"></i>
+                    <span class="header-action-label">تثبيت التطبيق</span>
                 </button>
-                <button @click="scrollToStudentForum" class="notifications-toggle relative" title="منتدى الأسئلة">
+                <button @click="scrollToStudentForum(); showStudentHeaderMenu = false" class="notifications-toggle relative" title="منتدى الأسئلة">
                     <i class="fas fa-question-circle"></i>
+                    <span class="header-action-label">منتدى الأسئلة</span>
                 </button>
-                <button @click="toggleChatPanel" class="notifications-toggle relative" title="الدردشة مع المعلمة">
+                <button @click="toggleChatPanel(); showStudentHeaderMenu = false" class="notifications-toggle relative" title="الدردشة مع المعلمة">
                     <i class="fab fa-whatsapp"></i>
                     <span v-if="chatUnreadTotal > 0" class="notification-badge absolute -top-1 -right-1">
                         {{ chatUnreadTotal }}
                     </span>
+                    <span class="header-action-label">الدردشة مع المعلمة</span>
                 </button>
-                <button @click="toggleNotifications" class="notifications-toggle relative">
+                <button @click="toggleNotifications(); showStudentHeaderMenu = false" class="notifications-toggle relative">
                     <i class="fas fa-bell"></i>
                     <span v-if="unreadNotificationsCount > 0" class="notification-badge absolute -top-1 -right-1">
                         {{ unreadNotificationsCount }}
                     </span>
+                    <span class="header-action-label">الإشعارات</span>
                 </button>
                 <label class="bb8-toggle">
                     <input class="bb8-toggle__checkbox" type="checkbox" @change="toggleDarkMode">
@@ -7221,6 +7359,7 @@ input:focus {
                 </label>
                 <button @click="studentLogout" class="student-logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
+                    <span class="header-action-label">تسجيل الخروج</span>
                 </button>
             </div>
         </div>
@@ -10049,6 +10188,8 @@ const newNotification = ref({
 });
                 // ================= Forum (Q&A) state =================
                 const showForumPanel = ref(false);
+                const showTeacherHeaderMenu = ref(false);
+                const showStudentHeaderMenu = ref(false);
                 const forumQuestions = ref([]);
                 const newQuestionText = ref('');
                 const newQuestionImageFile = ref(null);
@@ -14109,6 +14250,8 @@ onMounted(() => {
 
     // منتدى الأسئلة
     showForumPanel,
+    showTeacherHeaderMenu,
+    showStudentHeaderMenu,
     forumQuestions,
     forumUnansweredCount,
     newQuestionText,
