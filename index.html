@@ -28,6 +28,7 @@
     
     <!-- Chart.js for beautiful charts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
@@ -4862,6 +4863,41 @@ input:focus {
         animation: fadeInLightbox 0.15s ease;
         touch-action: pinch-zoom;
     }
+
+    /* الفيديو المدمج للحصة المباشرة */
+    .live-video-overlay {
+        position: fixed;
+        inset: 0;
+        background: #111827;
+        z-index: 4000;
+        display: flex;
+        flex-direction: column;
+    }
+    .live-video-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 18px;
+        background: #1f2937;
+        color: white;
+        font-weight: 700;
+        font-size: 14.5px;
+        flex-shrink: 0;
+    }
+    .live-video-leave-btn {
+        background: #ef4444;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .live-video-container {
+        flex: 1;
+        width: 100%;
+    }
     @keyframes fadeInLightbox { from { opacity: 0; } to { opacity: 1; } }
     .image-lightbox-img {
         max-width: 92vw;
@@ -5653,6 +5689,160 @@ input:focus {
         font-size: 13px;
         padding: 20px;
     }
+
+    /* بطاقة الحصة المباشرة */
+    .live-session-card {
+        margin-top: 20px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 18px 20px;
+    }
+    .live-session-card.is-live {
+        background: linear-gradient(135deg, #fef2f2, #fff1f2);
+        border-color: #fecaca;
+    }
+    .live-session-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+    .live-session-header h4 {
+        font-size: 15px;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+    }
+    .live-session-badge {
+        background: #ef4444;
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 9999px;
+        animation: liveSessionPulse 1.6s infinite;
+    }
+    @keyframes liveSessionPulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+    }
+    .live-session-active-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    .live-session-title {
+        font-weight: 600;
+        color: #334155;
+        flex: 1;
+        min-width: 140px;
+    }
+    .live-session-class-tag {
+        display: inline-block;
+        background: #ede9fe;
+        color: #6d28d9;
+        font-size: 11.5px;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 9999px;
+        margin-right: 8px;
+    }
+    .live-session-join-btn, .live-session-end-btn, .live-session-schedule-btn, .live-session-start-btn {
+        border: none;
+        border-radius: 8px;
+        padding: 9px 16px;
+        font-size: 13.5px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+    .live-session-join-btn { background: #16a34a; color: white; }
+    .live-session-end-btn { background: #fee2e2; color: #b91c1c; }
+    .live-session-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .live-session-input {
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 9px 12px;
+        font-size: 13.5px;
+        width: 100%;
+    }
+    .live-session-form-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .live-session-form-row .live-session-input { flex: 1; min-width: 160px; }
+    .live-session-schedule-btn { background: #e0e7ff; color: #4338ca; }
+    .live-session-start-btn { background: #dc2626; color: white; }
+    .live-session-scheduled-hint {
+        font-size: 12.5px;
+        color: #64748b;
+    }
+
+    /* بانر الحصة المباشرة عند الطالب */
+    .student-live-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        color: white;
+        border-radius: 14px;
+        padding: 16px 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+    }
+    .student-live-banner-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    .student-live-badge {
+        background: rgba(255,255,255,0.25);
+        padding: 4px 12px;
+        border-radius: 9999px;
+        font-size: 12.5px;
+        font-weight: 700;
+        animation: liveSessionPulse 1.6s infinite;
+    }
+    .student-live-title { font-weight: 700; font-size: 15px; }
+    .student-live-join-btn {
+        background: white;
+        color: #b91c1c;
+        border: none;
+        cursor: pointer;
+        border-radius: 9px;
+        padding: 10px 18px;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none;
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+    }
+    .student-live-scheduled-banner {
+        background: #eef2ff;
+        color: #4338ca;
+        border-radius: 12px;
+        padding: 12px 18px;
+        margin-bottom: 20px;
+        font-size: 13.5px;
+    }
+
     .dashboard-enable-notify-btn {
         background: linear-gradient(135deg, #f59e0b, #d97706);
         color: white;
@@ -6424,18 +6614,73 @@ input:focus {
                             <div v-else class="dashboard-empty-hint">
                                 <i class="fas fa-info-circle mr-1"></i> لا توجد نتائج اختبارات تفاعلية مسجلة بعد
                             </div>
+
+                            <!-- بطاقة إدارة الحصة المباشرة -->
+                            <div class="live-session-card" :class="{ 'is-live': liveSession.active }">
+                                <div class="live-session-header">
+                                    <h4><i class="fas fa-video mr-2"></i> الحصة المباشرة</h4>
+                                    <span v-if="liveSession.active" class="live-session-badge">🔴 شغالة الآن</span>
+                                </div>
+
+                                <div v-if="liveSession.active" class="live-session-active-box">
+                                    <div class="live-session-title">
+                                        {{ liveSession.title }}
+                                        <span v-if="liveSession.targetClass && liveSession.targetClass !== 'all'" class="live-session-class-tag">{{ liveSession.targetClass }}</span>
+                                    </div>
+                                    <button @click="joinLiveSession" class="live-session-join-btn">
+                                        <i class="fas fa-video mr-1"></i> دخول الفيديو
+                                    </button>
+                                    <button @click="endLiveSession" class="live-session-end-btn">
+                                        <i class="fas fa-stop mr-1"></i> إنهاء الحصة
+                                    </button>
+                                </div>
+
+                                <div v-else class="live-session-form">
+                                    <input type="text" v-model="liveSessionForm.title" class="live-session-input" placeholder="عنوان الحصة (مثال: مراجعة الوحدة الثالثة)">
+                                    <select v-model="liveSessionForm.targetClass" class="live-session-input">
+                                        <option value="all">كل الصفوف</option>
+                                        <option value="الصف الأول">الصف الأول</option>
+                                        <option value="الصف الثاني">الصف الثاني</option>
+                                        <option value="الصف الثالث">الصف الثالث</option>
+                                    </select>
+                                    <div class="live-session-form-row">
+                                        <input type="datetime-local" v-model="liveSessionForm.scheduledAt" class="live-session-input">
+                                        <button @click="scheduleLiveSession" class="live-session-schedule-btn">
+                                            <i class="fas fa-calendar-plus mr-1"></i> جدولة
+                                        </button>
+                                        <button @click="startLiveSession" class="live-session-start-btn">
+                                            <i class="fas fa-play mr-1"></i> ابدئي الآن (فيديو مدمج)
+                                        </button>
+                                    </div>
+                                    <div v-if="liveSession.scheduledAt" class="live-session-scheduled-hint">
+                                        <i class="fas fa-clock mr-1"></i> الحصة القادمة مجدولة: {{ formatScheduledDate(liveSession.scheduledAt) }}
+                                        <span v-if="liveSession.targetClass && liveSession.targetClass !== 'all'"> — {{ liveSession.targetClass }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Students Tab -->
                     <div class="bg-white rounded-xl shadow overflow-hidden mb-8" v-show="teacherActiveTab === 'students'">
-                        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center flex-wrap gap-3">
                             <h3 class="text-lg font-medium text-gray-900">قائمة الطلاب</h3>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fas fa-search text-gray-400"></i>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <select v-model="studentClassFilter" class="block pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
+                                    <option value="all">جميع الصفوف</option>
+                                    <option value="الصف الأول">الصف الأول</option>
+                                    <option value="الصف الثاني">الصف الثاني</option>
+                                    <option value="الصف الثالث">الصف الثالث</option>
+                                </select>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-search text-gray-400"></i>
+                                    </div>
+                                    <input type="text" v-model="studentSearch" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" placeholder="ابحث عن طالب...">
                                 </div>
-                                <input type="text" v-model="studentSearch" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" placeholder="ابحث عن طالب...">
+                                <button @click="exportStudentsToExcel" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm whitespace-nowrap">
+                                    <i class="fas fa-file-excel"></i> تصدير Excel
+                                </button>
                             </div>
                         </div>
                         <div class="overflow-x-auto">
@@ -7057,6 +7302,9 @@ input:focus {
                                     <option value="all">جميع الاختبارات</option>
                                     <option v-for="quiz in mcqQuizzes" :key="quiz.id" :value="quiz.id">{{ quiz.title }}</option>
                                 </select>
+                                <button @click="exportGradesToExcel" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm whitespace-nowrap">
+                                    <i class="fas fa-file-excel"></i> تصدير Excel
+                                </button>
                             </div>
                         </div>
                         <div class="overflow-x-auto">
@@ -7545,6 +7793,21 @@ input:focus {
                 
                 <!-- Main Content -->
                 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <!-- بانر الحصة المباشرة -->
+                    <div v-if="liveSession.active && isLiveSessionForMyClass" class="student-live-banner">
+                        <div class="student-live-banner-info">
+                            <span class="student-live-badge">🔴 مباشر الآن</span>
+                            <div class="student-live-title">{{ liveSession.title }}</div>
+                        </div>
+                        <button @click="joinLiveSession" class="student-live-join-btn">
+                            <i class="fas fa-video mr-1"></i> انضمي الآن
+                        </button>
+                    </div>
+                    <div v-else-if="liveSession.scheduledAt && isLiveSessionForMyClass" class="student-live-scheduled-banner">
+                        <i class="fas fa-clock mr-2"></i>
+                        <span>الحصة القادمة: <strong>{{ liveSession.title || 'حصة مباشرة' }}</strong> — {{ formatScheduledDate(liveSession.scheduledAt) }}</span>
+                    </div>
+
                     <!-- Student Info Card -->
                     <div class="bg-white rounded-xl p-6 shadow mb-6">
                         <div class="flex justify-between items-center flex-wrap gap-3">
@@ -9064,6 +9327,20 @@ input:focus {
     </a>
 </div>
 
+<!-- ============================================================ -->
+<!-- الفيديو المدمج للحصة المباشرة (Jitsi Meet) -->
+<!-- ============================================================ -->
+<div class="live-video-overlay" v-if="showLiveVideoModal">
+    <div class="live-video-header">
+        <span><i class="fas fa-video mr-2"></i> {{ liveSession.title || 'الحصة المباشرة' }}</span>
+        <button class="live-video-leave-btn" @click="leaveLiveSession">
+            <i class="fas fa-xmark mr-1"></i> مغادرة
+        </button>
+    </div>
+    <div id="jitsiContainer" class="live-video-container"></div>
+</div>
+
+
 <!-- زر التحفيز الذكي العائم للطلاب -->
 <!-- زر التحفيز الذكي العائم للطلاب -->
 <div v-if="isStudentLoggedIn" class="ai-motivation-floating-btn" @click="openMotivationModal">
@@ -9283,6 +9560,15 @@ const formatLastLogin = (lastLogin) => {
     
     return loginDate.toLocaleDateString('ar-EG');
 };
+
+// تنسيق موعد الحصة المجدولة لعرضه بشكل مقروء
+const formatScheduledDate = (isoString) => {
+    if (!isoString) return '';
+    const d = new Date(isoString);
+    if (isNaN(d.getTime())) return isoString;
+    return d.toLocaleString('ar-EG', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+};
+
         // في قسم methods
 // تعديل دالة toggleDarkMode
 const toggleDarkMode = (event) => {
@@ -10497,6 +10783,7 @@ const chartsCleanup = ref(false);
                 // Dashboard state
                 const teacherActiveTab = ref('overview');
                 const studentSearch = ref('');
+                const studentClassFilter = ref('all');
                 const showAddContentModal = ref(false);
                 const showAddStudentModal = ref(false);
                 const showAddQuizModal = ref(false);
@@ -10623,11 +10910,17 @@ const chartsCleanup = ref(false);
                 
                 // Computed properties
                 const filteredStudents = computed(() => {
-                    if (!studentSearch.value) return students.value;
-                    return students.value.filter(student => 
-                        student.name.includes(studentSearch.value) || 
-                        student.studentCode.includes(studentSearch.value)
-                    );
+                    let filtered = students.value;
+                    if (studentClassFilter.value !== 'all') {
+                        filtered = filtered.filter(student => student.class === studentClassFilter.value);
+                    }
+                    if (studentSearch.value) {
+                        filtered = filtered.filter(student =>
+                            student.name.includes(studentSearch.value) ||
+                            student.studentCode.includes(studentSearch.value)
+                        );
+                    }
+                    return filtered;
                 });
                 
                 const filteredStudentsForGrades = computed(() => {
@@ -10758,7 +11051,62 @@ const chartsCleanup = ref(false);
                     return filtered;
                 });
 
-                // تصفية أسئلة المنتدى حسب الحالة (لتبويب المعلمة)
+                // ============================================================
+                // تصدير الدرجات إلى ملف Excel
+                // ============================================================
+                const exportGradesToExcel = () => {
+                    if (!window.XLSX) {
+                        alert('تعذر تحميل مكتبة التصدير، حاولي تحديث الصفحة والمحاولة مرة أخرى');
+                        return;
+                    }
+                    const rows = filteredMCQGrades.value.map(grade => ({
+                        'الطالب': grade.studentName,
+                        'الصف': getStudentClass(grade.studentId),
+                        'الاختبار': grade.quizTitle,
+                        'الدرجة': grade.score,
+                        'من': grade.totalScore,
+                        'النسبة %': grade.percentage,
+                        'المحاولة': grade.attemptNumber || 1,
+                        'التاريخ': grade.date
+                    }));
+                    if (!rows.length) {
+                        alert('لا توجد درجات لتصديرها');
+                        return;
+                    }
+                    const worksheet = XLSX.utils.json_to_sheet(rows);
+                    const workbook = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(workbook, worksheet, 'الدرجات');
+                    const fileDate = new Date().toISOString().slice(0, 10);
+                    XLSX.writeFile(workbook, `درجات_الطلاب_${fileDate}.xlsx`);
+                };
+
+                // تصدير قائمة الطلاب (معدلاتهم وبياناتهم الأساسية) إلى Excel
+                const exportStudentsToExcel = () => {
+                    if (!window.XLSX) {
+                        alert('تعذر تحميل مكتبة التصدير، حاولي تحديث الصفحة والمحاولة مرة أخرى');
+                        return;
+                    }
+                    const rows = filteredStudents.value.map(student => ({
+                        'الاسم': student.name,
+                        'كود الطالب': student.studentCode,
+                        'الصف': student.class,
+                        'المجموعة': student.group,
+                        'رقم الهاتف': student.phone,
+                        'هاتف ولي الأمر': student.parentPhone,
+                        'المعدل': student.averageGrade || '',
+                        'آخر دخول': student.lastLogin || ''
+                    }));
+                    if (!rows.length) {
+                        alert('لا يوجد طلاب لتصديرهم');
+                        return;
+                    }
+                    const worksheet = XLSX.utils.json_to_sheet(rows);
+                    const workbook = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(workbook, worksheet, 'الطلاب');
+                    const fileDate = new Date().toISOString().slice(0, 10);
+                    XLSX.writeFile(workbook, `قائمة_الطلاب_${fileDate}.xlsx`);
+                };
+
                 const teacherFilteredForumQuestions = computed(() => {
                     if (forumFilter.value === 'pending') return forumQuestions.value.filter(q => !q.answered);
                     if (forumFilter.value === 'answered') return forumQuestions.value.filter(q => q.answered);
@@ -12470,6 +12818,7 @@ const cleanupCharts = () => {
             listenForumQuestions();
             listenChatConversations();
             listenTodaysMcqGradesLive();
+            listenLiveSession();
              
             
         } else {
@@ -12529,6 +12878,7 @@ const handleStudentLogin = async (codeParam) => {
             listenForumQuestions();
             listenStudentChatBadge();
             loadWaSettingsFromCloud();
+            listenLiveSession();
         } else {
             studentLoginError.value = 'كود الطالب غير صحيح';
         }
@@ -12551,6 +12901,7 @@ const handleStudentLogin = async (codeParam) => {
                         if (chatConversationsUnsub) { chatConversationsUnsub(); chatConversationsUnsub = null; }
                         if (chatMessagesUnsub) { chatMessagesUnsub(); chatMessagesUnsub = null; }
                         stopListenTodaysMcqGradesLive();
+                        if (liveSessionUnsub) { liveSessionUnsub(); liveSessionUnsub = null; }
                         showChatPanel.value = false;
                         showForumPanel.value = false;
                         activeChatId.value = null;
@@ -12570,6 +12921,7 @@ const handleStudentLogin = async (codeParam) => {
                         if (forumUnsub) { forumUnsub(); forumUnsub = null; }
                         if (chatUnreadUnsub) { chatUnreadUnsub(); chatUnreadUnsub = null; }
                         if (chatMessagesUnsub) { chatMessagesUnsub(); chatMessagesUnsub = null; }
+                        if (liveSessionUnsub) { liveSessionUnsub(); liveSessionUnsub = null; }
                         showChatPanel.value = false;
                         showForumPanel.value = false;
                         activeChatId.value = null;
@@ -13000,6 +13352,180 @@ const handleStudentLogin = async (codeParam) => {
                         console.error('تعذر تحميل إعدادات سيرفر واتساب من قاعدة البيانات:', error);
                     }
                 };
+
+                // ============================================================
+                // الحصص المباشرة (Live Sessions) — فيديو مدمج داخل المنصة عبر Jitsi Meet
+                // ============================================================
+                const liveSession = ref({ active: false, title: '', roomName: '', startedAt: '', scheduledAt: '', targetClass: 'all' });
+                const liveSessionForm = ref({ title: '', scheduledAt: '', targetClass: 'all' });
+                const showLiveVideoModal = ref(false);
+                const isLiveSessionForMyClass = computed(() => {
+                    if (!liveSession.value.targetClass || liveSession.value.targetClass === 'all') return true;
+                    if (!isStudentLoggedIn.value || !currentStudent.value) return true; // المعلمة تشوف كل حاجة
+                    return liveSession.value.targetClass === currentStudent.value.class;
+                });
+                let liveSessionUnsub = null;
+                let jitsiApiInstance = null;
+
+                const listenLiveSession = () => {
+                    if (liveSessionUnsub) return;
+                    liveSessionUnsub = db.collection('settings').doc('liveSession')
+                        .onSnapshot((doc) => {
+                            if (doc.exists) {
+                                const data = doc.data();
+                                const wasActive = liveSession.value.active;
+                                liveSession.value = {
+                                    active: !!data.active,
+                                    title: data.title || '',
+                                    roomName: data.roomName || '',
+                                    startedAt: data.startedAt || '',
+                                    scheduledAt: data.scheduledAt || '',
+                                    targetClass: data.targetClass || 'all'
+                                };
+                                liveSessionForm.value.title = data.title || '';
+                                liveSessionForm.value.scheduledAt = data.scheduledAt || '';
+                                liveSessionForm.value.targetClass = data.targetClass || 'all';
+                                // لو الحصة اتقفلت من جهاز تاني وأنا لسه فاتحة الفيديو، اقفليه تلقائيًا
+                                if (wasActive && !liveSession.value.active && showLiveVideoModal.value) {
+                                    leaveLiveSession();
+                                }
+                            }
+                        }, (error) => {
+                            console.error('تعذر متابعة الحصة المباشرة:', error);
+                        });
+                };
+
+                // تحميل مكتبة Jitsi Meet مرة واحدة عند الحاجة إليها
+                let jitsiScriptPromise = null;
+                const loadJitsiScript = () => {
+                    if (window.JitsiMeetExternalAPI) return Promise.resolve();
+                    if (jitsiScriptPromise) return jitsiScriptPromise;
+                    jitsiScriptPromise = new Promise((resolve, reject) => {
+                        const script = document.createElement('script');
+                        script.src = 'https://meet.jit.si/external_api.js';
+                        script.onload = () => resolve();
+                        script.onerror = () => reject(new Error('failed to load jitsi script'));
+                        document.head.appendChild(script);
+                    });
+                    return jitsiScriptPromise;
+                };
+
+                // فتح الفيديو المدمج داخل الصفحة (للمعلمة والطالب معًا)
+                const joinLiveSession = async () => {
+                    if (!liveSession.value.roomName) return;
+                    showLiveVideoModal.value = true;
+                    try {
+                        await loadJitsiScript();
+                        await nextTick();
+                        const displayName = isStudentLoggedIn.value
+                            ? (currentStudent.value && currentStudent.value.name) || 'طالب/ة'
+                            : 'Mrs. Sally';
+                        const container = document.getElementById('jitsiContainer');
+                        if (!container) return;
+                        container.innerHTML = '';
+                        jitsiApiInstance = new JitsiMeetExternalAPI('meet.jit.si', {
+                            roomName: liveSession.value.roomName,
+                            parentNode: container,
+                            width: '100%',
+                            height: '100%',
+                            userInfo: { displayName },
+                            configOverwrite: {
+                                prejoinPageEnabled: false,
+                                disableDeepLinking: true
+                            },
+                            interfaceConfigOverwrite: {
+                                MOBILE_APP_PROMO: false
+                            }
+                        });
+                        jitsiApiInstance.addEventListener('readyToClose', () => {
+                            leaveLiveSession();
+                        });
+                    } catch (error) {
+                        console.error('تعذر فتح الحصة المباشرة:', error);
+                        alert('تعذر تحميل الفيديو، تأكدي من اتصال الإنترنت وحاولي مرة أخرى');
+                        showLiveVideoModal.value = false;
+                    }
+                };
+
+                // مغادرة الفيديو المدمج (بدون إنهاء الحصة بالنسبة للباقي)
+                const leaveLiveSession = () => {
+                    if (jitsiApiInstance) {
+                        try { jitsiApiInstance.dispose(); } catch (e) {}
+                        jitsiApiInstance = null;
+                    }
+                    showLiveVideoModal.value = false;
+                };
+
+                // بدء حصة مباشرة الآن — بينشئ روم فيديو فريد، وبيبعت إشعار Push فوري لكل الطلاب
+                const startLiveSession = async () => {
+                    if (!liveSessionForm.value.title.trim()) {
+                        alert('من فضلك أدخلي عنوان الحصة أولاً');
+                        return;
+                    }
+                    try {
+                        const roomName = 'MrsSallyLive-' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+                        const targetClass = liveSessionForm.value.targetClass || 'all';
+                        await db.collection('settings').doc('liveSession').set({
+                            active: true,
+                            title: liveSessionForm.value.title.trim(),
+                            roomName: roomName,
+                            startedAt: new Date().toISOString(),
+                            scheduledAt: liveSessionForm.value.scheduledAt || '',
+                            targetClass: targetClass
+                        }, { merge: true });
+
+                        let studentsQuery = db.collection('students');
+                        if (targetClass !== 'all') {
+                            studentsQuery = studentsQuery.where('class', '==', targetClass);
+                        }
+                        const studentsSnapshot = await studentsQuery.get();
+                        const targetStudentIds = studentsSnapshot.docs.map(doc => doc.id);
+                        await triggerStudentPush(
+                            targetStudentIds,
+                            '🔴 الحصة المباشرة بدأت الآن',
+                            liveSessionForm.value.title.trim() + ' — ادخلي دلوقتي'
+                        );
+
+                        await joinLiveSession();
+                    } catch (error) {
+                        console.error('تعذر بدء الحصة المباشرة:', error);
+                        alert('حدث خطأ أثناء بدء الحصة، حاولي مرة أخرى');
+                    }
+                };
+
+                // جدولة حصة قادمة بدون تفعيلها فورًا
+                const scheduleLiveSession = async () => {
+                    if (!liveSessionForm.value.scheduledAt) {
+                        alert('من فضلك اختاري موعد الحصة أولاً');
+                        return;
+                    }
+                    try {
+                        await db.collection('settings').doc('liveSession').set({
+                            active: false,
+                            title: liveSessionForm.value.title.trim() || 'حصة مباشرة',
+                            scheduledAt: liveSessionForm.value.scheduledAt,
+                            targetClass: liveSessionForm.value.targetClass || 'all'
+                        }, { merge: true });
+                        alert('تم حفظ موعد الحصة القادمة');
+                    } catch (error) {
+                        console.error('تعذر جدولة الحصة:', error);
+                        alert('حدث خطأ أثناء الجدولة، حاولي مرة أخرى');
+                    }
+                };
+
+                // إنهاء الحصة المباشرة الحالية (بتقفل الفيديو عند الكل تلقائيًا)
+                const endLiveSession = async () => {
+                    if (!confirm('هل تريدين إنهاء الحصة المباشرة الآن؟')) return;
+                    try {
+                        leaveLiveSession();
+                        await db.collection('settings').doc('liveSession').set({
+                            active: false
+                        }, { merge: true });
+                    } catch (error) {
+                        console.error('تعذر إنهاء الحصة المباشرة:', error);
+                    }
+                };
+
 
                 // حفظ إعدادات الاتصال (رابط السيرفر + مفتاح API) محليًا وفي قاعدة البيانات، وبدء المتابعة
                 const saveWaConnectionSettings = async () => {
@@ -14398,6 +14924,7 @@ onMounted(() => {
                     showTeacherLogin,
                     teacherActiveTab,
                     studentSearch,
+                    studentClassFilter,
                     showAddContentModal,
                     showAddStudentModal,
                     showAddQuizModal,
@@ -14451,6 +14978,8 @@ onMounted(() => {
                     skippedAnswers,
                     hasMoreAttempts,
                     filteredMCQGrades,
+                    exportGradesToExcel,
+                    exportStudentsToExcel,
                     teacherFilteredForumQuestions,
                     unsentTodaysGrades,
                     dashboardPendingForumCount,
@@ -14573,7 +15102,17 @@ onMounted(() => {
                     closeMCQQuiz,
                         toggleDarkMode,
                         formatLastLogin,
+                        formatScheduledDate,
                         getLastLoginColor,
+                        liveSession,
+                        liveSessionForm,
+                        isLiveSessionForMyClass,
+                        showLiveVideoModal,
+                        startLiveSession,
+                        scheduleLiveSession,
+                        endLiveSession,
+                        joinLiveSession,
+                        leaveLiveSession,
                         showAddNotificationModal,
     notifications,
     unreadNotificationsCount,
