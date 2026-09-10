@@ -13423,16 +13423,46 @@ const handleStudentLogin = async (codeParam) => {
                         const container = document.getElementById('jitsiContainer');
                         if (!container) return;
                         container.innerHTML = '';
+
+                        // المعلمة فقط هي "المشرفة" على الحصة: تتحكم في كل حاجة (وايت بورد، طرد، مشاركة شاشة...).
+                        // الطالب/ة بيشوف الدرس بس، وممكن يفتح/يقفل الميكروفون والكاميرا بتاعته هو فقط.
+                        const isTeacherView = !isStudentLoggedIn.value;
+                        const configOverwrite = isTeacherView
+                            ? {
+                                prejoinPageEnabled: false,
+                                disableDeepLinking: true
+                            }
+                            : {
+                                prejoinPageEnabled: false,
+                                disableDeepLinking: true,
+                                // الطالب مايشوفش غير زرار الميك والكاميرا والخروج بس
+                                toolbarButtons: ['microphone', 'camera', 'hangup'],
+                                // منع أي تحكم في المشاركين التانيين (طرد، منح إشراف، كتم عن بعد...)
+                                disableRemoteMute: true,
+                                remoteVideoMenu: {
+                                    disableKick: true,
+                                    disableGrantModerator: true,
+                                    disablePrivateChat: true
+                                },
+                                participantsPane: {
+                                    hideModeratorSettingsTab: true,
+                                    hideMoreActionsButton: true,
+                                    hideMuteAllButton: true
+                                },
+                                // تعطيل الوايت بورد ومشاركة الشاشة والتسجيل بالنسبة للطالب
+                                whiteboard: { enabled: false },
+                                disablePolls: true,
+                                fileRecordingsEnabled: false,
+                                liveStreamingEnabled: false,
+                                screenShareEnabled: false
+                            };
                         jitsiApiInstance = new JitsiMeetExternalAPI('meet.jit.si', {
                             roomName: liveSession.value.roomName,
                             parentNode: container,
                             width: '100%',
                             height: '100%',
                             userInfo: { displayName },
-                            configOverwrite: {
-                                prejoinPageEnabled: false,
-                                disableDeepLinking: true
-                            },
+                            configOverwrite,
                             interfaceConfigOverwrite: {
                                 MOBILE_APP_PROMO: false
                             }
