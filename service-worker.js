@@ -67,7 +67,18 @@ self.addEventListener('push', (event) => {
         vibrate: [200, 100, 200]
     };
 
-    event.waitUntil(self.registration.showNotification(data.title || 'إشعار جديد', options));
+    event.waitUntil((async () => {
+        await self.registration.showNotification(data.title || 'إشعار جديد', options);
+        // تحديث Badge أيقونة التطبيق حتى لو التطبيق مقفول تمامًا (بدون رقم دقيق هنا،
+        // ولما يتفتح التطبيق تاني هيحسب العدد الحقيقي ويحدّثه أوتوماتيك)
+        try {
+            if (self.registration.setAppBadge) {
+                await self.registration.setAppBadge();
+            } else if (self.navigator && self.navigator.setAppBadge) {
+                await self.navigator.setAppBadge();
+            }
+        } catch (e) { /* Badge API اختياري، مش كل المتصفحات بتدعمه */ }
+    })());
 });
 
 // عند الضغط على الإشعار: فتح/تركيز نافذة الموقع
