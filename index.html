@@ -4894,113 +4894,9 @@ input:focus {
         font-weight: 600;
         cursor: pointer;
     }
-    .live-video-header-actions {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    .live-video-whiteboard-btn {
-        background: #667eea;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 8px 14px;
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-    .live-video-whiteboard-btn:hover { background: #5a67d8; }
     .live-video-container {
         flex: 1;
         width: 100%;
-        transition: flex-basis 0.2s ease;
-    }
-    .live-video-container-split {
-        flex: 0 0 42%;
-        min-height: 140px;
-    }
-    .live-whiteboard-panel {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        background: #ffffff;
-        border-top: 3px solid #667eea;
-        min-height: 0;
-    }
-    .live-whiteboard-panel-minimized {
-        flex: 0 0 auto;
-    }
-    .live-whiteboard-toolbar {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 8px 14px;
-        background: #f3f4f6;
-        border-bottom: 1px solid #e5e7eb;
-        flex-shrink: 0;
-        flex-wrap: wrap;
-    }
-    .live-whiteboard-title {
-        font-weight: 700;
-        font-size: 13.5px;
-        color: #374151;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-    .live-whiteboard-colors {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        margin-inline-start: auto;
-    }
-    .live-whiteboard-color-dot {
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        border: 2px solid transparent;
-        cursor: pointer;
-        padding: 0;
-    }
-    .live-whiteboard-color-dot.active {
-        border-color: #374151;
-        transform: scale(1.15);
-    }
-    .live-whiteboard-clear-btn {
-        background: #fee2e2;
-        color: #b91c1c;
-        border: none;
-        border-radius: 6px;
-        padding: 5px 10px;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-    }
-    .live-whiteboard-minimize-btn {
-        background: transparent;
-        border: none;
-        color: #6b7280;
-        font-size: 14px;
-        cursor: pointer;
-        padding: 4px 8px;
-        margin-inline-start: auto;
-    }
-    .live-whiteboard-colors + .live-whiteboard-minimize-btn {
-        margin-inline-start: 0;
-    }
-    .live-whiteboard-canvas {
-        flex: 1;
-        width: 100%;
-        touch-action: none;
-        cursor: crosshair;
-        background: #ffffff;
-        min-height: 0;
     }
     @keyframes fadeInLightbox { from { opacity: 0; } to { opacity: 1; } }
     .image-lightbox-img {
@@ -9437,44 +9333,13 @@ input:focus {
 <div class="live-video-overlay" v-if="showLiveVideoModal">
     <div class="live-video-header">
         <span><i class="fas fa-video mr-2"></i> {{ liveSession.title || 'الحصة المباشرة' }}</span>
-        <div class="live-video-header-actions">
-            <button v-if="!isStudentLoggedIn" class="live-video-whiteboard-btn" @click="toggleTeacherWhiteboard">
-                <i class="fas fa-chalkboard"></i>
-                {{ liveWhiteboard.active ? 'إغلاق السبورة' : 'فتح السبورة' }}
-            </button>
-            <button class="live-video-leave-btn" @click="leaveLiveSession">
-                <i class="fas fa-xmark mr-1"></i> مغادرة
-            </button>
-        </div>
+        <button class="live-video-leave-btn" @click="leaveLiveSession">
+            <i class="fas fa-xmark mr-1"></i> مغادرة
+        </button>
     </div>
-    <div id="jitsiContainer" class="live-video-container" :class="{ 'live-video-container-split': liveWhiteboard.active && !whiteboardMinimized }"></div>
-
-    <!-- السبورة المشتركة: المعلمة ترسم، الطالب يشاهد فقط بدون أي تعديل -->
-    <div v-if="liveWhiteboard.active" class="live-whiteboard-panel" :class="{ 'live-whiteboard-panel-minimized': whiteboardMinimized }">
-        <div class="live-whiteboard-toolbar">
-            <span class="live-whiteboard-title">
-                <i class="fas fa-chalkboard"></i>
-                {{ isStudentLoggedIn ? 'السبورة (عرض فقط)' : 'السبورة' }}
-            </span>
-            <div v-if="!isStudentLoggedIn && !whiteboardMinimized" class="live-whiteboard-colors">
-                <button v-for="c in whiteboardColors" :key="c" class="live-whiteboard-color-dot"
-                        :style="{ background: c }" :class="{ active: whiteboardColor === c }"
-                        @click="whiteboardColor = c"></button>
-                <button class="live-whiteboard-clear-btn" @click="clearWhiteboard">
-                    <i class="fas fa-eraser"></i> مسح
-                </button>
-            </div>
-            <button class="live-whiteboard-minimize-btn" @click="toggleWhiteboardMinimize" :title="whiteboardMinimized ? 'تكبير السبورة' : 'تصغير السبورة'">
-                <i :class="whiteboardMinimized ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
-            </button>
-        </div>
-        <canvas v-show="!whiteboardMinimized" id="liveWhiteboardCanvas" class="live-whiteboard-canvas"
-                @pointerdown="startWhiteboardStroke($event)"
-                @pointermove="continueWhiteboardStroke($event)"
-                @pointerup="endWhiteboardStroke($event)"
-                @pointerleave="endWhiteboardStroke($event)"></canvas>
-    </div>
+    <div id="jitsiContainer" class="live-video-container"></div>
 </div>
+
 
 
 <!-- زر التحفيز الذكي العائم للطلاب -->
@@ -13495,15 +13360,6 @@ const handleStudentLogin = async (codeParam) => {
                 const liveSession = ref({ active: false, title: '', roomName: '', startedAt: '', scheduledAt: '', targetClass: 'all' });
                 const liveSessionForm = ref({ title: '', scheduledAt: '', targetClass: 'all' });
                 const showLiveVideoModal = ref(false);
-
-                // السبورة المشتركة أثناء الحصة المباشرة: المعلمة ترسم، الطلاب يشاهدوا بس
-                const liveWhiteboard = ref({ active: false, strokes: [] });
-                const whiteboardMinimized = ref(false);
-                const whiteboardColor = ref('#ef4444');
-                const whiteboardColors = ['#ef4444', '#3b82f6', '#22c55e', '#111827'];
-                let liveWhiteboardUnsub = null;
-                let currentWhiteboardStroke = null;
-                let whiteboardResizeHandler = null;
                 const isLiveSessionForMyClass = computed(() => {
                     if (!liveSession.value.targetClass || liveSession.value.targetClass === 'all') return true;
                     if (!isStudentLoggedIn.value || !currentStudent.value) return true; // المعلمة تشوف كل حاجة
@@ -13538,148 +13394,6 @@ const handleStudentLogin = async (codeParam) => {
                         }, (error) => {
                             console.error('تعذر متابعة الحصة المباشرة:', error);
                         });
-                };
-
-                // متابعة حالة السبورة المشتركة (تشتغل بس وإحنا داخل الحصة المباشرة)
-                const listenLiveWhiteboard = () => {
-                    if (liveWhiteboardUnsub) return;
-                    liveWhiteboardUnsub = db.collection('settings').doc('liveWhiteboard')
-                        .onSnapshot((doc) => {
-                            const data = doc.exists ? doc.data() : {};
-                            liveWhiteboard.value = {
-                                active: !!data.active,
-                                strokes: data.strokes || []
-                            };
-                            nextTick(() => setupWhiteboardCanvas());
-                        }, (error) => {
-                            console.error('تعذر متابعة السبورة:', error);
-                        });
-                };
-
-                const stopListenLiveWhiteboard = () => {
-                    if (liveWhiteboardUnsub) {
-                        liveWhiteboardUnsub();
-                        liveWhiteboardUnsub = null;
-                    }
-                    if (whiteboardResizeHandler) {
-                        window.removeEventListener('resize', whiteboardResizeHandler);
-                        whiteboardResizeHandler = null;
-                    }
-                    liveWhiteboard.value = { active: false, strokes: [] };
-                    whiteboardMinimized.value = false;
-                };
-
-                // فتح/إغلاق السبورة (المعلمة بس)
-                const toggleTeacherWhiteboard = async () => {
-                    if (isStudentLoggedIn.value) return;
-                    const newActive = !liveWhiteboard.value.active;
-                    try {
-                        await db.collection('settings').doc('liveWhiteboard').set({
-                            active: newActive,
-                            strokes: newActive ? (liveWhiteboard.value.strokes || []) : []
-                        }, { merge: true });
-                    } catch (error) {
-                        console.error('تعذر تبديل حالة السبورة:', error);
-                    }
-                };
-
-                const clearWhiteboard = async () => {
-                    if (isStudentLoggedIn.value) return;
-                    try {
-                        await db.collection('settings').doc('liveWhiteboard').set({ strokes: [] }, { merge: true });
-                    } catch (error) {
-                        console.error('تعذر مسح السبورة:', error);
-                    }
-                };
-
-                const toggleWhiteboardMinimize = () => {
-                    whiteboardMinimized.value = !whiteboardMinimized.value;
-                    nextTick(() => setupWhiteboardCanvas());
-                };
-
-                // تجهيز الكانفاس وإعادة رسم كل الخطوط المحفوظة (بيتنادى كل مرة يتغير فيها الحجم أو الخطوط)
-                const setupWhiteboardCanvas = () => {
-                    const canvas = document.getElementById('liveWhiteboardCanvas');
-                    if (!canvas || whiteboardMinimized.value) return;
-                    const rect = canvas.getBoundingClientRect();
-                    if (rect.width === 0 || rect.height === 0) return;
-                    canvas.width = rect.width;
-                    canvas.height = rect.height;
-                    redrawWhiteboard();
-                    if (!whiteboardResizeHandler) {
-                        whiteboardResizeHandler = () => setupWhiteboardCanvas();
-                        window.addEventListener('resize', whiteboardResizeHandler);
-                    }
-                };
-
-                const redrawWhiteboard = () => {
-                    const canvas = document.getElementById('liveWhiteboardCanvas');
-                    if (!canvas) return;
-                    const ctx = canvas.getContext('2d');
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    (liveWhiteboard.value.strokes || []).forEach(stroke => {
-                        if (!stroke.points || stroke.points.length < 2) return;
-                        ctx.beginPath();
-                        ctx.strokeStyle = stroke.color || '#111827';
-                        ctx.lineWidth = stroke.width || 3;
-                        ctx.lineCap = 'round';
-                        ctx.lineJoin = 'round';
-                        ctx.moveTo(stroke.points[0].x * canvas.width, stroke.points[0].y * canvas.height);
-                        stroke.points.slice(1).forEach(p => ctx.lineTo(p.x * canvas.width, p.y * canvas.height));
-                        ctx.stroke();
-                    });
-                };
-
-                const getWhiteboardPoint = (event) => {
-                    const canvas = document.getElementById('liveWhiteboardCanvas');
-                    const rect = canvas.getBoundingClientRect();
-                    const clientX = event.touches ? event.touches[0].clientX : event.clientX;
-                    const clientY = event.touches ? event.touches[0].clientY : event.clientY;
-                    return {
-                        x: (clientX - rect.left) / rect.width,
-                        y: (clientY - rect.top) / rect.height
-                    };
-                };
-
-                // الطالب/ة ميقدرش يرسم خالص - الرسم للمعلمة بس
-                const startWhiteboardStroke = (event) => {
-                    if (isStudentLoggedIn.value || whiteboardMinimized.value) return;
-                    currentWhiteboardStroke = {
-                        color: whiteboardColor.value,
-                        width: 3,
-                        points: [getWhiteboardPoint(event)]
-                    };
-                };
-
-                const continueWhiteboardStroke = (event) => {
-                    if (isStudentLoggedIn.value || !currentWhiteboardStroke) return;
-                    const canvas = document.getElementById('liveWhiteboardCanvas');
-                    const ctx = canvas.getContext('2d');
-                    const prev = currentWhiteboardStroke.points[currentWhiteboardStroke.points.length - 1];
-                    const point = getWhiteboardPoint(event);
-                    currentWhiteboardStroke.points.push(point);
-                    ctx.beginPath();
-                    ctx.strokeStyle = currentWhiteboardStroke.color;
-                    ctx.lineWidth = currentWhiteboardStroke.width;
-                    ctx.lineCap = 'round';
-                    ctx.lineJoin = 'round';
-                    ctx.moveTo(prev.x * canvas.width, prev.y * canvas.height);
-                    ctx.lineTo(point.x * canvas.width, point.y * canvas.height);
-                    ctx.stroke();
-                };
-
-                const endWhiteboardStroke = async () => {
-                    if (isStudentLoggedIn.value || !currentWhiteboardStroke) return;
-                    const stroke = currentWhiteboardStroke;
-                    currentWhiteboardStroke = null;
-                    if (stroke.points.length < 2) return;
-                    try {
-                        await db.collection('settings').doc('liveWhiteboard').set({
-                            strokes: firebase.firestore.FieldValue.arrayUnion(stroke)
-                        }, { merge: true });
-                    } catch (error) {
-                        console.error('تعذر حفظ الرسمة على السبورة:', error);
-                    }
                 };
 
                 // تحميل مكتبة Jitsi Meet مرة واحدة عند الحاجة إليها
@@ -13757,7 +13471,6 @@ const handleStudentLogin = async (codeParam) => {
                         jitsiApiInstance.addEventListener('readyToClose', () => {
                             leaveLiveSession();
                         });
-                        listenLiveWhiteboard();
                     } catch (error) {
                         console.error('تعذر فتح الحصة المباشرة:', error);
                         alert('تعذر تحميل الفيديو، تأكدي من اتصال الإنترنت وحاولي مرة أخرى');
@@ -13771,7 +13484,6 @@ const handleStudentLogin = async (codeParam) => {
                         try { jitsiApiInstance.dispose(); } catch (e) {}
                         jitsiApiInstance = null;
                     }
-                    stopListenLiveWhiteboard();
                     showLiveVideoModal.value = false;
                 };
 
@@ -15432,16 +15144,6 @@ onMounted(() => {
                         endLiveSession,
                         joinLiveSession,
                         leaveLiveSession,
-                        liveWhiteboard,
-                        whiteboardMinimized,
-                        whiteboardColor,
-                        whiteboardColors,
-                        toggleTeacherWhiteboard,
-                        clearWhiteboard,
-                        toggleWhiteboardMinimize,
-                        startWhiteboardStroke,
-                        continueWhiteboardStroke,
-                        endWhiteboardStroke,
                         showAddNotificationModal,
     notifications,
     unreadNotificationsCount,
