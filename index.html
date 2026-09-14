@@ -28,6 +28,7 @@
     
     <!-- Chart.js for beautiful charts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -4653,6 +4654,44 @@ input:focus {
         color: #15803d;
         margin-bottom: 6px;
     }
+    /* ===== تفاعلات الإيموجي على ردود المنتدى ===== */
+    .fa-reactions {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+    }
+    .fa-reaction-btn {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+    .fa-reaction-btn:hover { background: #ede9fe; }
+    .fa-reaction-btn.active {
+        background: #ede9fe;
+        border-color: #8b5cf6;
+    }
+    .fa-reaction-count {
+        font-size: 11px;
+        font-weight: 700;
+        color: #6d28d9;
+    }
+    .fa-reactions.readonly .fa-reaction-pill {
+        background: #f3f4f6;
+        border-radius: 999px;
+        padding: 3px 9px;
+        font-size: 13px;
+        margin-left: 6px;
+        display: inline-block;
+    }
+    .dark .fa-reaction-btn, .dark .fa-reactions.readonly .fa-reaction-pill { background: #4b5563; border-color: #6b7280; color: #f3f4f6; }
     .forum-reply-form {
         margin-top: 10px;
         padding-top: 10px;
@@ -4724,6 +4763,29 @@ input:focus {
         object-fit: cover;
         flex-shrink: 0;
         background: #e5e7eb;
+    }
+    .chat-conv-avatar-wrap { position: relative; flex-shrink: 0; display: inline-flex; }
+    .online-dot {
+        position: absolute;
+        bottom: 1px;
+        left: 1px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #22c55e;
+        border: 2px solid #fff;
+    }
+    .dark .online-dot { border-color: #1f2937; }
+    .online-label {
+        font-size: 11px;
+        color: #16a34a;
+        font-weight: 600;
+        margin-right: 6px;
+    }
+    .chat-typing-indicator {
+        font-size: 12px;
+        color: #d1fae5;
+        font-style: italic;
     }
     .chat-conv-info { flex: 1; min-width: 0; }
     .chat-conv-name { font-weight: 600; font-size: 14px; }
@@ -7411,6 +7473,11 @@ input:focus {
                                         <p v-if="q.answer">{{ q.answer }}</p>
                                         <img v-if="q.answerImage" :src="q.answerImage" class="fa-answer-image" @click="openImageLightbox(q.answerImage)">
                                         <div class="text-left text-xs text-gray-400 mt-1">{{ formatForumDate(q.answeredAt) }}</div>
+                                        <div v-if="reactionEntries(q).length" class="fa-reactions readonly">
+                                            <span v-for="([emoji, ids]) in reactionEntries(q)" :key="emoji" class="fa-reaction-pill">
+                                                {{ emoji }} {{ ids.length }}
+                                            </span>
+                                        </div>
                                     </div>
 
                                     <div v-if="!q.answered">
@@ -8351,6 +8418,17 @@ input:focus {
                                         <p v-if="q.answer">{{ q.answer }}</p>
                                         <img v-if="q.answerImage" :src="q.answerImage" class="fa-answer-image" @click="openImageLightbox(q.answerImage)">
                                         <div class="text-left text-xs text-gray-400 mt-1">{{ formatForumDate(q.answeredAt) }}</div>
+                                        <div class="fa-reactions">
+                                            <button v-for="emoji in ['👍','❤️']" :key="emoji"
+                                                    @click="toggleReaction(q, emoji)"
+                                                    class="fa-reaction-btn"
+                                                    :class="{ active: hasReactedWith(q, emoji) }">
+                                                <span>{{ emoji }}</span>
+                                                <span v-if="q.reactions && q.reactions[emoji] && q.reactions[emoji].length" class="fa-reaction-count">
+                                                    {{ q.reactions[emoji].length }}
+                                                </span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -9201,7 +9279,10 @@ input:focus {
         <div class="qa-panel-header wa-theme">
             <div class="chat-thread-header">
                 <img src="https://raw.githubusercontent.com/sefen66/MISSSALLY/refs/heads/main/475507956_9082054621872083_6722155559152051923_n.jpg" class="chat-conv-avatar" style="width:34px;height:34px;">
-                <h3 class="text-base font-bold">Mrs. sally siad</h3>
+                <div>
+                    <h3 class="text-base font-bold">Mrs. sally siad</h3>
+                    <span v-if="otherTyping" class="chat-typing-indicator">بتكتب الآن...</span>
+                </div>
             </div>
             <button @click="showChatPanel = false" class="text-white/80 hover:text-white">
                 <i class="fas fa-times"></i>
@@ -9232,7 +9313,7 @@ input:focus {
                 <i class="fas fa-paperclip"></i>
                 <input type="file" accept="image/*" class="hidden" @change="handleChatImageUpload">
             </label>
-            <input type="text" v-model="chatInputText" placeholder="اكتب رسالة..." @keyup.enter="sendChatMessage">
+            <input type="text" v-model="chatInputText" placeholder="اكتب رسالة..." @keyup.enter="sendChatMessage" @input="handleTypingIndicator">
             <button class="chat-send-btn" @click="sendChatMessage" :disabled="sendingChatMessage">
                 <i class="fas fa-paper-plane"></i>
             </button>
@@ -9254,9 +9335,14 @@ input:focus {
                     <p>لا توجد محادثات بعد</p>
                 </div>
                 <div v-for="c in chatConversations" :key="c.id" class="chat-conv-item" @click="openChatThread(c.studentId, c.studentName, c.studentPhoto)">
-                    <img :src="c.studentPhoto || 'https://cdn-icons-png.flaticon.com/128/17446/17446833.png'" class="chat-conv-avatar">
+                    <div class="chat-conv-avatar-wrap">
+                        <img :src="c.studentPhoto || 'https://cdn-icons-png.flaticon.com/128/17446/17446833.png'" class="chat-conv-avatar">
+                        <span v-if="isStudentOnline(c.studentId)" class="online-dot" title="متصل الآن"></span>
+                    </div>
                     <div class="chat-conv-info">
-                        <div class="chat-conv-name">{{ c.studentName }}</div>
+                        <div class="chat-conv-name">{{ c.studentName }}
+                            <span v-if="isStudentOnline(c.studentId)" class="online-label">متصل الآن</span>
+                        </div>
                         <div class="chat-conv-last">{{ c.lastMessage }}</div>
                     </div>
                     <span v-if="c.unreadByTeacher > 0" class="chat-conv-badge">{{ c.unreadByTeacher }}</span>
@@ -9267,8 +9353,15 @@ input:focus {
             <div class="qa-panel-header wa-theme">
                 <div class="chat-thread-header">
                     <i class="fas fa-arrow-right chat-back-btn" @click="backToChatList"></i>
-                    <img :src="activeChatPhoto || 'https://cdn-icons-png.flaticon.com/128/17446/17446833.png'" class="chat-conv-avatar" style="width:34px;height:34px;">
-                    <h3 class="text-base font-bold">{{ activeChatName }}</h3>
+                    <div class="chat-conv-avatar-wrap">
+                        <img :src="activeChatPhoto || 'https://cdn-icons-png.flaticon.com/128/17446/17446833.png'" class="chat-conv-avatar" style="width:34px;height:34px;">
+                        <span v-if="isStudentOnline(activeChatId)" class="online-dot" title="متصل الآن"></span>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold">{{ activeChatName }}</h3>
+                        <span v-if="otherTyping" class="chat-typing-indicator">بتكتب الآن...</span>
+                        <span v-else-if="isStudentOnline(activeChatId)" class="online-label">متصل الآن</span>
+                    </div>
                 </div>
                 <button @click="showChatPanel = false" class="text-white/80 hover:text-white">
                     <i class="fas fa-times"></i>
@@ -9299,7 +9392,7 @@ input:focus {
                     <i class="fas fa-paperclip"></i>
                     <input type="file" accept="image/*" class="hidden" @change="handleChatImageUpload">
                 </label>
-                <input type="text" v-model="chatInputText" placeholder="اكتب رسالة..." @keyup.enter="sendChatMessage">
+                <input type="text" v-model="chatInputText" placeholder="اكتب رسالة..." @keyup.enter="sendChatMessage" @input="handleTypingIndicator">
                 <button class="chat-send-btn" @click="sendChatMessage" :disabled="sendingChatMessage">
                     <i class="fas fa-paper-plane"></i>
                 </button>
@@ -10746,6 +10839,8 @@ const newNotification = ref({
                 const chatImagePreview = ref('');
                 const sendingChatMessage = ref(false);
                 const chatUnreadTotal = ref(0);
+                const otherTyping = ref(false);
+                const onlineStudentsMap = ref({});
 
                 // ================= App Icon Badge (PWA Badging API) =================
                 // يحدّث شارة الأيقونة بعدد الإشعارات + الدردشات غير المقروءة، حتى لو التطبيق مقفول
@@ -10774,6 +10869,9 @@ const newNotification = ref({
                 let chatMessagesUnsub = null;
                 let chatConversationsUnsub = null;
                 let chatUnreadUnsub = null;
+                let chatDocUnsub = null;
+                let onlineStudentsUnsub = null;
+                let typingTimeout = null;
 
                 // Chart control variables
 const chartsInitialized = ref(false);
@@ -12222,6 +12320,35 @@ const deleteForumQuestion = async (questionId) => {
 
 const formatForumDate = (dateString) => formatNotificationDate(dateString);
 
+// تفاعلات الإيموجي على ردود المعلمة في المنتدى (الطالب فقط يقدر يتفاعل)
+const toggleReaction = async (question, emoji) => {
+    if (!isStudentLoggedIn.value || !currentStudent.value) return;
+    try {
+        const studentId = currentStudent.value.id;
+        const currentList = (question.reactions && question.reactions[emoji]) || [];
+        const hasReacted = currentList.includes(studentId);
+        const updatedList = hasReacted
+            ? currentList.filter(id => id !== studentId)
+            : [...currentList, studentId];
+        await db.collection('forum_questions').doc(question.id).update({
+            [`reactions.${emoji}`]: updatedList
+        });
+    } catch (error) {
+        console.error('Error toggling reaction:', error);
+    }
+};
+
+const hasReactedWith = (question, emoji) => {
+    if (!currentStudent.value) return false;
+    const list = (question.reactions && question.reactions[emoji]) || [];
+    return list.includes(currentStudent.value.id);
+};
+
+const reactionEntries = (question) => {
+    if (!question.reactions) return [];
+    return Object.entries(question.reactions).filter(([emoji, ids]) => ids && ids.length);
+};
+
 // ======================================================================
 // نظام الدردشة الفورية بين الطالب والمعلمة (شكل واتساب + حالة القراءة)
 // ======================================================================
@@ -12235,14 +12362,18 @@ const toggleChatPanel = () => {
         }
     } else {
         if (chatMessagesUnsub) { chatMessagesUnsub(); chatMessagesUnsub = null; }
+        if (chatDocUnsub) { chatDocUnsub(); chatDocUnsub = null; }
         if (!isStudentLoggedIn.value) activeChatId.value = null;
     }
 };
 
 const backToChatList = () => {
     if (chatMessagesUnsub) { chatMessagesUnsub(); chatMessagesUnsub = null; }
+    if (chatDocUnsub) { chatDocUnsub(); chatDocUnsub = null; }
+    clearTimeout(typingTimeout);
     activeChatId.value = null;
     activeChatMessages.value = [];
+    otherTyping.value = false;
 };
 
 // المعلمة: الاستماع لجميع محادثات الطلاب لحظياً
@@ -12273,6 +12404,22 @@ const listenChatConversations = () => {
         });
 };
 
+// المعلمة: الاستماع لحالة "متصل الآن" لدى الطلاب لحظياً
+const listenOnlineStudents = () => {
+    if (onlineStudentsUnsub) { onlineStudentsUnsub(); onlineStudentsUnsub = null; }
+    onlineStudentsUnsub = db.collection('students')
+        .where('isOnline', '==', true)
+        .onSnapshot((snapshot) => {
+            const map = {};
+            snapshot.docs.forEach(doc => { map[doc.id] = true; });
+            onlineStudentsMap.value = map;
+        }, (error) => {
+            console.error('Error listening to online students:', error);
+        });
+};
+
+const isStudentOnline = (studentId) => !!onlineStudentsMap.value[studentId];
+
 // الطالب: الاستماع لعدد رسائله غير المقروءة فقط (بدون فتح المحادثة)
 const listenStudentChatBadge = () => {
     if (chatUnreadUnsub) { chatUnreadUnsub(); chatUnreadUnsub = null; }
@@ -12286,10 +12433,12 @@ const listenStudentChatBadge = () => {
 
 const openChatThread = async (studentId, studentName, studentPhoto) => {
     if (chatMessagesUnsub) { chatMessagesUnsub(); chatMessagesUnsub = null; }
+    if (chatDocUnsub) { chatDocUnsub(); chatDocUnsub = null; }
     activeChatId.value = studentId;
     activeChatName.value = studentName || '';
     activeChatPhoto.value = studentPhoto || '';
     activeChatMessages.value = [];
+    otherTyping.value = false;
 
     try {
         const chatRef = db.collection('chats').doc(studentId);
@@ -12319,8 +12468,35 @@ const openChatThread = async (studentId, studentName, studentPhoto) => {
             }, (error) => {
                 console.error('Error listening to chat messages:', error);
             });
+
+        // مراقبة مؤشر "بتكتب الآن..." للطرف الآخر
+        const myRole = isStudentLoggedIn.value ? 'student' : 'teacher';
+        const otherRole = myRole === 'student' ? 'teacher' : 'student';
+        chatDocUnsub = chatRef.onSnapshot((doc) => {
+            if (!doc.exists) { otherTyping.value = false; return; }
+            const data = doc.data();
+            otherTyping.value = !!data[otherRole + 'Typing'];
+        }, (error) => {
+            console.error('Error listening to chat typing status:', error);
+        });
     } catch (error) {
         console.error('Error opening chat thread:', error);
+    }
+};
+
+// يُستدعى مع كل حرف يكتبه المستخدم في مربع الدردشة لتحديث مؤشر "بتكتب الآن..." للطرف الآخر
+const handleTypingIndicator = () => {
+    if (!activeChatId.value) return;
+    try {
+        const myRole = isStudentLoggedIn.value ? 'student' : 'teacher';
+        const chatRef = db.collection('chats').doc(activeChatId.value);
+        chatRef.set({ [myRole + 'Typing']: true }, { merge: true });
+        clearTimeout(typingTimeout);
+        typingTimeout = setTimeout(() => {
+            chatRef.set({ [myRole + 'Typing']: false }, { merge: true });
+        }, 2000);
+    } catch (error) {
+        console.error('Error updating typing indicator:', error);
     }
 };
 
@@ -12405,6 +12581,8 @@ const sendChatMessage = async () => {
 
         chatInputText.value = '';
         cancelChatImage();
+        clearTimeout(typingTimeout);
+        await chatRef.set({ [myRole + 'Typing']: false }, { merge: true });
     } catch (error) {
         console.error('Error sending chat message:', error);
         alert('حدث خطأ أثناء إرسال الرسالة، حاول مرة أخرى');
@@ -12818,6 +12996,7 @@ const cleanupCharts = () => {
             // تشغيل مستمعات المنتدى والدردشة اللحظية
             listenForumQuestions();
             listenChatConversations();
+            listenOnlineStudents();
             listenTodaysMcqGradesLive();
             listenLiveSession();
              
@@ -12852,16 +13031,41 @@ const handleStudentLogin = async (codeParam) => {
                 ...studentDoc.data()
             };
             
-            // تحديث وقت آخر دخول للطالب
+            // تحديث وقت آخر دخول للطالب + حالة الاتصال
             const lastLoginTime = new Date().toISOString();
             await db.collection('students').doc(studentDoc.id).update({
-                lastLogin: lastLoginTime
+                lastLogin: lastLoginTime,
+                isOnline: true,
+                lastSeen: lastLoginTime
             });
             
             student.lastLogin = lastLoginTime;
             
             isStudentLoggedIn.value = true;
             currentStudent.value = student;
+
+            // محاولة تحديث الحالة لـ"غير متصل" عند إغلاق الصفحة/التبويب
+            window.addEventListener('beforeunload', () => {
+                if (currentStudent.value && currentStudent.value.id) {
+                    db.collection('students').doc(currentStudent.value.id).update({
+                        isOnline: false,
+                        lastSeen: new Date().toISOString()
+                    }).catch(() => {});
+                }
+            });
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden' && currentStudent.value && currentStudent.value.id) {
+                    db.collection('students').doc(currentStudent.value.id).update({
+                        isOnline: false,
+                        lastSeen: new Date().toISOString()
+                    }).catch(() => {});
+                } else if (document.visibilityState === 'visible' && isStudentLoggedIn.value && currentStudent.value && currentStudent.value.id) {
+                    db.collection('students').doc(currentStudent.value.id).update({
+                        isOnline: true,
+                        lastSeen: new Date().toISOString()
+                    }).catch(() => {});
+                }
+            });
 
             // حفظ الجلسة محليًا حتى يظل تسجيل الدخول بعد تحديث الصفحة
             try {
@@ -12901,6 +13105,8 @@ const handleStudentLogin = async (codeParam) => {
                         if (forumUnsub) { forumUnsub(); forumUnsub = null; }
                         if (chatConversationsUnsub) { chatConversationsUnsub(); chatConversationsUnsub = null; }
                         if (chatMessagesUnsub) { chatMessagesUnsub(); chatMessagesUnsub = null; }
+                        if (chatDocUnsub) { chatDocUnsub(); chatDocUnsub = null; }
+                        if (onlineStudentsUnsub) { onlineStudentsUnsub(); onlineStudentsUnsub = null; }
                         stopListenTodaysMcqGradesLive();
                         if (liveSessionUnsub) { liveSessionUnsub(); liveSessionUnsub = null; }
                         showChatPanel.value = false;
@@ -12913,6 +13119,7 @@ const handleStudentLogin = async (codeParam) => {
                 
                 const studentLogout = async () => {
                     try {
+                        const loggedOutStudentId = currentStudent.value ? currentStudent.value.id : null;
                         isStudentLoggedIn.value = false;
                         document.getElementById('loginScreen').classList.remove('hidden');
                         document.getElementById('studentDashboard').classList.add('hidden');
@@ -12922,10 +13129,17 @@ const handleStudentLogin = async (codeParam) => {
                         if (forumUnsub) { forumUnsub(); forumUnsub = null; }
                         if (chatUnreadUnsub) { chatUnreadUnsub(); chatUnreadUnsub = null; }
                         if (chatMessagesUnsub) { chatMessagesUnsub(); chatMessagesUnsub = null; }
+                        if (chatDocUnsub) { chatDocUnsub(); chatDocUnsub = null; }
                         if (liveSessionUnsub) { liveSessionUnsub(); liveSessionUnsub = null; }
                         showChatPanel.value = false;
                         showForumPanel.value = false;
                         activeChatId.value = null;
+                        if (loggedOutStudentId) {
+                            db.collection('students').doc(loggedOutStudentId).update({
+                                isOnline: false,
+                                lastSeen: new Date().toISOString()
+                            }).catch(() => {});
+                        }
                     } catch (error) {
                         console.error('Student logout error:', error);
                     }
@@ -14606,6 +14820,15 @@ const saveGrade = async (student) => {
                     // عرض النتائج
                     showResults.value = true;
                     isSubmitting.value = false;
+
+                    // أنيميشن كونفيتي تحفيزي عند الحصول على درجة عالية (80% فأكثر)
+                    const scorePercentage = totalScore.value > 0 ? (score / totalScore.value) * 100 : 0;
+                    if (scorePercentage >= 80 && typeof confetti === 'function') {
+                        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+                        setTimeout(() => {
+                            confetti({ particleCount: 80, spread: 100, origin: { y: 0.4 } });
+                        }, 300);
+                    }
                 };
                 
                 // دالة لإعادة الاختبار
@@ -15187,6 +15410,9 @@ onMounted(() => {
     submitAnswer,
     deleteForumQuestion,
     formatForumDate,
+    toggleReaction,
+    hasReactedWith,
+    reactionEntries,
 
     // نظام الدردشة
     showChatPanel,
@@ -15206,6 +15432,10 @@ onMounted(() => {
     cancelChatImage,
     sendChatMessage,
     formatChatTime,
+    otherTyping,
+    handleTypingIndicator,
+    onlineStudentsMap,
+    isStudentOnline,
 
     showMotivationModal,  // خاصية
     currentMotivation,
